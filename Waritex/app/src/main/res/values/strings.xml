@@ -4,4 +4,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Tabs titles -->
+    <string name="products_tab_title">Products</string>
+    <string name="active_promotions_tab_title">Active Promotions</string>
+    <string name="expired_promotions_tab_title">Expired Promotions</string>
 </resources>
