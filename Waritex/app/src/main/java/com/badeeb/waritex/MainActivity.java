@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import com.badeeb.waritex.adapter.ViewPagerAdapter;
+import com.badeeb.waritex.adapter.FragmentViewPagerAdapter;
 import com.badeeb.waritex.fragment.ActivePromotionsFragment;
 import com.badeeb.waritex.fragment.ExpiredPromotionsFragment;
 import com.badeeb.waritex.fragment.ProductsFragment;
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
 
         adapter.addFragment(new ProductsFragment(), getString(R.string.products_tab_title));
         adapter.addFragment(new ActivePromotionsFragment(), getString(R.string.active_promotions_tab_title));

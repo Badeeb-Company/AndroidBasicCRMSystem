@@ -12,14 +12,14 @@ import java.util.List;
  * Custom adapter class provides fragments required for the view pager.
  */
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
 
     // Define class attributes
     private final List<Fragment> mFragmentList;
     private final List<String> mFragmentTitleList;
 
     // Constructor
-    public ViewPagerAdapter(FragmentManager fragmentManager) {
+    public FragmentViewPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
 
         // Attributes initialization
