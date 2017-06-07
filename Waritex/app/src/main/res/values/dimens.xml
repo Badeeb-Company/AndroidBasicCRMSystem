@@ -19,4 +19,7 @@
     <dimen name="due_date_padding_bottom">5dp</dimen>
     <dimen name="due_date">12dp</dimen>
 
+    <!-- Slider Indicator distance from bottom -->
+    <dimen name="indicator_bottom_margin">48dp</dimen>
+
 </resources>
