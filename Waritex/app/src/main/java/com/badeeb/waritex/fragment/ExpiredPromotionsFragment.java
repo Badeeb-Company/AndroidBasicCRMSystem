@@ -43,7 +43,7 @@ public class ExpiredPromotionsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+//        // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_expired_promotions, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.expired_promotion_recycler_view);
 

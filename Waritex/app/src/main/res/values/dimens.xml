@@ -7,6 +7,8 @@
     <dimen name="tab_padding_bottom">16dp</dimen>
     <dimen name="tab_label">14sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
+
+    <!-- cardView dimensions -->
     <dimen name="card_view_width_linear_layout">250dp</dimen>
     <dimen name="card_view_height_linear_layout">250dp</dimen>
     <dimen name="card_margin">5dp</dimen>
