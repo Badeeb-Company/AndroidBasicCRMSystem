@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.badeeb.waritex.Model.Promotion;
+import com.badeeb.waritex.model.Promotion;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.adapter.ActivePromotionsAdaptor;
 

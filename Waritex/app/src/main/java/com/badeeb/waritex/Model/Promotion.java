@@ -1,4 +1,4 @@
-package com.badeeb.waritex.Model;
+package com.badeeb.waritex.model;
 
 import android.util.Log;
 
