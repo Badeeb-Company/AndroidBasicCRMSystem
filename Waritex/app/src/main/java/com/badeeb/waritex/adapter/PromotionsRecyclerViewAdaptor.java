@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.badeeb.waritex.Model.Promotion;
+import com.badeeb.waritex.model.Promotion;
 import com.badeeb.waritex.R;
 import com.bumptech.glide.Glide;
 
@@ -19,12 +19,12 @@ import java.util.List;
  * Created by ahmed on 6/7/2017.
  */
 
-public class ActivePromotionsAdaptor extends RecyclerView.Adapter<ActivePromotionsAdaptor.MyViewHolder> {
+public class PromotionsRecyclerViewAdaptor extends RecyclerView.Adapter<PromotionsRecyclerViewAdaptor.MyViewHolder> {
 
     private Context mContext;
     private List<Promotion> mActivePromotionList;
 
-    public ActivePromotionsAdaptor(Context context, List<Promotion> activePromotionList){
+    public PromotionsRecyclerViewAdaptor(Context context, List<Promotion> activePromotionList){
         mContext = context;
         mActivePromotionList = activePromotionList;
     }
