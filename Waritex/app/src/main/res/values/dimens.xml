@@ -9,4 +9,12 @@
     <dimen name="custom_tab_layout_height">72dp</dimen>
     <dimen name="card_view_width_linear_layout">250dp</dimen>
     <dimen name="card_view_height_linear_layout">250dp</dimen>
+    <dimen name="card_margin">5dp</dimen>
+    <dimen name="card_album_radius">0dp</dimen>
+    <dimen name="promotion_photo_height">160dp</dimen>
+    <dimen name="promotion_title_padding">10dp</dimen>
+    <dimen name="promotion_title">15dp</dimen>
+    <dimen name="due_date_padding_bottom">5dp</dimen>
+    <dimen name="due_date">12dp</dimen>
+
 </resources>
