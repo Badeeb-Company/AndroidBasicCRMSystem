@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,15 @@ import java.util.TimerTask;
  */
 public class ProductsFragment extends Fragment {
 
+    // Logging Purpose
+    private final String TAG = ProductsFragment.class.getSimpleName();
+
     // Fragment Attributes
     private static ViewPager mPager;
     private static int mCurrentPage = 0;
-    private ArrayList<Integer> mXMENArray = new ArrayList<Integer>();
+    private ArrayList<Integer> mProductsArray = new ArrayList<Integer>();
 
-    private static final Integer[] XMEN= {R.drawable.beast,R.drawable.charles,R.drawable.magneto,R.drawable.mystique,R.drawable.wolverine};
+    private static final Integer[] products = {R.drawable.photo1,R.drawable.photo2,R.drawable.photo3,R.drawable.photo4,R.drawable.photo5};
 
 
 
@@ -40,27 +44,37 @@ public class ProductsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Log.d(TAG, "onCreateView - Start");
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_products, container, false);
 
         init(view);
 
+        Log.d(TAG, "onCreateView - End");
+
         return view;
     }
 
     private void init(View view) {
-        for(int i=0;i<XMEN.length;i++)
-            mXMENArray.add(XMEN[i]);
+        Log.d(TAG, "init - Start");
+
+        if (! mProductsArray.isEmpty())
+            mProductsArray.clear();
+
+        for(int i = 0; i < products.length; i++)
+            mProductsArray.add(products[i]);
 
         this.mPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mPager.setAdapter(new SlideViewPagerAdapter(getContext(), this.mXMENArray));
+        mPager.setAdapter(new SlideViewPagerAdapter(getContext(), this.mProductsArray));
 
         CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
 
         // Auto start of viewpager
+        /*
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
@@ -74,9 +88,11 @@ public class ProductsFragment extends Fragment {
         swipeTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                handler.post(Update);
+                //handler.post(Update);
             }
         }, 2500, 2500); // Interval: 2.5 seconds
+        */
+        Log.d(TAG, "init - End");
     }
 
 }

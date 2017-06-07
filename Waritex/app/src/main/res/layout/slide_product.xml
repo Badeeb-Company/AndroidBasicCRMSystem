@@ -10,7 +10,6 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:layout_gravity="center"
-        android:src="@drawable/beast"
         android:scaleType="centerCrop"/>
 
 </FrameLayout>
