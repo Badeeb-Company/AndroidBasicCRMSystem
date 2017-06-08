@@ -38,5 +38,8 @@ dependencies {
     // adding volley dependency
     compile 'com.android.volley:volley:1.0.0'
 
+    // Splash Screen Dependency
+    compile 'com.makeramen:roundedimageview:2.3.0'
+
     testCompile 'junit:junit:4.12'
 }

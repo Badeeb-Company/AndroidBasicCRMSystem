@@ -67,8 +67,11 @@ public class ProductsFragment extends Fragment {
         for(int i = 0; i < products.length; i++)
             mProductsArray.add(products[i]);
 
+        // Adapter creation
+        SlideViewPagerAdapter slideViewPagerAdapter = new SlideViewPagerAdapter(getContext(), this.mProductsArray);
+
         this.mPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mPager.setAdapter(new SlideViewPagerAdapter(getContext(), this.mProductsArray));
+        mPager.setAdapter(slideViewPagerAdapter);
 
         CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
