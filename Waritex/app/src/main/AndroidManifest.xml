@@ -9,19 +9,22 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
+
+        <activity android:name=".SplashActivity"
+            android:theme="@style/AppTheme.Transparent"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".PromotionDetailsActivity"
             android:parentActivityName=".MainActivity">
-
         </activity>
     </application>
 

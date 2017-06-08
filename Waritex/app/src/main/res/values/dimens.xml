@@ -19,9 +19,14 @@
     <dimen name="due_date_padding_bottom">5dp</dimen>
     <dimen name="due_date">12dp</dimen>
 
+
     <!-- promotion details dimensions -->
     <dimen name="promotion_slide_show_height">250dp</dimen>
     <dimen name="promotion_details_title">40dp</dimen>
     <dimen name="promotion_details_due_date">25dp</dimen>
     <dimen name="promotion_details_description">20dp</dimen>
+
+    <!-- Slider Indicator distance from bottom -->
+    <dimen name="indicator_bottom_margin">48dp</dimen>
+
 </resources>
