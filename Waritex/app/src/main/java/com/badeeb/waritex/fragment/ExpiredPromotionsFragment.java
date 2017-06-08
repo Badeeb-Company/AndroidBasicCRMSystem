@@ -1,6 +1,7 @@
 package com.badeeb.waritex.fragment;
 
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,9 +12,12 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.badeeb.waritex.PromotionDetailsActivity;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.adapter.PromotionsRecyclerViewAdaptor;
+import com.badeeb.waritex.listener.RecyclerItemClickListener;
 import com.badeeb.waritex.model.Promotion;
 import com.badeeb.waritex.view.GridSpacingItemDecoration;
 
@@ -29,6 +33,7 @@ public class ExpiredPromotionsFragment extends Fragment {
     private PromotionsRecyclerViewAdaptor mAdapter;
     private List<Promotion> mPromotionList;
     private int mPromotionPerLine;
+
 
     public ExpiredPromotionsFragment() {
         // Required empty public constructor
@@ -55,7 +60,24 @@ public class ExpiredPromotionsFragment extends Fragment {
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getActivity(), PromotionDetailsActivity.class);
 
+                        // TODO replace it with sending promotion object that will implement Parceable
+                        TextView titleTV = (TextView) view.findViewById(R.id.promotion_card_title);
+                        String title = titleTV.getText().toString();
+                        intent.putExtra(ActivePromotionsFragment.PROMOTION_TITLE_EXTRA, title);
+
+                        TextView dueDateTV = (TextView) view.findViewById(R.id.promotion_card_due_date);
+                        String dueDate = dueDateTV.getText().toString();
+                        intent.putExtra(ActivePromotionsFragment.PROMOTION_DUE_DATE_EXTRA, dueDate);
+
+                        startActivity(intent);
+                    }
+                })
+        );
         preparePromotions();
 
         return view;
