@@ -45,6 +45,8 @@ public class PromotionsRecyclerViewAdaptor extends RecyclerView.Adapter<Promotio
         Glide.with(mContext).load(Integer.parseInt(promotion.getMainPhoto())).into(holder.mPromotionMainPhoto); // Change it to String after test
     }
 
+
+
     @Override
     public int getItemCount() {
         if(mActivePromotionList == null)
