@@ -41,5 +41,8 @@ dependencies {
     // Splash Screen Dependency
     compile 'com.makeramen:roundedimageview:2.3.0'
 
+    // Expandable Recycler View
+    compile 'com.bignerdranch.android:expandablerecyclerview:1.0.3'
+
     testCompile 'junit:junit:4.12'
 }

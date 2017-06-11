@@ -29,4 +29,9 @@
     <!-- Slider Indicator distance from bottom -->
     <dimen name="indicator_bottom_margin">48dp</dimen>
 
+    <!-- Floating Action button margin -->
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Vendor Recycler View -->
+    <dimen name="vendor_details_left_margin">32dp</dimen>
 </resources>
