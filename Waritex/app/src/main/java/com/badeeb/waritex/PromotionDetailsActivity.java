@@ -79,7 +79,7 @@ public class PromotionDetailsActivity extends AppCompatActivity {
     }
 
 
-    // Create onClick event for Sign-in button
+    // Create onClick event for show vendors button
     public void onClickShowVendorsBttn(View view) {
 
         Log.d(TAG, "onClickShowVendorsBttn - Start");

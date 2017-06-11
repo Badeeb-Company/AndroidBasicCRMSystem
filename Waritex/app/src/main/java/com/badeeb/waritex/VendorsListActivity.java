@@ -1,10 +1,12 @@
 package com.badeeb.waritex;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.badeeb.waritex.adapter.VendorExpandableAdapter;
 import com.badeeb.waritex.model.Vendor;
@@ -127,6 +129,16 @@ public class VendorsListActivity extends AppCompatActivity {
         this.recyclerView.setAdapter(this.vendorExpandableAdapter);
 
         Log.d(TAG, "generateVendorsList - End");
+    }
+
+    // Create onClick event for map button
+    public void onClickShowMapFloatingBttn(View view) {
+
+        Log.d(TAG, "onClickShowMapFloatingBttn - Start");
+
+        
+
+        Log.d(TAG, "onClickShowMapFloatingBttn - End");
     }
 
 }
