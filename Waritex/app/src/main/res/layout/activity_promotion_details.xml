@@ -80,6 +80,7 @@
                 android:layout_marginTop="100dp"
                 android:layout_below="@id/promotion_details_description"
                 android:background="@drawable/red_button"
+                android:onClick="onClickShowVendorsBttn"
                 android:text="Show Vendors" />
         </LinearLayout>
 

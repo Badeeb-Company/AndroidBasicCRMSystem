@@ -28,7 +28,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:onClick="floatingBttnOnClick"
+        android:onClick="onClickShowMapFloatingBttn"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="mini"
         app:srcCompat="@drawable/map_icon"

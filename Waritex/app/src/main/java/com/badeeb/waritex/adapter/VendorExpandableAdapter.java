@@ -76,7 +76,7 @@ public class VendorExpandableAdapter extends ExpandableRecyclerAdapter<VendorPar
         Log.d(TAG, "onBindChildViewHolder - Start");
 
         Vendor vendor = (Vendor) o;
-        vendorDetailsViewHolder.getId().setText(vendor.getId());
+        vendorDetailsViewHolder.getId().setText(vendor.getId()+"");
         vendorDetailsViewHolder.getType().setText(vendor.getType());
         vendorDetailsViewHolder.getName().setText(vendor.getName());
         vendorDetailsViewHolder.getMobileNumber().setText(vendor.getMobileNumber());
