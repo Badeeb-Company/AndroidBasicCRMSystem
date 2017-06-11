@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.badeeb.waritex.adapter.SlideViewPagerAdapter;
 import com.badeeb.waritex.fragment.ActivePromotionsFragment;
@@ -19,6 +21,7 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class PromotionDetailsActivity extends AppCompatActivity {
 
+    // For logging purpose
     private final String TAG = PromotionDetailsActivity.class.getName();
 
     private static ViewPager mPager;
@@ -73,5 +76,17 @@ public class PromotionDetailsActivity extends AppCompatActivity {
         for(Integer photo : photos){
             mPromotionPhotos.add(photo);
         }
+    }
+
+
+    // Create onClick event for Sign-in button
+    public void onClickShowVendorsBttn(View view) {
+
+        Log.d(TAG, "onClickShowVendorsBttn - Start");
+
+        Intent vendorsListIntent = new Intent(this, VendorsListActivity.class);
+        this.startActivity(vendorsListIntent);
+
+        Log.d(TAG, "onClickShowVendorsBttn - End");
     }
 }

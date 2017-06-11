@@ -38,6 +38,8 @@ public class VendorsListActivity extends AppCompatActivity {
         this.vendorParentList = new ArrayList<>();
         this.vendorsList = new ArrayList<>();
 
+        //-----------------------------------------------------------------------------------------|
+        // To be deleted later
         Vendor vendor = new Vendor();
         vendor.setId(1);
         vendor.setType("Type1");
@@ -57,6 +59,21 @@ public class VendorsListActivity extends AppCompatActivity {
         vendor2.setLat(2);
         vendor2.setLng(2);
         vendor2.setMobileNumber("MobileNumber2");
+
+        Vendor vendor3 = new Vendor();
+        vendor3.setId(3);
+        vendor3.setType("Type3");
+        vendor3.setName("Name3");
+        vendor3.setAddress("Address3");
+        vendor3.setGovernorate("Governorate3");
+        vendor3.setLat(3);
+        vendor3.setLng(3);
+        vendor3.setMobileNumber("MobileNumber3");
+
+        this.vendorsList.add(vendor);
+        this.vendorsList.add(vendor2);
+        this.vendorsList.add(vendor3);
+        //-----------------------------------------------------------------------------------------|
 
         // Recycler list adapter initialization
         this.vendorExpandableAdapter = new VendorExpandableAdapter(this, this.vendorParentList);
@@ -92,6 +109,22 @@ public class VendorsListActivity extends AppCompatActivity {
 
             this.vendorParentList.add(vendorParent);
         }
+
+        Log.d(TAG, "vendorParentList size: "+this.vendorParentList.size());
+
+        // Recycler list adapter initialization
+        this.vendorExpandableAdapter = new VendorExpandableAdapter(this, this.vendorParentList);
+        this.vendorExpandableAdapter.setCustomParentAnimationViewId(R.id.vendors_list_item_expand_arrow);
+        this.vendorExpandableAdapter.setParentClickableViewAnimationDefaultDuration();
+        this.vendorExpandableAdapter.setParentAndIconExpandOnClick(true);
+
+        // Recycler View initialization
+        this.recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        this.recyclerView.setLayoutManager(mLayoutManager);
+
+        // Link between adapter and recycler list
+        this.recyclerView.setAdapter(this.vendorExpandableAdapter);
 
         Log.d(TAG, "generateVendorsList - End");
     }
