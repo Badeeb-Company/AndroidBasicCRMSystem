@@ -44,5 +44,8 @@ dependencies {
     // Expandable Recycler View
     compile 'com.bignerdranch.android:expandablerecyclerview:1.0.3'
 
+    // Google Map Dependency
+    compile 'com.google.android.gms:play-services-maps:10.2.6'
+
     testCompile 'junit:junit:4.12'
 }

@@ -136,7 +136,8 @@ public class VendorsListActivity extends AppCompatActivity {
 
         Log.d(TAG, "onClickShowMapFloatingBttn - Start");
 
-        
+        Intent mapIntent = new Intent(this, MapsActivity.class);
+        this.startActivity(mapIntent);
 
         Log.d(TAG, "onClickShowMapFloatingBttn - End");
     }
