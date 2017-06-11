@@ -25,6 +25,7 @@
     <dimen name="promotion_details_title">40dp</dimen>
     <dimen name="promotion_details_due_date">25dp</dimen>
     <dimen name="promotion_details_description">20dp</dimen>
+    <dimen name="show_vendors_button_width">150dp</dimen>
 
     <!-- Slider Indicator distance from bottom -->
     <dimen name="indicator_bottom_margin">48dp</dimen>

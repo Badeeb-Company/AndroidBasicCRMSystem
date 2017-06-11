@@ -62,7 +62,16 @@
             android:paddingRight="@dimen/promotion_title_padding"
             android:textSize="@dimen/promotion_details_description" />
 
-
+        <Button
+            android:background="@drawable/red_button"
+            android:id="@+id/button1"
+            android:layout_width="@dimen/show_vendors_button_width"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/promotion_details_description"
+            android:text="Show Vendors"
+            style="@style/button_text" />
     </RelativeLayout>
+
+
 
 </LinearLayout>
