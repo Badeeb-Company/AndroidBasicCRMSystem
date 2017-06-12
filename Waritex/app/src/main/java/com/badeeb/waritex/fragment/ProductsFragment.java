@@ -13,6 +13,10 @@ import android.view.ViewGroup;
 import com.badeeb.waritex.MainActivity;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.adapter.SlideViewPagerAdapter;
+import com.badeeb.waritex.model.ProductsInquiry;
+import com.badeeb.waritex.shared.AppPreferences;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 
@@ -32,12 +36,15 @@ public class ProductsFragment extends Fragment {
 
     // Fragment Attributes
     private static ViewPager mPager;
-    private static int mCurrentPage = 0;
+
     private ArrayList<Integer> mProductsArray = new ArrayList<Integer>();
 
     private static final Integer[] products = {R.drawable.photo1,R.drawable.photo2,R.drawable.photo3,R.drawable.photo4,R.drawable.photo5};
 
-
+    // attributes that will be used for JSON calls
+    private final String CONTEXT_URL = "/products";
+    private int mcurrentPage;
+    private int mpageSize;
 
     public ProductsFragment() {
         // Required empty public constructor
@@ -47,6 +54,10 @@ public class ProductsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Log.d(TAG, "onCreateView - Start");
+
+        // Attribute initialization
+        this.mcurrentPage = 1;
+        this.mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_products, container, false);
@@ -66,6 +77,9 @@ public class ProductsFragment extends Fragment {
 
         for(int i = 0; i < products.length; i++)
             mProductsArray.add(products[i]);
+
+        // Network call to load first 20 products
+        loadProducts();
 
         // Adapter creation
         SlideViewPagerAdapter slideViewPagerAdapter = new SlideViewPagerAdapter(getContext(), this.mProductsArray);
@@ -96,6 +110,24 @@ public class ProductsFragment extends Fragment {
         }, 2500, 2500); // Interval: 2.5 seconds
         */
         Log.d(TAG, "init - End");
+    }
+
+    private void loadProducts() {
+        Log.d(TAG, "loadProducts - Start");
+
+        // Create Gson object
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+
+        Gson gson = gsonBuilder.create();
+
+        ProductsInquiry productsInquiry = new ProductsInquiry();
+        productsInquiry.setPage(this.mcurrentPage);
+        productsInquiry.setPageSize(this.mpageSize);
+
+        String request = gson.toJson(productsInquiry);
+        Log.d(TAG, "loadProducts - JSON Request: "+request);
+        Log.d(TAG, "loadProducts - End");
     }
 
 }
