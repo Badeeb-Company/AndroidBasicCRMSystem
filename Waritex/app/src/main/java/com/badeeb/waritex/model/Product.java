@@ -1,5 +1,7 @@
 package com.badeeb.waritex.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by Amr Alghawy on 6/12/2017.
  */
@@ -7,7 +9,9 @@ package com.badeeb.waritex.model;
 public class Product {
 
     // Class Attributes
+    @Expose
     private int id;
+    @Expose
     private String url;
 
     // Constructor

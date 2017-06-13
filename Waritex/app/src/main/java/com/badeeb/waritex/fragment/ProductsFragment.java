@@ -1,8 +1,5 @@
 package com.badeeb.waritex.fragment;
 
-import android.app.DownloadManager;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -16,29 +13,25 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.badeeb.waritex.MainActivity;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.adapter.SlideViewPagerAdapter;
+import com.badeeb.waritex.model.JsonResponse;
 import com.badeeb.waritex.model.ProductsInquiry;
 import com.badeeb.waritex.network.MyVolley;
 import com.badeeb.waritex.shared.AppPreferences;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator;
 
-import android.os.Bundle;
-import android.os.Handler;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,7 +49,7 @@ public class ProductsFragment extends Fragment {
     private static final Integer[] products = {R.drawable.photo1, R.drawable.photo2, R.drawable.photo3, R.drawable.photo4, R.drawable.photo5};
 
     // attributes that will be used for JSON calls
-    private final String URL = AppPreferences.BASE_URL + "/products";
+    private String url = AppPreferences.BASE_URL + "/products";
     private int mcurrentPage;
     private int mpageSize;
 
@@ -133,64 +126,62 @@ public class ProductsFragment extends Fragment {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.excludeFieldsWithoutExposeAnnotation();
 
-        Gson gson = gsonBuilder.create();
+        final Gson gson = gsonBuilder.create();
 
-        ProductsInquiry productsInquiry = new ProductsInquiry();
-        productsInquiry.setPage(this.mcurrentPage);
-        productsInquiry.setPageSize(this.mpageSize);
-
-        String request = gson.toJson(productsInquiry);
+        url += "?page=" + mcurrentPage + "&page_size=" + mpageSize;
 
         // Network call
-        try {
-            JSONObject jsonRequest = new JSONObject(request);
 
-            Log.d(TAG, "loadProducts - JSON Request: " + jsonRequest.toString());
-            Log.d(TAG, "loadProducts - URL: " + URL);
+        Log.d(TAG, "loadProducts - URL: " + url);
 
-            // Call products service
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
+        // Call products service
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
 
-                    new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONObject>() {
 
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            // Response Handling
-                            Log.d(TAG, "loadProducts - onResponse - Start");
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Response Handling
+                        Log.d(TAG, "loadProducts - onResponse - Start");
 
-                            Log.d(TAG, "loadProducts - onResponse - Json Response: " + response.toString());
+                        Log.d(TAG, "loadProducts - onResponse - Json Response: " + response.toString());
 
-                            Log.d(TAG, "loadProducts - onResponse - End");
-                        }
-                    },
+                        String responseData = response.toString();
+                        Type responseType = new TypeToken<JsonResponse<ProductsInquiry>>() {}.getType();
 
-                    new Response.ErrorListener() {
+                        JsonResponse<ProductsInquiry> jsonResponse = gson.fromJson(responseData, responseType);
 
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            // Network Error Handling
-                            Log.d(TAG, "loadProducts - onErrorResponse: " + error.toString());
-                        }
+                        Log.d(TAG, "loadProducts - onResponse - Status: " + jsonResponse.getJsonMeta().getStatus());
+                        Log.d(TAG, "loadProducts - onResponse - Message: " + jsonResponse.getJsonMeta().getMessage());
+                        Log.d(TAG, "loadProducts - onResponse - Data Size: " + jsonResponse.getResult().getProducts().size());
+
+                        Log.d(TAG, "loadProducts - onResponse - End");
                     }
-            ) {
+                },
 
-                /**
-                 * Passing some request headers
-                 */
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("Content-Type", "application/json; charset=utf-8");
-                    headers.put("Accept", "*");
-                    return headers;
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Network Error Handling
+                        Log.d(TAG, "loadProducts - onErrorResponse: " + error.toString());
+                    }
                 }
-            };
+        ) {
 
-            MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+            /**
+             * Passing some request headers
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Accept", "*");
+                return headers;
+            }
+        };
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 
 
         Log.d(TAG, "loadProducts - End");

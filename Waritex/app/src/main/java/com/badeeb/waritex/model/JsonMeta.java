@@ -1,12 +1,16 @@
 package com.badeeb.waritex.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by Amr Alghawy on 6/13/2017.
  */
 
 public class JsonMeta {
-
+    @Expose(serialize = false, deserialize = true)
     private String status;
+
+    @Expose(serialize = false, deserialize = true)
     private String message;
 
     // Setters and Getters
