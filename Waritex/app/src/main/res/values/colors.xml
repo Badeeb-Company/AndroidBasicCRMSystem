@@ -19,4 +19,7 @@
 
     <color name="viewBg">#f1f5f8</color>
     <color name="promotion_title">#4c4c4c</color>
+    <color name="blue_button">#2554C7</color>
+
+
 </resources>

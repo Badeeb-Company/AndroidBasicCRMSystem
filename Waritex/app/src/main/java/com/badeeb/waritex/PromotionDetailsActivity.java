@@ -1,6 +1,7 @@
 package com.badeeb.waritex;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,7 +34,6 @@ public class PromotionDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promotion_details);
-
         init();
     }
 
@@ -52,7 +52,7 @@ public class PromotionDetailsActivity extends AppCompatActivity {
         promotionTitleTV.setText(mPromotion.getTitle());
 
         TextView promotionDueDateTV = (TextView) findViewById(R.id.promotion_details_due_date);
-        promotionDueDateTV.setText(mPromotion.getDueDateFormated());
+        promotionDueDateTV.setText(R.string.valid_promotion_statment+mPromotion.getDueDateFormated());
 
         TextView promotionDescriptionTV = (TextView) findViewById(R.id.promotion_details_description);
         promotionDescriptionTV.setText(mPromotion.getDescription());
