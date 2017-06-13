@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -27,12 +28,15 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator;
+
 import android.os.Bundle;
 import android.os.Handler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -49,7 +53,7 @@ public class ProductsFragment extends Fragment {
 
     private ArrayList<Integer> mProductsArray = new ArrayList<Integer>();
 
-    private static final Integer[] products = {R.drawable.photo1,R.drawable.photo2,R.drawable.photo3,R.drawable.photo4,R.drawable.photo5};
+    private static final Integer[] products = {R.drawable.photo1, R.drawable.photo2, R.drawable.photo3, R.drawable.photo4, R.drawable.photo5};
 
     // attributes that will be used for JSON calls
     private final String URL = AppPreferences.BASE_URL + "/products";
@@ -82,10 +86,10 @@ public class ProductsFragment extends Fragment {
     private void init(View view) {
         Log.d(TAG, "init - Start");
 
-        if (! mProductsArray.isEmpty())
+        if (!mProductsArray.isEmpty())
             mProductsArray.clear();
 
-        for(int i = 0; i < products.length; i++)
+        for (int i = 0; i < products.length; i++)
             mProductsArray.add(products[i]);
 
         // Network call to load first 20 products
@@ -141,8 +145,8 @@ public class ProductsFragment extends Fragment {
         try {
             JSONObject jsonRequest = new JSONObject(request);
 
-            Log.d(TAG, "loadProducts - JSON Request: "+jsonRequest.toString());
-            Log.d(TAG, "loadProducts - URL: "+URL);
+            Log.d(TAG, "loadProducts - JSON Request: " + jsonRequest.toString());
+            Log.d(TAG, "loadProducts - URL: " + URL);
 
             // Call products service
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
@@ -154,7 +158,7 @@ public class ProductsFragment extends Fragment {
                             // Response Handling
                             Log.d(TAG, "loadProducts - onResponse - Start");
 
-                            Log.d(TAG, "loadProducts - onResponse - Json Response: "+ response.toString());
+                            Log.d(TAG, "loadProducts - onResponse - Json Response: " + response.toString());
 
                             Log.d(TAG, "loadProducts - onResponse - End");
                         }
@@ -165,11 +169,22 @@ public class ProductsFragment extends Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             // Network Error Handling
-                            Log.d(TAG, "loadProducts - onErrorResponse"+error.toString());
+                            Log.d(TAG, "loadProducts - onErrorResponse: " + error.toString());
                         }
                     }
+            ) {
 
-                    );
+                /**
+                 * Passing some request headers
+                 */
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json; charset=utf-8");
+                    headers.put("Accept", "*");
+                    return headers;
+                }
+            };
 
             MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 
