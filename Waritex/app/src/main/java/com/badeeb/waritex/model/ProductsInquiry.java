@@ -23,6 +23,7 @@ public class ProductsInquiry {
     private int pageSize;
 
     @Expose(serialize = false, deserialize = true)
+    @SerializedName("products")
     private List<Product> products;
 
     // Constructor

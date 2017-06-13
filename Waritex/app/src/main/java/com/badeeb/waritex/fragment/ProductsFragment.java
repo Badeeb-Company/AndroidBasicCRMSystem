@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import me.relex.circleindicator.CircleIndicator;
 import android.os.Bundle;
 import android.os.Handler;
+
+import org.json.JSONObject;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -127,6 +130,11 @@ public class ProductsFragment extends Fragment {
 
         String request = gson.toJson(productsInquiry);
         Log.d(TAG, "loadProducts - JSON Request: "+request);
+
+        // Network call
+        
+
+
         Log.d(TAG, "loadProducts - End");
     }
 
