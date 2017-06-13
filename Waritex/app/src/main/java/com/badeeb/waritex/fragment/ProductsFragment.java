@@ -1,5 +1,6 @@
 package com.badeeb.waritex.fragment;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,10 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.badeeb.waritex.MainActivity;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.adapter.SlideViewPagerAdapter;
 import com.badeeb.waritex.model.ProductsInquiry;
+import com.badeeb.waritex.network.MyVolley;
 import com.badeeb.waritex.shared.AppPreferences;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,6 +30,7 @@ import me.relex.circleindicator.CircleIndicator;
 import android.os.Bundle;
 import android.os.Handler;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Timer;
@@ -45,7 +52,7 @@ public class ProductsFragment extends Fragment {
     private static final Integer[] products = {R.drawable.photo1,R.drawable.photo2,R.drawable.photo3,R.drawable.photo4,R.drawable.photo5};
 
     // attributes that will be used for JSON calls
-    private final String CONTEXT_URL = "/products";
+    private final String URL = AppPreferences.BASE_URL + "/products";
     private int mcurrentPage;
     private int mpageSize;
 
@@ -129,10 +136,46 @@ public class ProductsFragment extends Fragment {
         productsInquiry.setPageSize(this.mpageSize);
 
         String request = gson.toJson(productsInquiry);
-        Log.d(TAG, "loadProducts - JSON Request: "+request);
 
         // Network call
-        
+        try {
+            JSONObject jsonRequest = new JSONObject(request);
+
+            Log.d(TAG, "loadProducts - JSON Request: "+jsonRequest.toString());
+            Log.d(TAG, "loadProducts - URL: "+URL);
+
+            // Call products service
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
+
+                    new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // Response Handling
+                            Log.d(TAG, "loadProducts - onResponse - Start");
+
+                            Log.d(TAG, "loadProducts - onResponse - Json Response: "+ response.toString());
+
+                            Log.d(TAG, "loadProducts - onResponse - End");
+                        }
+                    },
+
+                    new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // Network Error Handling
+                            Log.d(TAG, "loadProducts - onErrorResponse"+error.toString());
+                        }
+                    }
+
+                    );
+
+            MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
         Log.d(TAG, "loadProducts - End");
