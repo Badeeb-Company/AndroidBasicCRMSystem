@@ -50,5 +50,8 @@ dependencies {
     // adding Gson dependency
     compile 'com.google.code.gson:gson:2.8.0'
 
+    // Adding Glide dependency
+    compile 'com.github.bumptech.glide:glide:3.8.0'
+
     testCompile 'junit:junit:4.12'
 }

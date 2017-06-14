@@ -43,7 +43,7 @@ public class PromotionDetailsActivity extends AppCompatActivity {
         preparePromotionInfo();
 
         this.mPager = (ViewPager) findViewById(R.id.promotion_details_viewpager);
-        mPager.setAdapter(new SlideViewPagerAdapter(this, this.mPromotionPhotos));
+        //mPager.setAdapter(new SlideViewPagerAdapter(this, this.mPromotionPhotos));
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.promotion_details_indicator);
         indicator.setViewPager(mPager);

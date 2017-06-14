@@ -16,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.adapter.SlideViewPagerAdapter;
 import com.badeeb.waritex.model.JsonResponse;
+import com.badeeb.waritex.model.Product;
 import com.badeeb.waritex.model.ProductsInquiry;
 import com.badeeb.waritex.network.MyVolley;
 import com.badeeb.waritex.shared.AppPreferences;
@@ -31,6 +32,7 @@ import me.relex.circleindicator.CircleIndicator;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,16 +44,22 @@ public class ProductsFragment extends Fragment {
     private final String TAG = ProductsFragment.class.getSimpleName();
 
     // Fragment Attributes
-    private static ViewPager mPager;
+    private static ViewPager mViewPager;
 
+    /*
     private ArrayList<Integer> mProductsArray = new ArrayList<Integer>();
 
     private static final Integer[] products = {R.drawable.photo1, R.drawable.photo2, R.drawable.photo3, R.drawable.photo4, R.drawable.photo5};
+    */
 
     // attributes that will be used for JSON calls
     private String url = AppPreferences.BASE_URL + "/products";
     private int mcurrentPage;
     private int mpageSize;
+    private boolean mNoMoreImage;
+
+    private List<Product> mProductsArray = new ArrayList<Product>();
+
 
     public ProductsFragment() {
         // Required empty public constructor
@@ -61,10 +69,6 @@ public class ProductsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Log.d(TAG, "onCreateView - Start");
-
-        // Attribute initialization
-        this.mcurrentPage = 1;
-        this.mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_products, container, false);
@@ -79,63 +83,61 @@ public class ProductsFragment extends Fragment {
     private void init(View view) {
         Log.d(TAG, "init - Start");
 
-        if (!mProductsArray.isEmpty())
-            mProductsArray.clear();
+        // Attribute initialization
+        this.mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        this.mcurrentPage = 1;
+        this.mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
+        this.mNoMoreImage = false;
 
-        for (int i = 0; i < products.length; i++)
-            mProductsArray.add(products[i]);
+        SlideViewPagerAdapter slideViewPagerAdapter = new SlideViewPagerAdapter(getContext(), mProductsArray);
+        mViewPager.setAdapter(slideViewPagerAdapter);
 
         // Network call to load first 20 products
         loadProducts();
 
-        // Adapter creation
-        SlideViewPagerAdapter slideViewPagerAdapter = new SlideViewPagerAdapter(getContext(), this.mProductsArray);
-
-        this.mPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mPager.setAdapter(slideViewPagerAdapter);
-
-        CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
-        indicator.setViewPager(mPager);
-
-        // Auto start of viewpager
-        /*
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (mCurrentPage == XMEN.length) {
-                    mCurrentPage = 0;
-                }
-                mPager.setCurrentItem(mCurrentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
+        // Add Page change listener to viewpager for handling loading of more pages
+        this.mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void run() {
-                //handler.post(Update);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
-        }, 2500, 2500); // Interval: 2.5 seconds
-        */
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d(TAG, "init - onPageSelected - Start");
+
+                Log.d(TAG, "init - onPageSelected - Position: "+position);
+
+                if (position == (mcurrentPage * mpageSize) - 1 && ! mNoMoreImage) {
+                    // Load more images
+                    mcurrentPage++;
+                    loadProducts();
+                }
+
+                Log.d(TAG, "init - onPageSelected - End");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         Log.d(TAG, "init - End");
     }
 
     private void loadProducts() {
         Log.d(TAG, "loadProducts - Start");
 
-        // Create Gson object
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
-
-        final Gson gson = gsonBuilder.create();
-
-        url += "?page=" + mcurrentPage + "&page_size=" + mpageSize;
+        // Setting url
+        String currentUrl = url + "?page=" + mcurrentPage + "&page_size=" + mpageSize;
 
         // Network call
 
-        Log.d(TAG, "loadProducts - URL: " + url);
+        Log.d(TAG, "loadProducts - URL: " + currentUrl);
 
         // Call products service
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, currentUrl, null,
 
                 new Response.Listener<JSONObject>() {
 
@@ -146,6 +148,11 @@ public class ProductsFragment extends Fragment {
 
                         Log.d(TAG, "loadProducts - onResponse - Json Response: " + response.toString());
 
+                        // Create Gson object
+                        GsonBuilder gsonBuilder = new GsonBuilder();
+                        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+                        Gson gson = gsonBuilder.create();
+
                         String responseData = response.toString();
                         Type responseType = new TypeToken<JsonResponse<ProductsInquiry>>() {}.getType();
 
@@ -154,6 +161,20 @@ public class ProductsFragment extends Fragment {
                         Log.d(TAG, "loadProducts - onResponse - Status: " + jsonResponse.getJsonMeta().getStatus());
                         Log.d(TAG, "loadProducts - onResponse - Message: " + jsonResponse.getJsonMeta().getMessage());
                         Log.d(TAG, "loadProducts - onResponse - Data Size: " + jsonResponse.getResult().getProducts().size());
+
+                        // Load Data into slide show
+                        if (jsonResponse.getResult().getProducts().size() != 0) {
+                            mProductsArray.addAll(jsonResponse.getResult().getProducts());
+                        }
+                        else {
+                            // All Images are loaded
+                            mNoMoreImage = true;
+                        }
+                        /*
+                        SlideViewPagerAdapter slideViewPagerAdapter = new SlideViewPagerAdapter(getContext(), mProductsArray);
+                        mViewPager.setAdapter(slideViewPagerAdapter);
+                        */
+                        mViewPager.getAdapter().notifyDataSetChanged();
 
                         Log.d(TAG, "loadProducts - onResponse - End");
                     }

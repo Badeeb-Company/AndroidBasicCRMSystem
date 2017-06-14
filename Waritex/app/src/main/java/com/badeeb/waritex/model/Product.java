@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
  * Created by Amr Alghawy on 6/12/2017.
  */
 
-public class Product {
+public class Product implements Photo {
 
     // Class Attributes
     @Expose
@@ -35,5 +35,16 @@ public class Product {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    // Interface method implementation
+    @Override
+    public int getPhotoId() {
+        return this.id;
+    }
+
+    @Override
+    public String getPhotoUrl() {
+        return this.url;
     }
 }

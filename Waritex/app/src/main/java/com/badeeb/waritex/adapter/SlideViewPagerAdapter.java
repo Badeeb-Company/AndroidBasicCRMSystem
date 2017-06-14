@@ -2,12 +2,17 @@ package com.badeeb.waritex.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.badeeb.waritex.R;
+import com.badeeb.waritex.fragment.ProductsFragment;
+import com.badeeb.waritex.model.Photo;
+import com.badeeb.waritex.model.Product;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +23,15 @@ import java.util.List;
 
 public class SlideViewPagerAdapter extends PagerAdapter {
 
+    // Logging Purpose
+    private final String TAG = SlideViewPagerAdapter.class.getSimpleName();
+
     // Class Attributes
-    private List<Integer> mImages;
+    private List<? extends Photo> mImages;
     private LayoutInflater mInflater;
     private Context mContext;
 
-    public SlideViewPagerAdapter(Context context, List<Integer> images) {
+    public SlideViewPagerAdapter(Context context, List<? extends Photo> images) {
         this.mImages = images;
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
@@ -57,13 +65,24 @@ public class SlideViewPagerAdapter extends PagerAdapter {
      */
     @Override
     public Object instantiateItem(ViewGroup view, int position) {
-
+        Log.d(TAG, "instantiateItem - Start");
         View productSlideLayout = this.mInflater.inflate(R.layout.slide_product, view, false);
 
         ImageView myImage = (ImageView) productSlideLayout.findViewById(R.id.image);
-        myImage.setImageResource(this.mImages.get(position));
+
+        // Load Image from Server
+        Log.d(TAG, "instantiateItem - Before Glide call");
+        Glide.with(mContext)
+                .load(this.mImages.get(position).getPhotoUrl())
+                .into(myImage);
+
+        //myImage.setImageResource(this.mImages.get(position));
+        Log.d(TAG, "instantiateItem - Position = "+position);
+        Log.d(TAG, "instantiateItem - URL = "+this.mImages.get(position).getPhotoUrl());
 
         view.addView(productSlideLayout, 0);
+
+        Log.d(TAG, "instantiateItem - End");
 
         return productSlideLayout;
     }
