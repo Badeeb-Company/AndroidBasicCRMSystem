@@ -8,12 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Amr Alghawy on 6/12/2017.
+ * Created by Amr Alghawy on 6/15/2017.
  */
 
-public class ProductsInquiry {
-
-    // Class Attributes
+public class PromotionsInquiry {
 
     @Expose(serialize = true, deserialize = false)
     @SerializedName("page")
@@ -24,14 +22,14 @@ public class ProductsInquiry {
     private int pageSize;
 
     @Expose(serialize = false, deserialize = true)
-    @SerializedName("products")
-    private List<Product> products;
+    @SerializedName("promotions")
+    private List<Promotion> promotions;
 
     // Constructor
-    public ProductsInquiry() {
+    public PromotionsInquiry() {
         this.page = 1;      // Default values
         this.pageSize = AppPreferences.DEFAULT_PAGE_SIZE; // Default values
-        this.products = new ArrayList<>();
+        this.promotions = new ArrayList<>();
     }
 
     // Setters and Getters
@@ -51,11 +49,11 @@ public class ProductsInquiry {
         this.pageSize = pageSize;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Promotion> getPromotions() {
+        return promotions;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setPromotions(List<Promotion> promotions) {
+        this.promotions = promotions;
     }
 }

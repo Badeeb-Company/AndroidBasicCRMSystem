@@ -46,17 +46,11 @@ public class ProductsFragment extends Fragment {
     // Fragment Attributes
     private static ViewPager mViewPager;
 
-    /*
-    private ArrayList<Integer> mProductsArray = new ArrayList<Integer>();
-
-    private static final Integer[] products = {R.drawable.photo1, R.drawable.photo2, R.drawable.photo3, R.drawable.photo4, R.drawable.photo5};
-    */
-
     // attributes that will be used for JSON calls
     private String url = AppPreferences.BASE_URL + "/products";
     private int mcurrentPage;
     private int mpageSize;
-    private boolean mNoMoreImage;
+    private boolean mNoMoreProducts;
 
     private List<Product> mProductsArray = new ArrayList<Product>();
 
@@ -87,7 +81,7 @@ public class ProductsFragment extends Fragment {
         this.mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         this.mcurrentPage = 1;
         this.mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
-        this.mNoMoreImage = false;
+        this.mNoMoreProducts = false;
 
         SlideViewPagerAdapter slideViewPagerAdapter = new SlideViewPagerAdapter(getContext(), mProductsArray);
         mViewPager.setAdapter(slideViewPagerAdapter);
@@ -108,7 +102,7 @@ public class ProductsFragment extends Fragment {
 
                 Log.d(TAG, "init - onPageSelected - Position: "+position);
 
-                if (position == (mcurrentPage * mpageSize) - 1 && ! mNoMoreImage) {
+                if (position == (mcurrentPage * mpageSize) - 1 && ! mNoMoreProducts) {
                     // Load more images
                     mcurrentPage++;
                     loadProducts();
@@ -168,7 +162,7 @@ public class ProductsFragment extends Fragment {
                         }
                         else {
                             // All Images are loaded
-                            mNoMoreImage = true;
+                            mNoMoreProducts = true;
                         }
                         /*
                         SlideViewPagerAdapter slideViewPagerAdapter = new SlideViewPagerAdapter(getContext(), mProductsArray);

@@ -42,7 +42,7 @@ public class PromotionsRecyclerViewAdaptor extends RecyclerView.Adapter<Promotio
         Promotion promotion = mActivePromotionList.get(position);
         holder.mTitle.setText(promotion.getTitle());
         holder.mDueDate.setText(promotion.getDueDateFormated());
-        Glide.with(mContext).load(Integer.parseInt(promotion.getMainPhoto())).into(holder.mPromotionMainPhoto); // Change it to String after test
+        Glide.with(mContext).load(promotion.getMainPhoto()).into(holder.mPromotionMainPhoto); // Change it to String after test
     }
 
 
