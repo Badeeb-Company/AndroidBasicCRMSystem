@@ -9,39 +9,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="4dp">
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:padding="4dp">-->
 
-            <TextView
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="ID:" />
+            <!--<TextView-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="ID:" />-->
 
-            <TextView
-                android:id="@+id/vendor_details_item_id"
-                android:layout_weight="1"
-                android:gravity="left" />
+            <!--<TextView-->
+                <!--android:id="@+id/vendor_details_item_id"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left" />-->
 
-        </TableRow>
+        <!--</TableRow>-->
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="4dp">
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:padding="4dp">-->
 
-            <TextView
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="Type:" />
+            <!--<TextView-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="Type:" />-->
 
-            <TextView
-                android:id="@+id/vendor_details_item_type"
-                android:layout_weight="1"
-                android:gravity="left" />
+            <!--<TextView-->
+                <!--android:id="@+id/vendor_details_item_type"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left" />-->
 
-        </TableRow>
+        <!--</TableRow>-->
 
         <TableRow
             android:layout_width="match_parent"
@@ -55,6 +55,23 @@
 
             <TextView
                 android:id="@+id/vendor_details_item_name"
+                android:layout_weight="1"
+                android:gravity="left" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Phone Number:" />
+
+            <TextView
+                android:id="@+id/vendor_details_item_phone_number"
                 android:layout_weight="1"
                 android:gravity="left" />
 
@@ -111,39 +128,39 @@
 
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="4dp">
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:padding="4dp">-->
 
-            <TextView
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="Lat:" />
+            <!--<TextView-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="Lat:" />-->
 
-            <TextView
-                android:id="@+id/vendor_details_item_lat"
-                android:layout_weight="1"
-                android:gravity="left" />
+            <!--<TextView-->
+                <!--android:id="@+id/vendor_details_item_lat"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left" />-->
 
-        </TableRow>
+        <!--</TableRow>-->
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="4dp">
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:padding="4dp">-->
 
-            <TextView
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="Lng:" />
+            <!--<TextView-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="Lng:" />-->
 
-            <TextView
-                android:id="@+id/vendor_details_item_Lng"
-                android:layout_weight="1"
-                android:gravity="left" />
+            <!--<TextView-->
+                <!--android:id="@+id/vendor_details_item_Lng"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left" />-->
 
-        </TableRow>
+        <!--</TableRow>-->
 
     </TableLayout>
 

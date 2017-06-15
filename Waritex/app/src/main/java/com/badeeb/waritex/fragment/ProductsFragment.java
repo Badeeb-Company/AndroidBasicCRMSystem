@@ -47,7 +47,7 @@ public class ProductsFragment extends Fragment {
     private static ViewPager mViewPager;
 
     // attributes that will be used for JSON calls
-    private String url = AppPreferences.BASE_URL + "/products";
+    private String mUrl = AppPreferences.BASE_URL + "/products";
     private int mcurrentPage;
     private int mpageSize;
     private boolean mNoMoreProducts;
@@ -123,8 +123,8 @@ public class ProductsFragment extends Fragment {
     private void loadProducts() {
         Log.d(TAG, "loadProducts - Start");
 
-        // Setting url
-        String currentUrl = url + "?page=" + mcurrentPage + "&page_size=" + mpageSize;
+        // Setting mUrl
+        String currentUrl = mUrl + "?page=" + mcurrentPage + "&page_size=" + mpageSize;
 
         // Network call
 

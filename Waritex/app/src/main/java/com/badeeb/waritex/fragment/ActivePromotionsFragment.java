@@ -36,6 +36,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -57,14 +58,12 @@ public class ActivePromotionsFragment extends Fragment {
     private List<Promotion> mActivePromotionList;
     private int mPromotionPerLine;
 
-    public final static String PROMOTION_TITLE_EXTRA = "promotion_title_extra";
-    public final static String PROMOTION_DUE_DATE_EXTRA = "promotion_due_date_extra";
-
     // attributes that will be used for JSON calls
     private String url = AppPreferences.BASE_URL + "/promotions";
     private int mcurrentPage;
     private int mpageSize;
     private boolean mNoMorePromotions;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,16 +114,13 @@ public class ActivePromotionsFragment extends Fragment {
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
+
+                        // Get item that is selected
+                        Promotion promotionSelected = mActivePromotionList.get(position);
+
                         Intent intent = new Intent(getActivity(), PromotionDetailsActivity.class);
-
-                        // TODO replace it with sending promotion object that will implement Parceable
-                        TextView titleTV = (TextView) view.findViewById(R.id.promotion_card_title);
-                        String title = titleTV.getText().toString();
-                        intent.putExtra(PROMOTION_TITLE_EXTRA, title);
-
-                        TextView dueDateTV = (TextView) view.findViewById(R.id.promotion_card_due_date);
-                        String dueDate = dueDateTV.getText().toString();
-                        intent.putExtra(PROMOTION_DUE_DATE_EXTRA, dueDate);
+                        // Passing promotion object to promotion details activity
+                        intent.putExtra(PromotionDetailsActivity.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
 
                         startActivity(intent);
                     }

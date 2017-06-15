@@ -35,6 +35,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class ExpiredPromotionsFragment extends Fragment {
     private int mPromotionPerLine;
 
     // attributes that will be used for JSON calls
-    private String url = AppPreferences.BASE_URL + "/promotions";
+    private String mUrl = AppPreferences.BASE_URL + "/promotions";
     private int mcurrentPage;
     private int mpageSize;
     private boolean mNoMorePromotions;
@@ -113,16 +114,12 @@ public class ExpiredPromotionsFragment extends Fragment {
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
+                        // Get item that is selected
+                        Promotion promotionSelected = mExpiredPromotionList.get(position);
+
                         Intent intent = new Intent(getActivity(), PromotionDetailsActivity.class);
-
-                        // TODO replace it with sending promotion object that will implement Parceable
-                        TextView titleTV = (TextView) view.findViewById(R.id.promotion_card_title);
-                        String title = titleTV.getText().toString();
-                        intent.putExtra(ActivePromotionsFragment.PROMOTION_TITLE_EXTRA, title);
-
-                        TextView dueDateTV = (TextView) view.findViewById(R.id.promotion_card_due_date);
-                        String dueDate = dueDateTV.getText().toString();
-                        intent.putExtra(ActivePromotionsFragment.PROMOTION_DUE_DATE_EXTRA, dueDate);
+                        // Passing promotion object to promotion details activity
+                        intent.putExtra(PromotionDetailsActivity.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
 
                         startActivity(intent);
                     }
@@ -168,7 +165,7 @@ public class ExpiredPromotionsFragment extends Fragment {
 
         Log.d(TAG, "loadPromotions - Start");
 
-        String currentUrl = url + "?expired=true&page=" + mcurrentPage + "&page_size=" + mpageSize;
+        String currentUrl = mUrl + "?expired=true&page=" + mcurrentPage + "&page_size=" + mpageSize;
 
         Log.d(TAG, "loadPromotions - URL: " + currentUrl);
 

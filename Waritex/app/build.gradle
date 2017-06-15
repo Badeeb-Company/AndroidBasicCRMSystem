@@ -53,5 +53,9 @@ dependencies {
     // Adding Glide dependency
     compile 'com.github.bumptech.glide:glide:3.8.0'
 
+    // Adding Parceler dependency
+    compile 'org.parceler:parceler-api:1.1.8'
+    annotationProcessor 'org.parceler:parceler:1.1.8'
+
     testCompile 'junit:junit:4.12'
 }

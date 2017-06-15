@@ -1,5 +1,8 @@
 package com.badeeb.waritex.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Amr Alghawy on 6/11/2017.
  */
@@ -7,19 +10,47 @@ package com.badeeb.waritex.model;
 public class Vendor {
 
     // Class Attributes
+    @Expose(serialize = false, deserialize = true)
+    @SerializedName("id")
     private int id;
+
+    @Expose(serialize = false, deserialize = true)
+    @SerializedName("type")
     private String type;
+
+    @Expose(serialize = false, deserialize = true)
+    @SerializedName("name")
     private String name;
+
+    @Expose(serialize = false, deserialize = true)
+    @SerializedName("phone_number")
+    private String phoneNumber;
+
+    @Expose(serialize = false, deserialize = true)
+    @SerializedName("mobile_number")
     private String mobileNumber;
+
+    @Expose(serialize = false, deserialize = true)
+    @SerializedName("governorate")
     private String governorate;
+
+    @Expose(serialize = false, deserialize = true)
+    @SerializedName("address")
     private String address;
+
+    @Expose(serialize = false, deserialize = true)
+    @SerializedName("lat")
     private double lat;
+
+    @Expose(serialize = false, deserialize = true)
+    @SerializedName("lng")
     private double lng;
 
     public Vendor() {
         this.id = -1;
         this.type = "";
         this.name = "";
+        this.phoneNumber = "";
         this.mobileNumber = "";
         this.governorate = "";
         this.address = "";
@@ -92,4 +123,11 @@ public class Vendor {
         this.lng = lng;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

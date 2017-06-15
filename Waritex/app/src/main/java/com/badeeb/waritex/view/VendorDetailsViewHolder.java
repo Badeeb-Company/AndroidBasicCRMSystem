@@ -17,6 +17,7 @@ public class VendorDetailsViewHolder extends ChildViewHolder {
     private TextView id;
     private TextView type;
     private TextView name;
+    private TextView phoneNumber;
     private TextView mobileNumber;
     private TextView governorate;
     private TextView address;
@@ -27,14 +28,15 @@ public class VendorDetailsViewHolder extends ChildViewHolder {
     public VendorDetailsViewHolder(View itemView) {
         super(itemView);
 
-        this.id = (TextView) itemView.findViewById(R.id.vendor_details_item_id);
-        this.type = (TextView) itemView.findViewById(R.id.vendor_details_item_type);
+//        this.id = (TextView) itemView.findViewById(R.id.vendor_details_item_id);
+//        this.type = (TextView) itemView.findViewById(R.id.vendor_details_item_type);
         this.name = (TextView) itemView.findViewById(R.id.vendor_details_item_name);
+        this.phoneNumber = (TextView) itemView.findViewById(R.id.vendor_details_item_phone_number);
         this.mobileNumber = (TextView) itemView.findViewById(R.id.vendor_details_item_mobile_number);
         this.governorate = (TextView) itemView.findViewById(R.id.vendor_details_item_governorate);
         this.address = (TextView) itemView.findViewById(R.id.vendor_details_item_address);
-        this.lat = (TextView) itemView.findViewById(R.id.vendor_details_item_lat);
-        this.lng = (TextView) itemView.findViewById(R.id.vendor_details_item_Lng);
+//        this.lat = (TextView) itemView.findViewById(R.id.vendor_details_item_lat);
+//        this.lng = (TextView) itemView.findViewById(R.id.vendor_details_item_Lng);
     }
 
     // Setters  and Getters
@@ -100,5 +102,13 @@ public class VendorDetailsViewHolder extends ChildViewHolder {
 
     public void setLng(TextView lng) {
         this.lng = lng;
+    }
+
+    public TextView getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(TextView phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

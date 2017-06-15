@@ -1,5 +1,6 @@
 package com.badeeb.waritex.model;
 
+import org.parceler.Parcel;
 import android.util.Log;
 
 import com.google.gson.annotations.Expose;
@@ -7,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
  * Created by ahmed on 6/7/2017.
  */
 
+@Parcel(Parcel.Serialization.BEAN)
 public class Promotion {
 
     // Class Attributes
@@ -37,15 +40,21 @@ public class Promotion {
     @SerializedName("main_photo")
     private String mainPhoto;
 
-    /*
     @Expose(serialize = false, deserialize = true)
     @SerializedName("photos")
-    private List<Photo> photos;
-    */
+    private List<PromotionPhoto> photos;
 
-    public static final String DATE_FORMAT_DISPLAY_PATTERN = "dd-MMM-yyyy";
-    public static final String DATE_FORMAT_WRITE_PATTERN = "dd-MMM-yyyy";
     public static final String PROMOTION_TAG_LOG = "Promotion_Object";
+
+    // Default constructor
+    public Promotion() {
+        this.id = -1;
+        this.title = "";
+        this.description = "";
+        this.dueDate = "";
+        this.mainPhoto = "";
+        this.photos = new ArrayList<>();
+    }
 
     // Setters and Getters
     public int getId() {
@@ -88,6 +97,13 @@ public class Promotion {
         this.mainPhoto = mainPhoto;
     }
 
+    public List<PromotionPhoto> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<PromotionPhoto> photos) {
+        this.photos = photos;
+    }
 
     public String getDueDateFormated(){
         /*
