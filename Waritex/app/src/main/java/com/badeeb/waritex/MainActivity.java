@@ -1,11 +1,14 @@
 package com.badeeb.waritex;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.badeeb.waritex.adapter.FragmentViewPagerAdapter;
 import com.badeeb.waritex.fragment.ActivePromotionsFragment;
@@ -54,5 +57,35 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new ExpiredPromotionsFragment(), getString(R.string.expired_promotions_tab_title));
 
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        Log.d(TAG, "onCreateOptionsMenu - Start");
+
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem companyInfo = menu.findItem(R.id.action_company_info);
+
+        if (companyInfo != null) {
+            // Add onclick listener on button
+            companyInfo.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    Log.d(TAG, "onCreateOptionsMenu - onMenuItemClick - Start");
+
+                    // Move to company info activity
+                    Intent intent = new Intent(getBaseContext(), CompanyInfoActivity.class);
+                    startActivity(intent);
+
+                    Log.d(TAG, "onCreateOptionsMenu - onMenuItemClick - Start");
+                    return false;
+                }
+            });
+        }
+
+        Log.d(TAG, "onCreateOptionsMenu - End");
+        return true;
     }
 }
