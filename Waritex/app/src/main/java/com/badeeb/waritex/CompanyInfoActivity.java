@@ -128,10 +128,28 @@ public class CompanyInfoActivity extends AppCompatActivity {
         Log.d(TAG, "updateCompanyInfoOnView - Start");
 
         TextView about = (TextView) findViewById(R.id.company_about_description);
-        TextView telephone = (TextView) findViewById(R.id.company_telephone);
-        TextView fax = (TextView) findViewById(R.id.company_fax);
-//        TextView
+        about.setText(companyInfo.getAbout());
 
+        TextView telephone = (TextView) findViewById(R.id.company_telephone);
+        telephone.setText(companyInfo.getTelephone());
+
+        TextView fax = (TextView) findViewById(R.id.company_fax);
+        fax.setText(companyInfo.getFax());
+
+        TextView websiteUrl = (TextView) findViewById(R.id.app_website_url);
+        websiteUrl.setText(companyInfo.getWebsite());
+
+        TextView facebookUrl = (TextView) findViewById(R.id.app_facebook_url);
+        facebookUrl.setText("https://www.facebook.com/waritexint/");
+
+        TextView jumiaUrl = (TextView) findViewById(R.id.app_jumia_url);
+        jumiaUrl.setText(companyInfo.getJumiaWebsite());
+
+        TextView souqUrl = (TextView) findViewById(R.id.app_souq_url);
+        souqUrl.setText(companyInfo.getSouqWebsite());
+
+        TextView whatsAppNumber = (TextView) findViewById(R.id.app_whatsApp_number);
+        whatsAppNumber.setText(companyInfo.getWhatsappNumber());
 
         Log.d(TAG, "updateCompanyInfoOnView - End");
     }
