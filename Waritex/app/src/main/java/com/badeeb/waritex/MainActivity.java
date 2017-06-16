@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         // Toolbar
         this.mtoolbar = (Toolbar) this.findViewById(R.id.toolbar);
         this.setSupportActionBar(this.mtoolbar);
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // ViewPager
         this.mviewPager = (ViewPager) this.findViewById(R.id.viewpager);
