@@ -1,12 +1,20 @@
 package com.badeeb.waritex.fragment;
 
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -47,7 +56,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VendorsListFragment extends Fragment {
+public class VendorsListFragment extends Fragment implements LocationListener {
 
     // Logging Purpose
     public static final String TAG = VendorsListFragment.class.getSimpleName();
@@ -61,6 +70,9 @@ public class VendorsListFragment extends Fragment {
 
     // Constants
     public final static String EXTRA_PROMOTION_ID = "EXTRA_PROMOTION_ID";
+    public final static String EXTRA_VENDOR_LIST = "EXTRA_VENDOR_LIST";
+    public final static String EXTRA_CURRENT_LATITUDE = "EXTRA_CURRENT_LATITUDE";
+    public final static String EXTRA_CURRENT_LONGITUDE = "EXTRA_CURRENT_LONGITUDE";
 
     // attributes that will be used for JSON calls
     private String mUrl = AppPreferences.BASE_URL + "/promotions";
@@ -152,6 +164,13 @@ public class VendorsListFragment extends Fragment {
                 // Fragment creation
                 MapFragment mapFragment = new MapFragment();
 
+                // passing data to Map Fragment
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(VendorsListFragment.EXTRA_VENDOR_LIST, Parcels.wrap(mVendorsList));
+                bundle.putParcelable(VendorsListFragment.EXTRA_CURRENT_LATITUDE, Parcels.wrap(mCurrentLocation.getLatitude()));
+                bundle.putParcelable(VendorsListFragment.EXTRA_CURRENT_LONGITUDE, Parcels.wrap(mCurrentLocation.getLongitude()));
+                mapFragment.setArguments(bundle);
+
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -171,7 +190,12 @@ public class VendorsListFragment extends Fragment {
         mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
         mNoMoreVendors = false;
 
-        loadVendorsDetails();
+        //get the current location
+        mCurrentLocation = getCurrentLocation();
+
+        if(mCurrentLocation != null){
+            loadVendorsDetails();
+        }
 
         Log.d(TAG, "init - End");
 
@@ -181,7 +205,12 @@ public class VendorsListFragment extends Fragment {
 
         Log.d(TAG, "loadVendorsDetails - Start");
 
-        String currentUrl = mUrl + "/" + mPromotionId + mContextUrl + "?page=" + mcurrentPage + "&page_size=" + mpageSize;
+        String currentUrl = mUrl + "/" + mPromotionId + mContextUrl
+                //+ "?lat=" + mCurrentLocation.getLatitude()
+                //+ "&lng=" + mCurrentLocation.getLongitude()
+                // + "&page=" + mcurrentPage
+                + "?page=" + mcurrentPage
+                + "&page_size=" + mpageSize;
 
         Log.d(TAG, "loadVendorsDetails - URL: " + currentUrl);
 
@@ -263,5 +292,95 @@ public class VendorsListFragment extends Fragment {
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    }
+
+
+    // Current Location Inquiry
+    private Location getCurrentLocation() {
+        Log.d(TAG, "getCurrentLocation - Start");
+
+        Location currentLocation = null;
+        // Check if GPS is granted or not
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // Permission is granted now
+            Log.d(TAG, "getCurrentLocation - Permission is granted");
+
+            LocationManager locationManager = (LocationManager) this.getContext().getSystemService(Context.LOCATION_SERVICE);
+
+            boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if (isGPSEnabled || isNetworkEnabled) {
+                List<String> providers = locationManager.getProviders(true);
+                for (String provider : providers) {
+                    locationManager.requestLocationUpdates(provider, 0, 0, this);
+                    Location l = locationManager.getLastKnownLocation(provider);
+                    if (l == null) {
+                        continue;
+                    }
+                    if (currentLocation == null || l.getAccuracy() < currentLocation.getAccuracy()) {
+                        // Found best last known location: %s", l);
+                        currentLocation = l;
+                    }
+                }
+                if (currentLocation == null) {
+                    Log.d(TAG, "getCurrentLocation - CurrentLocation is null");
+                    Toast.makeText(this.getContext(), "Enable GPS and try again", Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+                // Error
+                Log.d(TAG, "getCurrentLocation - GPS and Network are not enabled");
+
+                // Show Alert to enable GPS
+                Toast.makeText(getContext(), "Enable GPS and try again", Toast.LENGTH_SHORT).show();
+
+                return null;
+            }
+
+        } else {
+            // Location permission is required
+            Log.d(TAG, "getCurrentLocation - Permission is not granted");
+
+            // Show Alert to enable location service
+            Toast.makeText(getContext(), "Grant location permission to APP", Toast.LENGTH_SHORT).show();
+
+            // TODO: Show dialog to grant permissions and reload data after that
+            ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+
+        Log.d(TAG, "getCurrentLocation - End");
+
+        return currentLocation;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getContext(),"You must allow location permission to load vendors", Toast.LENGTH_SHORT).show();
+        } else {
+            mCurrentLocation = getCurrentLocation();
+            loadVendorsDetails();
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
