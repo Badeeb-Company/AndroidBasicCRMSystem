@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Waritex</string>
+    <string name="app_notifications">السماح بالاشعارات</string>
+    <string name="app_rating">تقييم التطبيق على المتجر</string>
+    <string name="app_settings">اعدادات التطبيق</string>
+    <string name="app_share">مشاركه التطبيق مع الاصدقاء</string>
+    <string name="app_version">Waritex Version 1.0</string>
+    <string name="badeeb_company">Developed by Badeeb LLC</string>
+    <string name="company_default_description">الوصف</string>
+    <string name="company_fax">الفاكس:</string>
+    <string name="company_telephone">التليفون</string>
+    <string name="expired_promotions_tab_title">العروض المنتهيه</string>
+    <string name="follow_us">تابعنا على:</string>
+    <string name="products_tab_title">المنتجات</string>
+    <string name="show_map_bttn">عرض الخريطه</string>
+    <string name="show_vendors_bttn">عرض الموزعين</string>
+    <string name="title_activity_maps">الخريطه</string>
+    <string name="valid_promotion_statment">سارى حتى:</string>
+    <string name="about_waritex">عن وريتكس</string>
+    <string name="about_label">عن العرض</string>
+    <string name="active_promotions_tab_title">العروض</string>
+</resources>

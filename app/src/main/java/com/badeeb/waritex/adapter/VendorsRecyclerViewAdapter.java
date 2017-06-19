@@ -48,6 +48,7 @@ public class VendorsRecyclerViewAdapter extends RecyclerView.Adapter<VendorViewH
         Vendor vendor = this.mVendorsList.get(position);
 
         // Set vendor values in holder
+        holder.getName().setText(vendor.getName());
         holder.getMobileNumber().setText(vendor.getMobileNumber());
         holder.getAddress().setText(vendor.getAddress());
         holder.getGovernorate().setText(vendor.getGovernorate());

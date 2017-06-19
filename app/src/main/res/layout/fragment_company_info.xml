@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layoutDirection="ltr">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -61,7 +62,8 @@
                 android:background="@color/white"
                 android:padding="@dimen/padding"
                 android:text="@string/company_default_description"
-                style="@style/sub_text"/>
+                style="@style/sub_text"
+                />
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -77,7 +79,7 @@
 
                     <TextView
                         android:layout_weight="0.25"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:text="@string/company_telephone"
                         style="@style/dark_text"
                         android:textStyle="bold"/>
@@ -85,7 +87,7 @@
                     <TextView
                         android:id="@+id/company_telephone"
                         android:layout_weight="0.75"
-                        android:gravity="left"
+                        android:gravity="start"
                         style="@style/sub_text"
                         android:text="+966 (13) 8474261"/>
 
@@ -100,7 +102,7 @@
 
                     <TextView
                         android:layout_weight="0.25"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:text="@string/company_fax"
                         style="@style/dark_text"
                         />
@@ -108,7 +110,7 @@
                     <TextView
                         android:id="@+id/company_fax"
                         android:layout_weight="0.75"
-                        android:gravity="left"
+                        android:gravity="start"
                         style="@style/sub_text"
                         android:text="+966 (13) 8474263"/>
 
@@ -146,16 +148,15 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding"
                     android:text="@string/app_notifications"
-                    android:layout_alignParentLeft="true"
                     style="@style/sub_text"
                     />
 
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:padding="@dimen/padding"
-                    />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -169,7 +170,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding"
-                    android:layout_alignParentLeft="true"
                     android:text="@string/app_rating"
                     style="@style/sub_text"
                     />
@@ -177,10 +177,10 @@
                 <ImageView
                     android:layout_width="@dimen/company_info_small_image_size"
                     android:layout_height="@dimen/company_info_small_image_size"
-                    android:layout_alignParentRight="true"
                     android:src="@drawable/favorite_logo"
                     android:padding="@dimen/padding"
-                    />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"/>
 
             </RelativeLayout>
 
@@ -194,7 +194,6 @@
                     android:id="@+id/app_url_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_marginBottom="@dimen/company_info_margin"
                     android:padding="@dimen/padding"
                     android:text="@string/app_share"
@@ -204,10 +203,10 @@
                 <ImageView
                     android:layout_width="@dimen/company_info_small_image_size"
                     android:layout_height="@dimen/company_info_small_image_size"
-                    android:layout_alignParentRight="true"
                     android:src="@drawable/share_logo"
                     android:padding="@dimen/padding"
-                    />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"/>
 
             </RelativeLayout>
 
@@ -235,6 +234,7 @@
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner"
                 android:layout_marginBottom="@dimen/company_info_margin"
+                android:layoutDirection="ltr"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
@@ -260,6 +260,7 @@
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner"
                 android:layout_marginBottom="@dimen/company_info_margin"
+                android:layoutDirection="ltr"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
@@ -284,6 +285,7 @@
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner"
                 android:layout_marginBottom="@dimen/company_info_margin"
+                android:layoutDirection="ltr"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
@@ -308,6 +310,7 @@
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner"
                 android:layout_marginBottom="@dimen/company_info_margin"
+                android:layoutDirection="ltr"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
@@ -333,6 +336,7 @@
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner"
                 android:layout_marginBottom="@dimen/company_info_margin"
+                android:layoutDirection="ltr"
                 >
                 <ImageView
                     android:layout_width="wrap_content"

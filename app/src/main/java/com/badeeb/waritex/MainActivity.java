@@ -1,5 +1,6 @@
 package com.badeeb.waritex;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,8 @@ import android.view.MenuItem;
 
 import com.badeeb.waritex.fragment.CompanyInfoFragment;
 import com.badeeb.waritex.fragment.TabsFragment;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate - Start");
 
         super.onCreate(savedInstanceState);
+
+        setupDefaultLanguage();
+
         setContentView(R.layout.activity_main);
 
         init();
@@ -35,7 +41,25 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate - End");
     }
 
+    private void setupDefaultLanguage() {
+
+        Log.d(TAG, "setupDefaultLanguage - Start");
+
+        String languageToLoad  = "ar"; // your language
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
+        Log.d(TAG, "setupDefaultLanguage - End");
+    }
+
     private void init() {
+
+        Log.d(TAG, "init - Start");
+
         // Toolbar
         this.mtoolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(this.mtoolbar);
@@ -46,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.main_frame, mTabsFragment, TabsFragment.TAG);
         fragmentTransaction.commit();
+
+        Log.d(TAG, "init - End");
     }
 
 

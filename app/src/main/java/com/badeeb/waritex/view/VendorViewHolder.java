@@ -14,6 +14,7 @@ import org.w3c.dom.Text;
 
 public class VendorViewHolder extends RecyclerView.ViewHolder{
 
+    private TextView name;
     private TextView mobileNumber;
     private TextView address;
     private TextView governorate;
@@ -21,9 +22,18 @@ public class VendorViewHolder extends RecyclerView.ViewHolder{
     public VendorViewHolder(View itemView) {
         super(itemView);
 
+        this.name = (TextView) itemView.findViewById(R.id.name);
         this.mobileNumber = (TextView) itemView.findViewById(R.id.mobile_number);
         this.address = (TextView) itemView.findViewById(R.id.address);
         this.governorate = (TextView) itemView.findViewById(R.id.governorate);
+    }
+
+    public TextView getName() {
+        return name;
+    }
+
+    public void setName(TextView name) {
+        this.name = name;
     }
 
     public TextView getMobileNumber() {

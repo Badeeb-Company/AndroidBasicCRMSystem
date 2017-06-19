@@ -45,7 +45,7 @@
 
     <!-- Vendors Fragment -->
     <dimen name="vendor_phone_img_size">48dp</dimen>
-    <dimen name="vendor_mobile_numer_padding">14dp</dimen>
+    <dimen name="vendor_mobile_number_padding">14dp</dimen>
 
     <!-- General configuration -->
     <dimen name="padding">8dp</dimen>

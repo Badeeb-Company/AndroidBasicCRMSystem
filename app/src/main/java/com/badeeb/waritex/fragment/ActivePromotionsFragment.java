@@ -67,13 +67,6 @@ public class ActivePromotionsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mPromotionPerLine = 2;
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -94,6 +87,7 @@ public class ActivePromotionsFragment extends Fragment {
         Log.d(TAG, "init - Start");
 
         // Attribute initialization
+        mPromotionPerLine = AppPreferences.NUMBER_OF_VIEW_IN_LINE;
         mActivePromotionList = new ArrayList<Promotion>();
 
         // Recycler View creation
