@@ -1,10 +1,11 @@
 package com.badeeb.waritex.fragment;
 
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,14 +14,12 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.badeeb.waritex.PromotionDetailsActivity;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.adapter.PromotionsRecyclerViewAdaptor;
 import com.badeeb.waritex.listener.RecyclerItemClickListener;
@@ -117,11 +116,24 @@ public class ExpiredPromotionsFragment extends Fragment {
                         // Get item that is selected
                         Promotion promotionSelected = mExpiredPromotionList.get(position);
 
-                        Intent intent = new Intent(getActivity(), PromotionDetailsActivity.class);
-                        // Passing promotion object to promotion details activity
-                        intent.putExtra(PromotionDetailsActivity.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
+                        // Fragment creation
+                        PromotionDetailsFragment promotionDetailsFragment = new PromotionDetailsFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(PromotionDetailsFragment.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
+                        promotionDetailsFragment.setArguments(bundle);
 
-                        startActivity(intent);
+                        // Get Parent Activity
+                        Log.d(TAG, "init - onItemClick - Activity: "+(getParentFragment() == null ? "null" : "Not null"));
+
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                        fragmentTransaction.add(R.id.main_frame, promotionDetailsFragment, promotionDetailsFragment.TAG);
+//                        fragmentTransaction.replace(R.id.main_frame, promotionDetailsFragment);
+
+                        fragmentTransaction.addToBackStack(TAG);
+
+                        fragmentTransaction.commit();
                     }
                 })
         );
@@ -196,7 +208,8 @@ public class ExpiredPromotionsFragment extends Fragment {
                         Log.d(TAG, "loadPromotions - onResponse - Data Size: " + jsonResponse.getResult().getPromotions().size());
 
                         // Load Data into slide show
-                        if (jsonResponse.getResult().getPromotions().size() != 0) {
+                        if (jsonResponse.getResult().getPromotions() != null
+                                && jsonResponse.getResult().getPromotions().size() != 0) {
                             mExpiredPromotionList.addAll(jsonResponse.getResult().getPromotions());
                         }
                         else {

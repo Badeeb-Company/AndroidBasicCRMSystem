@@ -9,12 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.badeeb.waritex.R;
-import com.badeeb.waritex.fragment.ProductsFragment;
 import com.badeeb.waritex.model.Photo;
-import com.badeeb.waritex.model.Product;
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -3,8 +3,6 @@ package com.badeeb.waritex.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
  * Created by Amr Alghawy on 6/15/2017.
  */

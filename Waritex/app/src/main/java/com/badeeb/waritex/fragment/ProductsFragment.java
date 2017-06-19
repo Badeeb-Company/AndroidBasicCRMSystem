@@ -2,7 +2,9 @@ package com.badeeb.waritex.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.badeeb.waritex.R;
-import com.badeeb.waritex.adapter.SlideViewPagerAdapter;
+import com.badeeb.waritex.adapter.ProductsRecyclerViewAdapter;
 import com.badeeb.waritex.model.JsonResponse;
 import com.badeeb.waritex.model.Product;
 import com.badeeb.waritex.model.ProductsInquiry;
@@ -24,13 +26,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-
-import me.relex.circleindicator.CircleIndicator;
-
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +43,9 @@ public class ProductsFragment extends Fragment {
     private final String TAG = ProductsFragment.class.getSimpleName();
 
     // Fragment Attributes
-    private static ViewPager mViewPager;
+    private RecyclerView mRecyclerView;
+    private ProductsRecyclerViewAdapter mAdapter;
+    private int mProductsPerLine;
 
     // attributes that will be used for JSON calls
     private String mUrl = AppPreferences.BASE_URL + "/products";
@@ -52,7 +53,7 @@ public class ProductsFragment extends Fragment {
     private int mpageSize;
     private boolean mNoMoreProducts;
 
-    private List<Product> mProductsArray = new ArrayList<Product>();
+    private List<Product> mProductsArray;
 
 
     public ProductsFragment() {
@@ -78,44 +79,59 @@ public class ProductsFragment extends Fragment {
         Log.d(TAG, "init - Start");
 
         // Attribute initialization
-        this.mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        mProductsArray = new ArrayList<>();
+        // Recycler view creation
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.products_recycler_view);
+        // Adapter creation
+        mAdapter = new ProductsRecyclerViewAdapter(getContext(), mProductsArray);
+        // Initialize number of products per line
+        mProductsPerLine = AppPreferences.NUMBER_OF_VIEW_IN_LINE;      // Default Value
+        // Layout Manager creation
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), mProductsPerLine);
+        // Link layout manager with recycler view
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+//        mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        // Link adapter with recycler view
+        mRecyclerView.setAdapter(mAdapter);
+
+        // Adding scroll to recycler view
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                Log.d(TAG, "init - onScrolled - Start");
+
+                //check for scroll down
+                if(dy > 0) {
+
+                    if (mRecyclerView.getLayoutManager().findViewByPosition(mpageSize * mcurrentPage - 1) != null && ! mNoMoreProducts) {
+                        // Scrolling started to be near to end of list
+                        // Load next page
+
+                        Log.d(TAG, "init - onScrolled - Load more products");
+
+                        mcurrentPage++;
+                        loadProducts();
+                    }
+                }
+                Log.d(TAG, "init - onScrolled - End");
+            }
+        });
+
+        // Network parameters initialization
         this.mcurrentPage = 1;
         this.mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
         this.mNoMoreProducts = false;
 
-        SlideViewPagerAdapter slideViewPagerAdapter = new SlideViewPagerAdapter(getContext(), mProductsArray);
-        mViewPager.setAdapter(slideViewPagerAdapter);
 
         // Network call to load first 20 products
         loadProducts();
 
-        // Add Page change listener to viewpager for handling loading of more pages
-        this.mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.d(TAG, "init - onPageSelected - Start");
-
-                Log.d(TAG, "init - onPageSelected - Position: "+position);
-
-                if (position == (mcurrentPage * mpageSize) - 1 && ! mNoMoreProducts) {
-                    // Load more images
-                    mcurrentPage++;
-                    loadProducts();
-                }
-
-                Log.d(TAG, "init - onPageSelected - End");
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
         Log.d(TAG, "init - End");
     }
@@ -157,7 +173,8 @@ public class ProductsFragment extends Fragment {
                         Log.d(TAG, "loadProducts - onResponse - Data Size: " + jsonResponse.getResult().getProducts().size());
 
                         // Load Data into slide show
-                        if (jsonResponse.getResult().getProducts().size() != 0) {
+                        if (jsonResponse.getResult().getProducts() != null
+                                && jsonResponse.getResult().getProducts().size() != 0) {
                             mProductsArray.addAll(jsonResponse.getResult().getProducts());
                         }
                         else {
@@ -168,7 +185,7 @@ public class ProductsFragment extends Fragment {
                         SlideViewPagerAdapter slideViewPagerAdapter = new SlideViewPagerAdapter(getContext(), mProductsArray);
                         mViewPager.setAdapter(slideViewPagerAdapter);
                         */
-                        mViewPager.getAdapter().notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
 
                         Log.d(TAG, "loadProducts - onResponse - End");
                     }

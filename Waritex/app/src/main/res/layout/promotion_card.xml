@@ -24,28 +24,42 @@
                 android:layout_height="@dimen/promotion_photo_height"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                android:padding="@dimen/sub_padding"
+                />
 
             <TextView
                 android:id="@+id/promotion_card_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/promotion_card_photo"
-                android:paddingLeft="@dimen/promotion_title_padding"
-                android:paddingRight="@dimen/promotion_title_padding"
-                android:paddingTop="@dimen/promotion_title_padding"
-                android:textColor="@color/promotion_title"
+                android:padding="@dimen/sub_padding"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/promotion_title" />
 
-            <TextView
-                android:id="@+id/promotion_card_due_date"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_below="@id/promotion_card_title"
-                android:paddingBottom="@dimen/due_date_padding_bottom"
-                android:paddingLeft="@dimen/promotion_title_padding"
-                android:paddingRight="@dimen/promotion_title_padding"
-                android:textSize="@dimen/due_date" />
+                android:padding="@dimen/sub_padding"
+                android:textSize="@dimen/due_date"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valid_promotion_statment"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorAccent"
+                    />
+                <TextView
+                    android:id="@+id/promotion_card_due_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/sub_text"
+                     />
+            </LinearLayout>
 
 
         </RelativeLayout>

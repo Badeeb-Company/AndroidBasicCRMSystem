@@ -8,14 +8,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#C5E7F2"
+        android:background="@color/colorPrimary"
         android:orientation="vertical"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#2D90B2"
+            android:background="@color/colorPrimaryDark"
             android:orientation="horizontal">
 
             <ImageView
@@ -23,16 +23,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/call_logo2"
-                android:padding="8dp"/>
+                android:src="@drawable/call_logo"
+                android:padding="@dimen/padding"/>
 
             <ImageView
                 android:id="@+id/company_logo"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="@dimen/company_info_image_size"
+                android:layout_height="@dimen/company_info_image_size"
                 android:layout_weight="1"
-                android:src="@drawable/waritex_white_logo"
-                android:padding="8dp"
+                android:src="@drawable/waritex_white_logo_256"
+                android:padding="@dimen/padding"
                 />
 
         </LinearLayout>
@@ -48,19 +48,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="8dp"
-                android:text="About Waritex"
+                android:padding="@dimen/padding"
+                android:text="@string/about_waritex"
                 android:textStyle="bold"
-                android:textColor="#F3701E"/>
+                android:textColor="@color/colorAccent"/>
 
             <TextView
                 android:id="@+id/company_about_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/company_info_margin"
                 android:background="@color/white"
-                android:padding="8dp"
-                android:text="Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description"/>
+                android:padding="@dimen/padding"
+                android:text="@string/company_default_description"
+                style="@style/sub_text"/>
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -70,20 +71,22 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="@dimen/company_info_margin"
                     android:background="@color/white"
-                    android:padding="8dp">
+                    android:padding="@dimen/padding">
 
                     <TextView
                         android:layout_weight="0.25"
                         android:gravity="left"
-                        android:text="Telephone:"
+                        android:text="@string/company_telephone"
+                        style="@style/dark_text"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/company_telephone"
                         android:layout_weight="0.75"
                         android:gravity="left"
+                        style="@style/sub_text"
                         android:text="+966 (13) 8474261"/>
 
                 </TableRow>
@@ -91,20 +94,22 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="@dimen/company_info_margin"
                     android:background="@color/white"
-                    android:padding="8dp">
+                    android:padding="@dimen/padding">
 
                     <TextView
                         android:layout_weight="0.25"
                         android:gravity="left"
-                        android:text="Fax:"
-                        android:textStyle="bold"/>
+                        android:text="@string/company_fax"
+                        style="@style/dark_text"
+                        />
 
                     <TextView
                         android:id="@+id/company_fax"
                         android:layout_weight="0.75"
                         android:gravity="left"
+                        style="@style/sub_text"
                         android:text="+966 (13) 8474263"/>
 
                 </TableRow>
@@ -123,15 +128,15 @@
                 android:id="@+id/app_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Application Settings"
-                android:textStyle="bold"
+                android:padding="@dimen/padding"
+                android:text="@string/app_settings"
+                style="@style/dark_text"
                 />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/company_info_margin"
                 android:background="@color/white"
                 >
 
@@ -139,16 +144,17 @@
                     android:id="@+id/app_notification_flag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Allow Notifications"
+                    android:padding="@dimen/padding"
+                    android:text="@string/app_notifications"
                     android:layout_alignParentLeft="true"
+                    style="@style/sub_text"
                     />
 
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:padding="8dp"
+                    android:padding="@dimen/padding"
                     />
             </RelativeLayout>
 
@@ -156,22 +162,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/company_info_margin"
                 >
                 <TextView
                     android:id="@+id/app_rate_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:padding="@dimen/padding"
                     android:layout_alignParentLeft="true"
-                    android:text="Rate our application"/>
+                    android:text="@string/app_rating"
+                    style="@style/sub_text"
+                    />
 
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/company_info_small_image_size"
+                    android:layout_height="@dimen/company_info_small_image_size"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/favorite_logo"
-                    android:padding="8dp"
+                    android:padding="@dimen/padding"
                     />
 
             </RelativeLayout>
@@ -180,23 +188,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/company_info_margin"
                 >
                 <TextView
                     android:id="@+id/app_url_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginBottom="8dp"
-                    android:padding="8dp"
-                    android:text="Share App with friends"/>
+                    android:layout_marginBottom="@dimen/company_info_margin"
+                    android:padding="@dimen/padding"
+                    android:text="@string/app_share"
+                    style="@style/sub_text"
+                    />
 
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/company_info_small_image_size"
+                    android:layout_height="@dimen/company_info_small_image_size"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/share_logo"
-                    android:padding="8dp"
+                    android:padding="@dimen/padding"
                     />
 
             </RelativeLayout>
@@ -207,30 +217,30 @@
             android:id="@+id/follow_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Follow us:"
-            android:textStyle="bold"
+            android:padding="@dimen/padding"
+            android:text="@string/follow_us"
+            style="@style/dark_text"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_marginLeft="@dimen/company_info_rounded_box_margin"
+            android:layout_marginRight="@dimen/company_info_rounded_box_margin">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/company_info_margin"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/website_logo_36"
-                    android:padding="4dp"
+                    android:padding="@dimen/sub_padding"
                     />
                 <TextView
                     android:id="@+id/app_website_url"
@@ -239,7 +249,8 @@
                     android:text="http://waritex.blogspot.com/"
                     android:layout_gravity="center"
                     android:clickable="true"
-                    android:padding="8dp"
+                    android:padding="@dimen/padding"
+                    style="@style/sub_text"
                     />
             </LinearLayout>
 
@@ -248,13 +259,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/company_info_margin"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/facebook_logo_36"
-                    android:padding="4dp"
+                    android:padding="@dimen/sub_padding"
                     />
                 <TextView
                     android:id="@+id/app_facebook_url"
@@ -262,7 +273,8 @@
                     android:layout_height="wrap_content"
                     android:text="https://www.facebook.com/"
                     android:layout_gravity="center"
-                    android:padding="8dp"
+                    android:padding="@dimen/padding"
+                    style="@style/sub_text"
                     />
             </LinearLayout>
 
@@ -271,13 +283,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/company_info_margin"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/jumia_logo_36"
-                    android:padding="4dp"
+                    android:padding="@dimen/sub_padding"
                     />
                 <TextView
                     android:id="@+id/app_jumia_url"
@@ -285,7 +297,8 @@
                     android:layout_height="wrap_content"
                     android:text="https://www.jumia.com.eg/"
                     android:layout_gravity="center"
-                    android:padding="8dp"
+                    android:padding="@dimen/padding"
+                    style="@style/sub_text"
                     />
             </LinearLayout>
 
@@ -294,13 +307,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/company_info_margin"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/souq_logo_36"
-                    android:padding="4dp"
+                    android:padding="@dimen/sub_padding"
                     />
                 <TextView
                     android:id="@+id/app_souq_url"
@@ -308,7 +321,8 @@
                     android:layout_height="wrap_content"
                     android:text="http://souq.com/"
                     android:layout_gravity="center"
-                    android:padding="8dp"
+                    android:padding="@dimen/padding"
+                    style="@style/sub_text"
                     />
             </LinearLayout>
 
@@ -318,13 +332,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/company_info_margin"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/whatsapp_logo_36"
-                    android:padding="4dp"
+                    android:padding="@dimen/sub_padding"
                     />
                 <TextView
                     android:id="@+id/app_whatsApp_number"
@@ -332,7 +346,8 @@
                     android:layout_height="wrap_content"
                     android:text="+966 594344978"
                     android:layout_gravity="center"
-                    android:padding="8dp"
+                    android:padding="@dimen/padding"
+                    style="@style/sub_text"
                     />
             </LinearLayout>
 
@@ -341,10 +356,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Waritex Version 1.0"
+            android:text="@string/app_version"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp"
-            android:padding="8dp"
+            android:layout_marginBottom="@dimen/company_info_margin"
+            android:padding="@dimen/padding"
             android:gravity="center"/>
 
         <RelativeLayout
@@ -357,15 +372,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/badeeb_logo"
-                android:padding="4dp"
+                android:padding="@dimen/sub_padding"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="Developed by Badeeb LLC"
+                android:text="@string/badeeb_company"
                 android:textStyle="bold"
-                android:padding="8dp"
+                android:padding="@dimen/padding"
                 />
         </RelativeLayout>
 

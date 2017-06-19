@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:background="@color/colorPrimary"
+    >
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@android:color/black"
-        android:layout_height="@dimen/promotion_slide_show_height">
+        android:layout_height="@dimen/promotion_slide_show_height"
+        android:background="@android:color/black">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/promotion_details_viewpager"
@@ -23,7 +25,7 @@
         <me.relex.circleindicator.CircleIndicator
             android:id="@+id/promotion_details_indicator"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/indicator_bottom_margin"
             android:layout_alignParentBottom="true"
             />
 
@@ -35,64 +37,62 @@
 
         <TextView
             android:id="@+id/promotion_details_title"
+            style="@style/promotion_details_title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/promotion_title_padding"
             android:paddingRight="@dimen/promotion_title_padding"
-            android:paddingTop="@dimen/promotion_title_padding"
-            style="@style/promotion_details_title_text" />
+            android:paddingTop="@dimen/promotion_title_padding"/>
 
         <TextView
             android:id="@+id/promotion_details_due_date"
+            style="@style/promotion_sub_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/promotion_details_title"
             android:paddingBottom="@dimen/due_date_padding_bottom"
             android:paddingLeft="@dimen/promotion_title_padding"
-            android:paddingRight="@dimen/promotion_title_padding"
-            style="@style/promotion_due_date_text"/>
+            android:paddingRight="@dimen/promotion_title_padding"/>
 
         <TextView
             android:id="@+id/promotion_details_about"
+            style="@style/promotion_details_about_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/promotion_details_due_date"
             android:paddingBottom="@dimen/due_date_padding_bottom"
             android:paddingLeft="@dimen/promotion_title_padding"
             android:paddingRight="@dimen/promotion_title_padding"
-            android:paddingTop="30dp"
-            android:text="@string/about_label"
-            style="@style/promotion_details_about_text" />
+            android:paddingTop="@dimen/padding"
+            android:text="@string/about_label"/>
 
         <TextView
             android:id="@+id/promotion_details_description"
+            style="@style/promotion_sub_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/promotion_details_about"
             android:paddingBottom="@dimen/due_date_padding_bottom"
             android:paddingLeft="@dimen/promotion_title_padding"
-            android:paddingRight="@dimen/promotion_title_padding"
-            style="@style/promotion_details_description_text" />
+            android:paddingRight="@dimen/promotion_title_padding"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/top_border"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
+            android:background="@color/colorPrimaryDark"
+            android:padding="@dimen/padding">
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/show_vendors_bttn"
                 style="@style/button_text"
                 android:layout_width="@dimen/show_vendors_button_width"
                 android:layout_height="@dimen/show_vendors_button_height"
-                android:layout_alignParentRight="true"
+                android:padding="@dimen/padding"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/red_button"
                 android:onClick="onClickShowVendorsBttn"
-                android:text="Show Vendors" />
+                android:text="@string/show_vendors_bttn"/>
         </RelativeLayout>
 
 

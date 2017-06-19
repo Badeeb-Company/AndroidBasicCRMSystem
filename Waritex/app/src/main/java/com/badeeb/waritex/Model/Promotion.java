@@ -1,15 +1,11 @@
 package com.badeeb.waritex.model;
 
-import org.parceler.Parcel;
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

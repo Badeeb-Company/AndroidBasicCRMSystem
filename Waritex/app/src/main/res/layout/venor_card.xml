@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corner"
+    android:layout_margin="@dimen/general_margin"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="Vendor Name"
+            style="@style/vendor_text"
+            />
+
+        <TextView
+            android:id="@+id/mobile_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/vendor_mobile_numer_padding"
+            android:layout_weight="0.3"
+            android:gravity="right"
+            android:text="01286353574"
+            style="@style/sub_text"
+            />
+
+        <ImageView
+            android:layout_width="@dimen/vendor_phone_img_size"
+            android:layout_height="@dimen/vendor_phone_img_size"
+            android:src="@drawable/circular_call_logo"
+            android:layout_weight="0.2"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vendor Address"
+            style="@style/sub_text"
+            />
+        <TextView
+            android:id="@+id/governorate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vendor Governorate"
+            style="@style/sub_text"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

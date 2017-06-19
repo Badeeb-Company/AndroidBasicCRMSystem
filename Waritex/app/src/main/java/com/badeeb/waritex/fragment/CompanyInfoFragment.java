@@ -1,8 +1,12 @@
-package com.badeeb.waritex;
+package com.badeeb.waritex.fragment;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -10,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.badeeb.waritex.R;
 import com.badeeb.waritex.model.CompanyInfo;
 import com.badeeb.waritex.model.CompanyInfoInquiry;
 import com.badeeb.waritex.model.JsonResponse;
@@ -25,35 +30,41 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CompanyInfoActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class CompanyInfoFragment extends Fragment {
 
     // For logging purpose
-    private final String TAG = CompanyInfoActivity.class.getName();
+    public static final String TAG = CompanyInfoFragment.class.getName();
 
     // attributes that will be used for JSON calls
     private String mUrl = AppPreferences.BASE_URL + "/company_info";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate - Start");
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView - Start");
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_company_info);
-        
-        init();
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_company_info, container, false);
 
-        Log.d(TAG, "onCreate - End");
+        init(view);
+
+        Log.d(TAG, "onCreateView - End");
+
+        return view;
     }
 
-    private void init() {
+    private void init(View view) {
         Log.d(TAG, "init - Start");
 
-        loadCompanyInfo();
+        loadCompanyInfo(view);
 
         Log.d(TAG, "init - End");
     }
 
-    private void loadCompanyInfo() {
+    private void loadCompanyInfo(final View view) {
         Log.d(TAG, "loadCompanyInfo - Start");
 
         String currentUrl = mUrl;
@@ -89,7 +100,7 @@ public class CompanyInfoActivity extends AppCompatActivity {
                         // Move data to company info object object
                         if (jsonResponse.getResult().getCompanyInfo() != null) {
 
-                            updateCompanyInfoOnView(jsonResponse.getResult().getCompanyInfo());
+                            updateCompanyInfoOnView(view, jsonResponse.getResult().getCompanyInfo());
 
                         }
 
@@ -119,38 +130,39 @@ public class CompanyInfoActivity extends AppCompatActivity {
             }
         };
 
-        MyVolley.getInstance(this).addToRequestQueue(jsonObjectRequest);
+        MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 
         Log.d(TAG, "loadCompanyInfo - End");
     }
 
-    private void updateCompanyInfoOnView(CompanyInfo companyInfo) {
+    private void updateCompanyInfoOnView(View view, CompanyInfo companyInfo) {
         Log.d(TAG, "updateCompanyInfoOnView - Start");
 
-        TextView about = (TextView) findViewById(R.id.company_about_description);
+        TextView about = (TextView) view.findViewById(R.id.company_about_description);
         about.setText(companyInfo.getAbout());
 
-        TextView telephone = (TextView) findViewById(R.id.company_telephone);
+        TextView telephone = (TextView) view.findViewById(R.id.company_telephone);
         telephone.setText(companyInfo.getTelephone());
 
-        TextView fax = (TextView) findViewById(R.id.company_fax);
+        TextView fax = (TextView) view.findViewById(R.id.company_fax);
         fax.setText(companyInfo.getFax());
 
-        TextView websiteUrl = (TextView) findViewById(R.id.app_website_url);
+        TextView websiteUrl = (TextView) view.findViewById(R.id.app_website_url);
         websiteUrl.setText(companyInfo.getWebsite());
 
-        TextView facebookUrl = (TextView) findViewById(R.id.app_facebook_url);
+        TextView facebookUrl = (TextView) view.findViewById(R.id.app_facebook_url);
         facebookUrl.setText("https://www.facebook.com/waritexint/");
 
-        TextView jumiaUrl = (TextView) findViewById(R.id.app_jumia_url);
+        TextView jumiaUrl = (TextView) view.findViewById(R.id.app_jumia_url);
         jumiaUrl.setText(companyInfo.getJumiaWebsite());
 
-        TextView souqUrl = (TextView) findViewById(R.id.app_souq_url);
+        TextView souqUrl = (TextView) view.findViewById(R.id.app_souq_url);
         souqUrl.setText(companyInfo.getSouqWebsite());
 
-        TextView whatsAppNumber = (TextView) findViewById(R.id.app_whatsApp_number);
+        TextView whatsAppNumber = (TextView) view.findViewById(R.id.app_whatsApp_number);
         whatsAppNumber.setText(companyInfo.getWhatsappNumber());
 
         Log.d(TAG, "updateCompanyInfoOnView - End");
     }
+
 }

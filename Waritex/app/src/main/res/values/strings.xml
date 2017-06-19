@@ -10,5 +10,18 @@
     <string name="expired_promotions_tab_title">Expired Promotions</string>
     <string name="title_activity_maps">Map</string>
     <string name="about_label">About</string>
-    <string name="valid_promotion_statment">Valid till</string>
+    <string name="valid_promotion_statment">Valid till: </string>
+    <string name="about_waritex">About Waritex</string>
+    <string name="company_default_description">Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description</string>
+    <string name="company_telephone">Telephone:</string>
+    <string name="company_fax">Fax:</string>
+    <string name="app_settings">Application Settings</string>
+    <string name="app_notifications">Allow Notifications</string>
+    <string name="app_rating">Rate our application</string>
+    <string name="app_share">Share App with friends</string>
+    <string name="follow_us">Follow us:</string>
+    <string name="app_version">Waritex Version 1.0</string>
+    <string name="badeeb_company">Developed by Badeeb LLC</string>
+    <string name="show_vendors_bttn">Show Vendors</string>
+    <string name="show_map_bttn">Show Map</string>
 </resources>

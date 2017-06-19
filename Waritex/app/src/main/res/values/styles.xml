@@ -8,6 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="titleTextColor">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.White" parent="Theme.AppCompat.NoActionBar">
@@ -33,24 +35,20 @@
 
     </style>
 
-    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
-
-    </style>
-
-    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
     <!--Splash Screen theme-->
     <style name="AppTheme.Transparent" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
+
+    <!-- Tabs fragment theme -->
+    <!--<style name="AppTheme.TabsFragmentTheme" parent="android:Widget">-->
+        <!--<item name="android:background">@color/colorPrimary</item>-->
+        <!--<item name="color"-->
+    <!--</style>-->
+
+
 
     <style name="button_text" >
         <item name="android:layout_width" >wrap_content</item>
@@ -67,30 +65,40 @@
     </style>
 
     <style name="promotion_details_title_text" >
-        <item name="android:textColor">#525250</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:layout_margin" >3dp</item>
         <item name="android:textSize" >33dp</item>
         <item name="android:textStyle" >bold</item>
     </style>
 
-    <style name="promotion_due_date_text" >
-        <item name="android:textColor">#A2A2A0</item>
+    <style name="promotion_sub_text" >
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:layout_margin" >3dp</item>
         <item name="android:textSize" >17dp</item>
     </style>
 
     <style name="promotion_details_about_text" >
-        <item name="android:textColor">#525250</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:layout_margin" >3dp</item>
         <item name="android:textSize" >20dp</item>
         <item name="android:textStyle" >bold</item>
     </style>
 
-    <style name="promotion_details_description_text" >
-        <item name="android:textColor">#90999D</item>
-        <item name="android:layout_margin" >3dp</item>
+    <style name="vendor_text" >
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize" >15dp</item>
+        <item name="android:textStyle" >bold</item>
+    </style>
 
+    <style name="sub_text" >
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize" >13dp</item>
+    </style>
+
+    <style name="dark_text" >
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize" >15dp</item>
+        <item name="android:textStyle" >bold</item>
     </style>
 
 </resources>

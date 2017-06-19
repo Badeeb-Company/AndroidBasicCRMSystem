@@ -1,29 +1,27 @@
 package com.badeeb.waritex;
 
-import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.badeeb.waritex.adapter.FragmentViewPagerAdapter;
-import com.badeeb.waritex.fragment.ActivePromotionsFragment;
-import com.badeeb.waritex.fragment.ExpiredPromotionsFragment;
-import com.badeeb.waritex.fragment.ProductsFragment;
+import com.badeeb.waritex.fragment.CompanyInfoFragment;
+import com.badeeb.waritex.fragment.TabsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     // Logging Purpose
     private final String TAG = MainActivity.class.getSimpleName();
 
-    // Main Fragment attributes
+    // Class attributes
     private Toolbar mtoolbar;
-    private TabLayout mtabLayout;
-    private ViewPager mviewPager;
+    private FragmentManager mFragmentManager;
+    private TabsFragment mTabsFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,31 +30,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Toolbar
-        this.mtoolbar = (Toolbar) this.findViewById(R.id.toolbar);
-        this.setSupportActionBar(this.mtoolbar);
-
-        // ViewPager
-        this.mviewPager = (ViewPager) this.findViewById(R.id.viewpager);
-        this.setupViewPager(this.mviewPager);   // Defines the number of tabs by setting appropriate fragment and tab name
-
-        // Tabs
-        this.mtabLayout = (TabLayout) this.findViewById(R.id.tabs);
-        this.mtabLayout.setupWithViewPager(this.mviewPager);        // Assigns the ViewPager to TabLayout.
+        init();
 
         Log.d(TAG, "onCreate - End");
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void init() {
+        // Toolbar
+        this.mtoolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(this.mtoolbar);
 
-        FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
+        mTabsFragment = new TabsFragment();
 
-        adapter.addFragment(new ProductsFragment(), getString(R.string.products_tab_title));
-        adapter.addFragment(new ActivePromotionsFragment(), getString(R.string.active_promotions_tab_title));
-        adapter.addFragment(new ExpiredPromotionsFragment(), getString(R.string.expired_promotions_tab_title));
-
-        viewPager.setAdapter(adapter);
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.main_frame, mTabsFragment, TabsFragment.TAG);
+        fragmentTransaction.commit();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,8 +66,15 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "onCreateOptionsMenu - onMenuItemClick - Start");
 
                     // Move to company info activity
-                    Intent intent = new Intent(getBaseContext(), CompanyInfoActivity.class);
-                    startActivity(intent);
+                    CompanyInfoFragment companyInfoFragment = new CompanyInfoFragment();
+                    mFragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
+                    fragmentTransaction.add(R.id.main_frame, companyInfoFragment, companyInfoFragment.TAG);
+
+                    fragmentTransaction.addToBackStack(TAG);
+
+                    fragmentTransaction.commit();
 
                     Log.d(TAG, "onCreateOptionsMenu - onMenuItemClick - Start");
                     return false;

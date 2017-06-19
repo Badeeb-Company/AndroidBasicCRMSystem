@@ -1,11 +1,11 @@
 package com.badeeb.waritex.fragment;
 
 
-import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,14 +14,12 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.badeeb.waritex.PromotionDetailsActivity;
 import com.badeeb.waritex.listener.RecyclerItemClickListener;
 import com.badeeb.waritex.model.JsonResponse;
 import com.badeeb.waritex.model.Promotion;
@@ -64,6 +62,9 @@ public class ActivePromotionsFragment extends Fragment {
     private int mpageSize;
     private boolean mNoMorePromotions;
 
+    public ActivePromotionsFragment() {
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,14 +116,28 @@ public class ActivePromotionsFragment extends Fragment {
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
 
+                        Log.d(TAG, "init - onItemClick - Start");
+
                         // Get item that is selected
                         Promotion promotionSelected = mActivePromotionList.get(position);
 
-                        Intent intent = new Intent(getActivity(), PromotionDetailsActivity.class);
-                        // Passing promotion object to promotion details activity
-                        intent.putExtra(PromotionDetailsActivity.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
+                        // Fragment creation
+                        PromotionDetailsFragment promotionDetailsFragment = new PromotionDetailsFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(PromotionDetailsFragment.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
+                        promotionDetailsFragment.setArguments(bundle);
 
-                        startActivity(intent);
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                        fragmentTransaction.add(R.id.main_frame, promotionDetailsFragment, promotionDetailsFragment.TAG);
+//                        fragmentTransaction.replace(R.id.main_frame, promotionDetailsFragment);
+
+                        fragmentTransaction.addToBackStack(TAG);
+
+                        fragmentTransaction.commit();
+
+                        Log.d(TAG, "init - onItemClick - End");
                     }
                 })
         );
@@ -197,7 +212,8 @@ public class ActivePromotionsFragment extends Fragment {
                         Log.d(TAG, "loadPromotions - onResponse - Data Size: " + jsonResponse.getResult().getPromotions().size());
 
                         // Load Data into slide show
-                        if (jsonResponse.getResult().getPromotions().size() != 0) {
+                        if (jsonResponse.getResult().getPromotions()!= null
+                                && jsonResponse.getResult().getPromotions().size() != 0) {
                             mActivePromotionList.addAll(jsonResponse.getResult().getPromotions());
                         }
                         else {
