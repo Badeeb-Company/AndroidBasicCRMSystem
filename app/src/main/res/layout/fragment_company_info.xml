@@ -61,7 +61,6 @@
                 android:layout_marginBottom="@dimen/company_info_margin"
                 android:background="@color/white"
                 android:padding="@dimen/padding"
-                android:text="@string/company_default_description"
                 style="@style/sub_text"
                 />
 
@@ -89,7 +88,7 @@
                         android:layout_weight="0.75"
                         android:gravity="start"
                         style="@style/sub_text"
-                        android:text="+966 (13) 8474261"/>
+                        />
 
                 </TableRow>
 
@@ -112,7 +111,7 @@
                         android:layout_weight="0.75"
                         android:gravity="start"
                         style="@style/sub_text"
-                        android:text="+966 (13) 8474263"/>
+                        />
 
                 </TableRow>
 
@@ -246,7 +245,6 @@
                     android:id="@+id/app_website_url"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="http://waritex.blogspot.com/"
                     android:layout_gravity="center"
                     android:clickable="true"
                     android:padding="@dimen/padding"
@@ -272,7 +270,6 @@
                     android:id="@+id/app_facebook_url"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="https://www.facebook.com/"
                     android:layout_gravity="center"
                     android:padding="@dimen/padding"
                     style="@style/sub_text"
@@ -297,7 +294,6 @@
                     android:id="@+id/app_jumia_url"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="https://www.jumia.com.eg/"
                     android:layout_gravity="center"
                     android:padding="@dimen/padding"
                     style="@style/sub_text"
@@ -322,7 +318,6 @@
                     android:id="@+id/app_souq_url"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="http://souq.com/"
                     android:layout_gravity="center"
                     android:padding="@dimen/padding"
                     style="@style/sub_text"
@@ -348,7 +343,6 @@
                     android:id="@+id/app_whatsApp_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+966 594344978"
                     android:layout_gravity="center"
                     android:padding="@dimen/padding"
                     style="@style/sub_text"

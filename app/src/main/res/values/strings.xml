@@ -12,7 +12,7 @@
     <string name="about_label">About</string>
     <string name="valid_promotion_statment">Valid till: </string>
     <string name="about_waritex">About Waritex</string>
-    <string name="company_default_description">Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description</string>
+    <string name="company_default_description">Description</string>
     <string name="company_telephone">Telephone:</string>
     <string name="company_fax">Fax:</string>
     <string name="app_settings">Application Settings</string>
