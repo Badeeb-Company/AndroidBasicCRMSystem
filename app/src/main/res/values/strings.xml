@@ -26,4 +26,5 @@
     <string name="show_map_bttn">Show Map</string>
     <string name="internet_service_message">Internet service isn\'t available</string>
     <string name="enable_gps">Enable GPS</string>
+    <string name="notification_title">Waritex</string>
 </resources>

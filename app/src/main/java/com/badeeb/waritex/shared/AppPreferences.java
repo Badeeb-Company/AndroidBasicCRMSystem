@@ -16,4 +16,7 @@ public class AppPreferences {
     // Volley constants
     public static final int VOLLEY_TIME_OUT = 2000; // Milliseconds
     public static final int VOLLEY_RETRY_COUNTER = 2;
+
+    // Firebase constants
+    public static final String TOPIC_NAME = "waritex";
 }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.badeeb.waritex.fragment.CompanyInfoFragment;
 import com.badeeb.waritex.fragment.TabsFragment;
+import com.badeeb.waritex.shared.AppPreferences;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Locale;
@@ -40,12 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
-
         init();
 
         // subscribe to firebase
-        FirebaseMessaging.getInstance().subscribeToTopic("waritex");
+        FirebaseMessaging.getInstance().subscribeToTopic(AppPreferences.TOPIC_NAME);
 
         Log.d(TAG, "onCreate - End");
     }

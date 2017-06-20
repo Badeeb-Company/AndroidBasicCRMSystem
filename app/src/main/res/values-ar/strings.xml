@@ -22,4 +22,5 @@
     <string name="active_promotions_tab_title">العروض</string>
     <string name="internet_service_message">خطا فى الاتصال بشبكه الانترنت</string>
     <string name="enable_gps">قم بتشغيل خاصيه تحديد الموقع</string>
+    <string name="notification_title" translatable="false">وريتكس</string>
 </resources>
