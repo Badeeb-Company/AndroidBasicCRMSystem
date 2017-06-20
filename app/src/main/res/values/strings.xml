@@ -24,4 +24,5 @@
     <string name="badeeb_company">Developed by Badeeb LLC</string>
     <string name="show_vendors_bttn">Show Vendors</string>
     <string name="show_map_bttn">Show Map</string>
+    <string name="internet_service_message">Internet service isn\'t available</string>
 </resources>

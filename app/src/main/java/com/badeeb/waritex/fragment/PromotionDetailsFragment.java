@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -48,6 +49,7 @@ public class PromotionDetailsFragment extends Fragment {
 
     private static ViewPager mPager;
     private Promotion mPromotion;
+    private CircleIndicator mindicator;
 
     // Constants
     public final static String EXTRA_PROMOTION_OBJECT = "EXTRA_PROMOTION_OBJECT";
@@ -84,8 +86,9 @@ public class PromotionDetailsFragment extends Fragment {
         SlideViewPagerAdapter slideViewPagerAdapter = new SlideViewPagerAdapter(getContext(), mPromotion.getPhotos());
         mPager.setAdapter(slideViewPagerAdapter);
 
-        CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.promotion_details_indicator);
-        indicator.setViewPager(mPager);
+        mindicator = (CircleIndicator) view.findViewById(R.id.promotion_details_indicator);
+        mindicator.setViewPager(mPager);
+        slideViewPagerAdapter.registerDataSetObserver(mindicator.getDataSetObserver());
 
         // Add listener to show vendors button
         Button button = (Button) view.findViewById(R.id.show_vendors_bttn);
@@ -162,7 +165,10 @@ public class PromotionDetailsFragment extends Fragment {
                             mPromotion.setTitle(jsonResponse.getResult().getPromotion().getTitle());
                             mPromotion.setDueDate(jsonResponse.getResult().getPromotion().getDueDate());
                             mPromotion.setDescription(jsonResponse.getResult().getPromotion().getDescription());
-                            mPromotion.getPhotos().addAll(jsonResponse.getResult().getPromotion().getPhotos());
+
+                            // Check if photos are already loaded before or not
+                            if (mPromotion.getPhotos().size() == 0)
+                                mPromotion.getPhotos().addAll(jsonResponse.getResult().getPromotion().getPhotos());
 
                             updatePromotionDetailsOnView(view);
 
@@ -194,6 +200,9 @@ public class PromotionDetailsFragment extends Fragment {
                 return headers;
             }
         };
+
+        // Adding retry policy to request
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(AppPreferences.VOLLEY_TIME_OUT, AppPreferences.VOLLEY_RETRY_COUNTER, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -87,7 +88,7 @@ public class ActivePromotionsFragment extends Fragment {
         Log.d(TAG, "init - Start");
 
         // Attribute initialization
-        mPromotionPerLine = AppPreferences.NUMBER_OF_VIEW_IN_LINE;
+        mPromotionPerLine = AppPreferences.ONE_VIEW_IN_LINE;
         mActivePromotionList = new ArrayList<Promotion>();
 
         // Recycler View creation
@@ -242,6 +243,9 @@ public class ActivePromotionsFragment extends Fragment {
                 return headers;
             }
         };
+
+        // Adding retry policy to request
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(AppPreferences.VOLLEY_TIME_OUT, AppPreferences.VOLLEY_RETRY_COUNTER, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 

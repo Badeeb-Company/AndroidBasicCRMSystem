@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -99,7 +100,7 @@ public class VendorsListFragment extends Fragment {
 
         // Attribute initialization
         mVendorsList = new ArrayList<>();
-        mVendorsPerLine = AppPreferences.NUMBER_OF_VENDORS_IN_LINE;
+        mVendorsPerLine = AppPreferences.ONE_VIEW_IN_LINE;
 
         // Recycler View creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.vendors_recycler_view);
@@ -246,6 +247,9 @@ public class VendorsListFragment extends Fragment {
                 return headers;
             }
         };
+
+        // Adding retry policy to request
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(AppPreferences.VOLLEY_TIME_OUT, AppPreferences.VOLLEY_RETRY_COUNTER, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -85,7 +86,7 @@ public class ProductsFragment extends Fragment {
         // Adapter creation
         mAdapter = new ProductsRecyclerViewAdapter(getContext(), mProductsArray);
         // Initialize number of products per line
-        mProductsPerLine = AppPreferences.NUMBER_OF_VIEW_IN_LINE;      // Default Value
+        mProductsPerLine = AppPreferences.TWO_VIEWS_IN_LINE;      // Default Value
         // Layout Manager creation
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), mProductsPerLine);
         // Link layout manager with recycler view
@@ -212,6 +213,9 @@ public class ProductsFragment extends Fragment {
                 return headers;
             }
         };
+
+        // Adding retry policy to request
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(AppPreferences.VOLLEY_TIME_OUT, AppPreferences.VOLLEY_RETRY_COUNTER, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 

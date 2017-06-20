@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -70,7 +71,6 @@ public class ExpiredPromotionsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPromotionPerLine = 2;
     }
 
     @Override
@@ -93,6 +93,7 @@ public class ExpiredPromotionsFragment extends Fragment {
         Log.d(TAG, "init - Start");
 
         // Attribute initialization
+        mPromotionPerLine = AppPreferences.ONE_VIEW_IN_LINE;
         mExpiredPromotionList = new ArrayList<Promotion>();
         // Recycler View creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.expired_promotion_recycler_view);
@@ -244,6 +245,9 @@ public class ExpiredPromotionsFragment extends Fragment {
                 return headers;
             }
         };
+
+        // Adding retry policy to request
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(AppPreferences.VOLLEY_TIME_OUT, AppPreferences.VOLLEY_RETRY_COUNTER, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 

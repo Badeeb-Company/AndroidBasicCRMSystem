@@ -1,6 +1,8 @@
 package com.badeeb.waritex;
 
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.badeeb.waritex.fragment.CompanyInfoFragment;
 import com.badeeb.waritex.fragment.TabsFragment;
@@ -71,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.main_frame, mTabsFragment, TabsFragment.TAG);
         fragmentTransaction.commit();
 
+        // Check if device has network connection or not
+        if (! isNetworkAvailable()) {
+            Toast.makeText(getBaseContext(), getResources().getText(R.string.internet_service_message), Toast.LENGTH_SHORT).show();
+        }
+
         Log.d(TAG, "init - End");
     }
 
@@ -91,16 +99,23 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem item) {
                     Log.d(TAG, "onCreateOptionsMenu - onMenuItemClick - Start");
 
-                    // Move to company info activity
-                    CompanyInfoFragment companyInfoFragment = new CompanyInfoFragment();
-                    mFragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                    // Check first if company info fragment is the one displayed now in screen or not
+                    CompanyInfoFragment companyInfoFragment = (CompanyInfoFragment) mFragmentManager.findFragmentByTag(CompanyInfoFragment.TAG);
 
-                    fragmentTransaction.add(R.id.main_frame, companyInfoFragment, companyInfoFragment.TAG);
+                    if (companyInfoFragment == null || companyInfoFragment.isVisible() == false) {
+                        // Move to company info activity
+                        Log.d(TAG, "onCreateOptionsMenu - onMenuItemClick - Display fragment");
 
-                    fragmentTransaction.addToBackStack(TAG);
+                        companyInfoFragment = new CompanyInfoFragment();
+                        mFragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
-                    fragmentTransaction.commit();
+                        fragmentTransaction.add(R.id.main_frame, companyInfoFragment, companyInfoFragment.TAG);
+
+                        fragmentTransaction.addToBackStack(TAG);
+
+                        fragmentTransaction.commit();
+                    }
 
                     Log.d(TAG, "onCreateOptionsMenu - onMenuItemClick - Start");
                     return false;
@@ -110,5 +125,12 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreateOptionsMenu - End");
         return true;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
