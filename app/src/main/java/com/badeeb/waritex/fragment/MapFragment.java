@@ -51,6 +51,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private double mLatitude ;
     private double mLongitude;
 
+    // Constants
+    public final static String EXTRA_VENDOR_LIST = "EXTRA_VENDOR_LIST";
+    public final static String EXTRA_CURRENT_LATITUDE = "EXTRA_CURRENT_LATITUDE";
+    public final static String EXTRA_CURRENT_LONGITUDE = "EXTRA_CURRENT_LONGITUDE";
+
     public MapFragment() {
         // Required empty public constructor
     }
@@ -89,13 +94,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
         // setting the current location value
-        mLatitude = Parcels.unwrap(getArguments().getParcelable(VendorsListFragment.EXTRA_CURRENT_LATITUDE));
-        mLongitude = Parcels.unwrap(getArguments().getParcelable(VendorsListFragment.EXTRA_CURRENT_LONGITUDE));
-        mLatitude = 31.199921;
-        mLongitude = 29.918832;
+        mLatitude = Parcels.unwrap(getArguments().getParcelable(EXTRA_CURRENT_LATITUDE));
+        mLongitude = Parcels.unwrap(getArguments().getParcelable(EXTRA_CURRENT_LONGITUDE));
+//        mLatitude = 31.199921;
+//        mLongitude = 29.918832;
 
         // getting the vendor list values from Vendors List Activity
-        mVendorList = Parcels.unwrap(getArguments().getParcelable(VendorsListFragment.EXTRA_VENDOR_LIST));
+        mVendorList = Parcels.unwrap(getArguments().getParcelable(EXTRA_VENDOR_LIST));
 
         Log.d(TAG, "init - End");
     }

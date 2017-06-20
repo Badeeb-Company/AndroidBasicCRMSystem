@@ -70,9 +70,6 @@ public class VendorsListFragment extends Fragment implements LocationListener {
 
     // Constants
     public final static String EXTRA_PROMOTION_ID = "EXTRA_PROMOTION_ID";
-    public final static String EXTRA_VENDOR_LIST = "EXTRA_VENDOR_LIST";
-    public final static String EXTRA_CURRENT_LATITUDE = "EXTRA_CURRENT_LATITUDE";
-    public final static String EXTRA_CURRENT_LONGITUDE = "EXTRA_CURRENT_LONGITUDE";
 
     // attributes that will be used for JSON calls
     private String mUrl = AppPreferences.BASE_URL + "/promotions";
@@ -161,25 +158,31 @@ public class VendorsListFragment extends Fragment implements LocationListener {
             public void onClick(View v) {
                 Log.d(TAG, "init - onClick - Start");
 
-                // Fragment creation
-                MapFragment mapFragment = new MapFragment();
+                if (mCurrentLocation == null) {
+                    // Retry to get location again
+                    mCurrentLocation = getCurrentLocation();
+                }
+                if (mCurrentLocation != null) {
+                    // Fragment creation
+                    MapFragment mapFragment = new MapFragment();
 
-                // passing data to Map Fragment
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(VendorsListFragment.EXTRA_VENDOR_LIST, Parcels.wrap(mVendorsList));
-                bundle.putParcelable(VendorsListFragment.EXTRA_CURRENT_LATITUDE, Parcels.wrap(mCurrentLocation.getLatitude()));
-                bundle.putParcelable(VendorsListFragment.EXTRA_CURRENT_LONGITUDE, Parcels.wrap(mCurrentLocation.getLongitude()));
-                mapFragment.setArguments(bundle);
+                    // passing data to Map Fragment
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(MapFragment.EXTRA_VENDOR_LIST, Parcels.wrap(mVendorsList));
+                    bundle.putParcelable(MapFragment.EXTRA_CURRENT_LATITUDE, Parcels.wrap(mCurrentLocation.getLatitude()));
+                    bundle.putParcelable(MapFragment.EXTRA_CURRENT_LONGITUDE, Parcels.wrap(mCurrentLocation.getLongitude()));
+                    mapFragment.setArguments(bundle);
 
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                fragmentTransaction.add(R.id.main_frame, mapFragment, mapFragment.TAG);
+                    fragmentTransaction.add(R.id.main_frame, mapFragment, mapFragment.TAG);
 //                        fragmentTransaction.replace(R.id.main_frame, promotionDetailsFragment);
 
-                fragmentTransaction.addToBackStack(TAG);
+                    fragmentTransaction.addToBackStack(TAG);
 
-                fragmentTransaction.commit();
+                    fragmentTransaction.commit();
+                }
 
                 Log.d(TAG, "init - onClick - End");
             }
@@ -193,9 +196,7 @@ public class VendorsListFragment extends Fragment implements LocationListener {
         //get the current location
         mCurrentLocation = getCurrentLocation();
 
-        if(mCurrentLocation != null){
-            loadVendorsDetails();
-        }
+        loadVendorsDetails();
 
         Log.d(TAG, "init - End");
 
@@ -211,6 +212,11 @@ public class VendorsListFragment extends Fragment implements LocationListener {
                 // + "&page=" + mcurrentPage
                 + "?page=" + mcurrentPage
                 + "&page_size=" + mpageSize;
+
+        if (mCurrentLocation != null) {
+            currentUrl += "&lat=" + mCurrentLocation.getLatitude()
+                    + "&lng=" + mCurrentLocation.getLongitude();
+        }
 
         Log.d(TAG, "loadVendorsDetails - URL: " + currentUrl);
 
@@ -325,7 +331,7 @@ public class VendorsListFragment extends Fragment implements LocationListener {
                 }
                 if (currentLocation == null) {
                     Log.d(TAG, "getCurrentLocation - CurrentLocation is null");
-                    Toast.makeText(this.getContext(), "Enable GPS and try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.getContext(), getResources().getText(R.string.enable_gps), Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -333,7 +339,7 @@ public class VendorsListFragment extends Fragment implements LocationListener {
                 Log.d(TAG, "getCurrentLocation - GPS and Network are not enabled");
 
                 // Show Alert to enable GPS
-                Toast.makeText(getContext(), "Enable GPS and try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getText(R.string.enable_gps), Toast.LENGTH_SHORT).show();
 
                 return null;
             }
