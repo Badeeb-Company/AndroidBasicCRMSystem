@@ -125,68 +125,8 @@ public class VendorsListFragment extends Fragment implements LocationListener {
         // Link adapter with recycler view
         mRecyclerView.setAdapter(mAdapter);
 
-        // Adding scroll to recycler view
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                Log.d(TAG, "init - onScrolled - Start");
-
-                //check for scroll down
-                if(dy > 0) {
-
-                    if (mRecyclerView.getLayoutManager().findViewByPosition(mpageSize * mcurrentPage - 1) != null && ! mNoMoreVendors) {
-                        // Scrolling started to be near to end of list
-                        // Load next page
-
-                        Log.d(TAG, "init - onScrolled - Load more vendors");
-
-                        mcurrentPage++;
-                        loadVendorsDetails();
-                    }
-                }
-                Log.d(TAG, "init - onScrolled - End");
-            }
-        });
-
-        // Add onclick listener for map button
-        Button mapButton = (Button) view.findViewById(R.id.map_bttn);
-        mapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "init - onClick - Start");
-
-                if (mCurrentLocation == null) {
-                    // Retry to get location again
-                    mCurrentLocation = getCurrentLocation();
-                }
-                if (mCurrentLocation != null) {
-                    // Fragment creation
-                    MapFragment mapFragment = new MapFragment();
-
-                    // passing data to Map Fragment
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(MapFragment.EXTRA_VENDOR_LIST, Parcels.wrap(mVendorsList));
-                    bundle.putParcelable(MapFragment.EXTRA_CURRENT_LATITUDE, Parcels.wrap(mCurrentLocation.getLatitude()));
-                    bundle.putParcelable(MapFragment.EXTRA_CURRENT_LONGITUDE, Parcels.wrap(mCurrentLocation.getLongitude()));
-                    mapFragment.setArguments(bundle);
-
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                    fragmentTransaction.add(R.id.main_frame, mapFragment, mapFragment.TAG);
-//                        fragmentTransaction.replace(R.id.main_frame, promotionDetailsFragment);
-
-                    fragmentTransaction.addToBackStack(TAG);
-
-                    fragmentTransaction.commit();
-                }
-
-                Log.d(TAG, "init - onClick - End");
-            }
-        });
+        // Call this method to setup listener on UI components
+        setupListeners(view);
 
         // Make HTTP Call to get vendors list
         mcurrentPage = 1;
@@ -358,6 +298,76 @@ public class VendorsListFragment extends Fragment implements LocationListener {
         Log.d(TAG, "getCurrentLocation - End");
 
         return currentLocation;
+    }
+
+    private void setupListeners(View view) {
+
+        Log.d(TAG, "setupListeners - Start");
+
+        // Adding scroll to recycler view
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - Start");
+
+                //check for scroll down
+                if(dy > 0) {
+
+                    if (mRecyclerView.getLayoutManager().findViewByPosition(mpageSize * mcurrentPage - 1) != null && ! mNoMoreVendors) {
+                        // Scrolling started to be near to end of list
+                        // Load next page
+
+                        Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - Load more vendors");
+
+                        mcurrentPage++;
+                        loadVendorsDetails();
+                    }
+                }
+                Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - End");
+            }
+        });
+
+        // Add onclick listener for map button
+        Button mapButton = (Button) view.findViewById(R.id.map_bttn);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "setupListeners - mapButton:onClick - Start");
+
+                if (mCurrentLocation == null) {
+                    // Retry to get location again
+                    mCurrentLocation = getCurrentLocation();
+                }
+                if (mCurrentLocation != null) {
+                    // Fragment creation
+                    MapFragment mapFragment = new MapFragment();
+
+                    // passing data to Map Fragment
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(MapFragment.EXTRA_VENDOR_LIST, Parcels.wrap(mVendorsList));
+                    bundle.putParcelable(MapFragment.EXTRA_CURRENT_LATITUDE, Parcels.wrap(mCurrentLocation.getLatitude()));
+                    bundle.putParcelable(MapFragment.EXTRA_CURRENT_LONGITUDE, Parcels.wrap(mCurrentLocation.getLongitude()));
+                    mapFragment.setArguments(bundle);
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    fragmentTransaction.add(R.id.main_frame, mapFragment, mapFragment.TAG);
+//                        fragmentTransaction.replace(R.id.main_frame, promotionDetailsFragment);
+
+                    fragmentTransaction.addToBackStack(TAG);
+
+                    fragmentTransaction.commit();
+                }
+
+                Log.d(TAG, "setupListeners - mapButton:onClick - End");
+            }
+        });
+
+        Log.d(TAG, "setupListeners - End");
     }
 
     @Override

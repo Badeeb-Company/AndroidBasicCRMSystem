@@ -98,31 +98,8 @@ public class ProductsFragment extends Fragment {
         // Link adapter with recycler view
         mRecyclerView.setAdapter(mAdapter);
 
-        // Adding scroll to recycler view
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                Log.d(TAG, "init - onScrolled - Start");
-
-                //check for scroll down
-                if(dy > 0) {
-
-                    if (mRecyclerView.getLayoutManager().findViewByPosition(mpageSize * mcurrentPage - 1) != null && ! mNoMoreProducts) {
-                        // Scrolling started to be near to end of list
-                        // Load next page
-
-                        Log.d(TAG, "init - onScrolled - Load more products");
-
-                        mcurrentPage++;
-                        loadProducts();
-                    }
-                }
-                Log.d(TAG, "init - onScrolled - End");
-            }
-        });
+        // Call this method to setup listener on UI components
+        setupListeners();
 
         // Network parameters initialization
         this.mcurrentPage = 1;
@@ -136,6 +113,7 @@ public class ProductsFragment extends Fragment {
 
         Log.d(TAG, "init - End");
     }
+
 
     private void loadProducts() {
         Log.d(TAG, "loadProducts - Start");
@@ -221,6 +199,39 @@ public class ProductsFragment extends Fragment {
 
 
         Log.d(TAG, "loadProducts - End");
+    }
+
+    private void setupListeners() {
+
+        Log.d(TAG, "setupListeners - Start");
+
+        // Adding scroll to recycler view
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - Start");
+
+                //check for scroll down
+                if(dy > 0) {
+
+                    if (mRecyclerView.getLayoutManager().findViewByPosition(mpageSize * mcurrentPage - 1) != null && ! mNoMoreProducts) {
+                        // Scrolling started to be near to end of list
+                        // Load next page
+
+                        Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - Load more products");
+
+                        mcurrentPage++;
+                        loadProducts();
+                    }
+                }
+                Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - End");
+            }
+        });
+
+        Log.d(TAG, "setupListeners - End");
     }
 
 }

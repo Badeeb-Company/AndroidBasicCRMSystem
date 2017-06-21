@@ -90,31 +90,8 @@ public class PromotionDetailsFragment extends Fragment {
         mindicator.setViewPager(mPager);
         slideViewPagerAdapter.registerDataSetObserver(mindicator.getDataSetObserver());
 
-        // Add listener to show vendors button
-        Button button = (Button) view.findViewById(R.id.show_vendors_bttn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "init - onClick - Start");
-
-                // Fragment creation
-                VendorsListFragment vendorsListFragment = new VendorsListFragment();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(VendorsListFragment.EXTRA_PROMOTION_ID, Parcels.wrap(mPromotion.getId()));
-                vendorsListFragment.setArguments(bundle);
-
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                fragmentTransaction.add(R.id.main_frame, vendorsListFragment, vendorsListFragment.TAG);
-
-                fragmentTransaction.addToBackStack(TAG);
-
-                fragmentTransaction.commit();
-
-                Log.d(TAG, "init - onClick - End");
-            }
-        });
+        // Call this method to setup listener on UI components
+        setupListeners(view);
 
         updatePromotionDetailsOnView(view);
 
@@ -235,4 +212,36 @@ public class PromotionDetailsFragment extends Fragment {
         Log.d(TAG, "updatePromotionDetailsOnView - End");
     }
 
+    private void setupListeners(View view) {
+
+        Log.d(TAG, "setupListeners - Start");
+
+        // Add listener to show vendors button
+        Button button = (Button) view.findViewById(R.id.show_vendors_bttn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "setupListeners - vendorsButton:onClick - Start");
+
+                // Fragment creation
+                VendorsListFragment vendorsListFragment = new VendorsListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(VendorsListFragment.EXTRA_PROMOTION_ID, Parcels.wrap(mPromotion.getId()));
+                vendorsListFragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.add(R.id.main_frame, vendorsListFragment, vendorsListFragment.TAG);
+
+                fragmentTransaction.addToBackStack(TAG);
+
+                fragmentTransaction.commit();
+
+                Log.d(TAG, "setupListeners - vendorsButton:onClick - End");
+            }
+        });
+
+        Log.d(TAG, "setupListeners - End");
+    }
 }

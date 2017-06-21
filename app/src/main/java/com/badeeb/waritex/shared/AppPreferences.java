@@ -16,6 +16,8 @@ public class AppPreferences {
     // Volley constants
     public static final int VOLLEY_TIME_OUT = 2000; // Milliseconds
     public static final int VOLLEY_RETRY_COUNTER = 2;
+    // App URL on Play store
+    public static final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=Orion.Soft";
 
     // Firebase constants
     public static final String TOPIC_NAME = "waritex";

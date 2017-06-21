@@ -110,60 +110,8 @@ public class ExpiredPromotionsFragment extends Fragment {
         // Link adapter with recycler view
         mRecyclerView.setAdapter(mAdapter);
 
-        // Adding OnItemTouchListener to recycler view
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        // Get item that is selected
-                        Promotion promotionSelected = mExpiredPromotionList.get(position);
-
-                        // Fragment creation
-                        PromotionDetailsFragment promotionDetailsFragment = new PromotionDetailsFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable(PromotionDetailsFragment.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
-                        promotionDetailsFragment.setArguments(bundle);
-
-                        // Get Parent Activity
-                        Log.d(TAG, "init - onItemClick - Activity: "+(getParentFragment() == null ? "null" : "Not null"));
-
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                        fragmentTransaction.add(R.id.main_frame, promotionDetailsFragment, promotionDetailsFragment.TAG);
-//                        fragmentTransaction.replace(R.id.main_frame, promotionDetailsFragment);
-
-                        fragmentTransaction.addToBackStack(TAG);
-
-                        fragmentTransaction.commit();
-                    }
-                })
-        );
-
-        // Adding scroll to recycler view
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                Log.d(TAG, "init - onScrolled - Start");
-
-                //check for scroll down
-                if(dy > 0) {
-
-                    if (mRecyclerView.getLayoutManager().findViewByPosition(mpageSize * mcurrentPage - 1) != null && ! mNoMorePromotions) {
-                        // Scrolling started to be near to end of list
-                        // Load next page
-
-                        Log.d(TAG, "init - onScrolled - Load more promotions");
-
-                        mcurrentPage++;
-                        loadPromotions();
-                    }
-                }
-                Log.d(TAG, "init - onScrolled - End");
-            }
-        });
+        // Call this method to setup listener on UI components
+        setupListeners();
 
         this.mcurrentPage = 1;
         this.mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
@@ -173,6 +121,7 @@ public class ExpiredPromotionsFragment extends Fragment {
 
         Log.d(TAG, "init - End");
     }
+
 
     private void loadPromotions() {
 
@@ -263,4 +212,65 @@ public class ExpiredPromotionsFragment extends Fragment {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
+    private void setupListeners() {
+        Log.d(TAG, "setupListeners - Start");
+
+        // Adding OnItemTouchListener to recycler view
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+
+                        Log.d(TAG, "setupListeners - mRecyclerView:onItemClick - Start");
+
+                        // Get item that is selected
+                        Promotion promotionSelected = mExpiredPromotionList.get(position);
+
+                        // Fragment creation
+                        PromotionDetailsFragment promotionDetailsFragment = new PromotionDetailsFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(PromotionDetailsFragment.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
+                        promotionDetailsFragment.setArguments(bundle);
+
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                        fragmentTransaction.add(R.id.main_frame, promotionDetailsFragment, promotionDetailsFragment.TAG);
+
+                        fragmentTransaction.addToBackStack(TAG);
+
+                        fragmentTransaction.commit();
+
+                        Log.d(TAG, "setupListeners - mRecyclerView:onItemClick - End");
+                    }
+                })
+        );
+
+        // Adding scroll to recycler view
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - Start");
+
+                //check for scroll down
+                if(dy > 0) {
+
+                    if (mRecyclerView.getLayoutManager().findViewByPosition(mpageSize * mcurrentPage - 1) != null && ! mNoMorePromotions) {
+                        // Scrolling started to be near to end of list
+                        // Load next page
+
+                        Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - Load more promotions");
+
+                        mcurrentPage++;
+                        loadPromotions();
+                    }
+                }
+                Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - End");
+            }
+        });
+
+        Log.d(TAG, "setupListeners - End");
+    }
 }

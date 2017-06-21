@@ -1,12 +1,15 @@
 package com.badeeb.waritex.fragment;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -61,6 +64,9 @@ public class CompanyInfoFragment extends Fragment {
         Log.d(TAG, "init - Start");
 
         loadCompanyInfo(view);
+
+        // Call this method to setup listener on UI components
+        setupListeners(view);
 
         Log.d(TAG, "init - End");
     }
@@ -169,4 +175,59 @@ public class CompanyInfoFragment extends Fragment {
         Log.d(TAG, "updateCompanyInfoOnView - End");
     }
 
+    public void setupListeners(View view) {
+
+        Log.d(TAG, "setupListeners - Start");
+
+        // Listener for app rating image
+        ImageView appRate = (ImageView) view.findViewById(R.id.app_rate_img);
+        appRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "setupListeners - appRate:onClick - Start");
+                try {
+                    Uri uri = Uri.parse(AppPreferences.PLAY_STORE_URL);
+
+                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+
+                    startActivity(goToMarket);
+                } catch (Exception e) {
+                    Log.d(TAG, "setupListeners - appRate:onClick - Throw exception: "+e.getMessage());
+                }
+
+                Log.d(TAG, "setupListeners - appRate:onClick - Start");
+            }
+        });
+
+        // Putting listener for app sharing image
+        ImageView appShare = (ImageView) view.findViewById(R.id.app_url_share_img);
+        appShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "setupListeners - appShare:onClick - Start");
+
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, getResources().getText(R.string.app_name));
+
+                    String sAux = "\n"+ getResources().getText(R.string.share_app_descrption) +"\n\n";
+                    sAux = sAux + AppPreferences.PLAY_STORE_URL +" \n\n";
+
+                    i.putExtra(Intent.EXTRA_TEXT, sAux);
+
+                    startActivity(Intent.createChooser(i, "choose one"));
+
+                } catch(Exception e) {
+                    Log.d(TAG, "setupListeners - appShare:onClick - Throw exception: "+e.getMessage());
+                }
+
+                Log.d(TAG, "setupListeners - appShare:onClick - End");
+            }
+        });
+
+
+
+        Log.d(TAG, "setupListeners - End");
+    }
 }
