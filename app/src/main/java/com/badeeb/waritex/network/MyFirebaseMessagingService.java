@@ -38,9 +38,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param notification FCM message received.
      */
     private void sendNotification(RemoteMessage.Notification notification) {
+
+        // in the below intent we define the target intent that the notification onclick will nagvigate to
+        /*
+        * Get the current visible fragment and set it in the parameter below
+        * */
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+
+        // defining the destination intent that will be passed to the notification manager
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code for the sender */,
+                intent /*this is the target intent*/,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -50,11 +58,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(notification.getBody())
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent); // passing the destination intent
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(NotificationID.getID(), notificationBuilder.build());
+        notificationManager.notify(NotificationID.getID() /* incremented id*/, notificationBuilder.build());
     }
 }
