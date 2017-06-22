@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.badeeb.waritex.MainActivity;
 import com.badeeb.waritex.R;
+import com.badeeb.waritex.model.NotificationID;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -27,16 +28,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            sendNotification(remoteMessage.getNotification().getBody());
+            sendNotification(remoteMessage.getNotification());
         }
     }
 
     /**
      * Create and show a simple notification containing the received FCM message.
      *
-     * @param messageBody FCM message body received.
+     * @param notification FCM message received.
      */
-    private void sendNotification(String messageBody) {
+    private void sendNotification(RemoteMessage.Notification notification) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -45,8 +46,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle(getResources().getText(R.string.notification_title))
-                .setContentText(messageBody)
+                .setContentTitle(notification.getTitle())
+                .setContentText(notification.getBody())
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
@@ -54,6 +55,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(NotificationID.getID(), notificationBuilder.build());
     }
 }
