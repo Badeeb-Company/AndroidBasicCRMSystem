@@ -11,9 +11,10 @@ import android.util.Log;
 
 import com.badeeb.waritex.MainActivity;
 import com.badeeb.waritex.R;
-import com.badeeb.waritex.model.NotificationID;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by ahmed on 6/19/2017.
@@ -21,15 +22,24 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    private static final String TAG = "MyFirebaseMsgService";
+    // Logging Purpose
+    private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
+
+    private final static AtomicInteger notificationId = new AtomicInteger(0);
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+
+        Log.d(TAG, "onMessageReceived - End");
+
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            sendNotification(remoteMessage.getNotification());
+            Log.d(TAG, "onMessageReceived - Message Notification Body: " + remoteMessage.getNotification().getBody());
+
+            notificationReceiveProcessing(remoteMessage.getNotification());
         }
+
+        Log.d(TAG, "onMessageReceived - End");
     }
 
     /**
@@ -37,14 +47,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param notification FCM message received.
      */
-    private void sendNotification(RemoteMessage.Notification notification) {
+    private void notificationReceiveProcessing(RemoteMessage.Notification notification) {
 
-        // in the below intent we define the target intent that the notification onclick will nagvigate to
+        Log.d(TAG, "notificationReceiveProcessing - Start");
+
+        // in the below intent we define the target intent that the notification onclick will navigate to
         /*
         * Get the current visible fragment and set it in the parameter below
         * */
         Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         // defining the destination intent that will be passed to the notification manager
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code for the sender */,
@@ -52,6 +64,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(notification.getTitle())
@@ -63,6 +76,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(NotificationID.getID() /* incremented id*/, notificationBuilder.build());
+        notificationManager.notify(notificationId.incrementAndGet() /* incremented id*/, notificationBuilder.build());
+
+        Log.d(TAG, "notificationReceiveProcessing - End");
     }
 }

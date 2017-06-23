@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private TabsFragment mTabsFragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate - Start");
@@ -42,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
-
-        // subscribe to firebase
-        FirebaseMessaging.getInstance().subscribeToTopic(AppPreferences.TOPIC_NAME);
 
         Log.d(TAG, "onCreate - End");
     }
@@ -83,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
         if (! isNetworkAvailable()) {
             Toast.makeText(getBaseContext(), getResources().getText(R.string.internet_service_message), Toast.LENGTH_SHORT).show();
         }
+
+        // subscribe to firebase topic
+        FirebaseMessaging.getInstance().subscribeToTopic(AppPreferences.TOPIC_NAME);
 
         Log.d(TAG, "init - End");
     }
