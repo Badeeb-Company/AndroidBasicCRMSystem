@@ -142,7 +142,6 @@
                 >
 
                 <TextView
-                    android:id="@+id/app_notification_flag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding"
@@ -151,6 +150,7 @@
                     />
 
                 <Switch
+                    android:id="@+id/app_notification_flag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding"
@@ -278,53 +278,53 @@
                     />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/rounded_corner"
-                android:layout_marginBottom="@dimen/company_info_margin"
-                android:layoutDirection="ltr"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/jumia_logo_36"
-                    android:padding="@dimen/sub_padding"
-                    />
-                <TextView
-                    android:id="@+id/app_jumia_url"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/padding"
-                    style="@style/sub_text"
-                    />
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:background="@drawable/rounded_corner"-->
+                <!--android:layout_marginBottom="@dimen/company_info_margin"-->
+                <!--android:layoutDirection="ltr"-->
+                <!--&gt;-->
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/jumia_logo_36"-->
+                    <!--android:padding="@dimen/sub_padding"-->
+                    <!--/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/app_jumia_url"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:padding="@dimen/padding"-->
+                    <!--style="@style/sub_text"-->
+                    <!--/>-->
+            <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/rounded_corner"
-                android:layout_marginBottom="@dimen/company_info_margin"
-                android:layoutDirection="ltr"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/souq_logo_36"
-                    android:padding="@dimen/sub_padding"
-                    />
-                <TextView
-                    android:id="@+id/app_souq_url"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/padding"
-                    style="@style/sub_text"
-                    />
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:background="@drawable/rounded_corner"-->
+                <!--android:layout_marginBottom="@dimen/company_info_margin"-->
+                <!--android:layoutDirection="ltr"-->
+                <!--&gt;-->
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/souq_logo_36"-->
+                    <!--android:padding="@dimen/sub_padding"-->
+                    <!--/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/app_souq_url"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:padding="@dimen/padding"-->
+                    <!--style="@style/sub_text"-->
+                    <!--/>-->
+            <!--</LinearLayout>-->
 
 
             <LinearLayout

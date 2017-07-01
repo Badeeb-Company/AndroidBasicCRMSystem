@@ -27,12 +27,8 @@ public class CompanyInfo {
     private String website;
 
     @Expose(serialize = false, deserialize = true)
-    @SerializedName("jumia_website")
-    private String jumiaWebsite;
-
-    @Expose(serialize = false, deserialize = true)
-    @SerializedName("souq_website")
-    private String souqWebsite;
+    @SerializedName("facebook_page")
+    private String facebookPage;
 
     @Expose(serialize = false, deserialize = true)
     @SerializedName("whatsapp_number")
@@ -44,8 +40,7 @@ public class CompanyInfo {
         this.telephone = "";
         this.fax = "";
         this.website = "";
-        this.jumiaWebsite = "";
-        this.souqWebsite = "";
+        this.facebookPage = "";
         this.whatsappNumber = "";
     }
 
@@ -82,20 +77,12 @@ public class CompanyInfo {
         this.website = website;
     }
 
-    public String getJumiaWebsite() {
-        return jumiaWebsite;
+    public String getFacebookPage() {
+        return facebookPage;
     }
 
-    public void setJumiaWebsite(String jumiaWebsite) {
-        this.jumiaWebsite = jumiaWebsite;
-    }
-
-    public String getSouqWebsite() {
-        return souqWebsite;
-    }
-
-    public void setSouqWebsite(String souqWebsite) {
-        this.souqWebsite = souqWebsite;
+    public void setFacebookPage(String facebookPage) {
+        this.facebookPage = facebookPage;
     }
 
     public String getWhatsappNumber() {

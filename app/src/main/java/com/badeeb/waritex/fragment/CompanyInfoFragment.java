@@ -2,6 +2,9 @@ package com.badeeb.waritex.fragment;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -24,6 +29,7 @@ import com.badeeb.waritex.model.CompanyInfoInquiry;
 import com.badeeb.waritex.model.JsonResponse;
 import com.badeeb.waritex.network.MyVolley;
 import com.badeeb.waritex.shared.AppPreferences;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -62,6 +68,13 @@ public class CompanyInfoFragment extends Fragment {
 
     private void init(View view) {
         Log.d(TAG, "init - Start");
+
+        // Get notification boolean value from shared preferences
+        SharedPreferences prefs = AppPreferences.getAppPreferences(getContext());
+        boolean notificationEnabled = prefs.getBoolean(AppPreferences.PREF_NOTIFICATION_ENABLED, true);
+
+        Switch notificationFlag = (Switch) view.findViewById(R.id.app_notification_flag);
+        notificationFlag.setChecked(notificationEnabled);
 
         loadCompanyInfo(view);
 
@@ -161,13 +174,7 @@ public class CompanyInfoFragment extends Fragment {
         websiteUrl.setText(companyInfo.getWebsite());
 
         TextView facebookUrl = (TextView) view.findViewById(R.id.app_facebook_url);
-        facebookUrl.setText("https://www.facebook.com/waritexint/");
-
-        TextView jumiaUrl = (TextView) view.findViewById(R.id.app_jumia_url);
-        jumiaUrl.setText(companyInfo.getJumiaWebsite());
-
-        TextView souqUrl = (TextView) view.findViewById(R.id.app_souq_url);
-        souqUrl.setText(companyInfo.getSouqWebsite());
+        facebookUrl.setText(companyInfo.getFacebookPage());
 
         TextView whatsAppNumber = (TextView) view.findViewById(R.id.app_whatsApp_number);
         whatsAppNumber.setText(companyInfo.getWhatsappNumber());
@@ -226,7 +233,91 @@ public class CompanyInfoFragment extends Fragment {
             }
         });
 
+        // Add onclick listener for Website URL
+        final TextView websiteUrl = (TextView) view.findViewById(R.id.app_website_url);
+        websiteUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "setupListeners - websiteUrl:onClick - Start");
 
+                try {
+                    String url = websiteUrl.getText().toString();
+
+                    if (! url.startsWith("http://") && ! url.startsWith("https://")) {
+                        url = "http://" + url;
+                    }
+
+                    Uri uri = Uri.parse(url);
+
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
+
+                    startActivity(browserIntent);
+
+                } catch (Exception e) {
+                    Log.d(TAG, "setupListeners - websiteUrl:onClick - Throw exception: "+e.getMessage());
+                }
+
+                Log.d(TAG, "setupListeners - websiteUrl:onClick - End");
+            }
+        });
+
+        // Add onclick listener for Facebook URL
+        final TextView facebookUrl = (TextView) view.findViewById(R.id.app_facebook_url);
+        facebookUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "setupListeners - facebookUrl:onClick - Start");
+
+                String url = facebookUrl.getText().toString();
+
+                PackageManager pm = getContext().getPackageManager();
+                Uri uri = Uri.parse(url);
+
+                try {
+                    ApplicationInfo applicationInfo = pm.getApplicationInfo("com.facebook.katana", 0);
+                    if (applicationInfo.enabled) {
+                        uri = Uri.parse("fb://facewebmodal/f?href=" + url);
+                    }
+                }
+                catch (PackageManager.NameNotFoundException ignored) {
+                    Log.d(TAG, "setupListeners - facebookUrl:onClick - NameNotFoundException: "+ignored.getMessage());
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "setupListeners - facebookUrl:onClick - Exception: "+e.getMessage());
+                }
+
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
+
+                startActivity(browserIntent);
+
+                Log.d(TAG, "setupListeners - facebookUrl:onClick - End");
+            }
+        });
+
+
+        Switch notificationFlag = (Switch) view.findViewById(R.id.app_notification_flag);
+        notificationFlag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d(TAG, "setupListeners - notificationFlag:onClick - Start");
+
+                SharedPreferences prefs = AppPreferences.getAppPreferences(getContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(AppPreferences.PREF_NOTIFICATION_ENABLED, isChecked);
+                editor.commit();
+
+                if (isChecked == false) {
+                    // Unsubscribe from notifications
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(AppPreferences.TOPIC_NAME);
+                }
+                else {
+                    // Subscribe to notifications
+                    FirebaseMessaging.getInstance().subscribeToTopic(AppPreferences.TOPIC_NAME);
+                }
+
+                Log.d(TAG, "setupListeners - notificationFlag:onClick - End");
+            }
+        });
 
         Log.d(TAG, "setupListeners - End");
     }

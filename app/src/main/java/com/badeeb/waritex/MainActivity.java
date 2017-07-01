@@ -1,5 +1,6 @@
 package com.badeeb.waritex;
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.badeeb.waritex.fragment.CompanyInfoFragment;
@@ -87,9 +89,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), getResources().getText(R.string.internet_service_message), Toast.LENGTH_SHORT).show();
         }
 
-        // subscribe to Firebase topic
-        FirebaseMessaging.getInstance().subscribeToTopic(AppPreferences.TOPIC_NAME);
 
+        // Get notification boolean value from shared preferences
+        SharedPreferences prefs = AppPreferences.getAppPreferences(this);
+        boolean notificationEnabled = prefs.getBoolean(AppPreferences.PREF_NOTIFICATION_ENABLED, true);
+        if (notificationEnabled) {
+            // subscribe to Firebase topic
+            FirebaseMessaging.getInstance().subscribeToTopic(AppPreferences.TOPIC_NAME);
+        }
 
         // Handling Firebase dynamic links
         handleFirebaseDynamicLinks();
