@@ -68,10 +68,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(notification.getTitle())
-                .setContentText(notification.getBody())
+//                .setContentText(notification.getBody())
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(notification.getBody()))    // Used to display full/Multiline text of any notification
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent); // passing the destination intent
+                .setContentIntent(pendingIntent) // passing the destination intent
+                ;
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
