@@ -3,7 +3,9 @@ package com.badeeb.waritex;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,11 @@ import android.widget.Toast;
 import com.badeeb.waritex.fragment.CompanyInfoFragment;
 import com.badeeb.waritex.fragment.TabsFragment;
 import com.badeeb.waritex.shared.AppPreferences;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Locale;
@@ -80,12 +87,15 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), getResources().getText(R.string.internet_service_message), Toast.LENGTH_SHORT).show();
         }
 
-        // subscribe to firebase topic
+        // subscribe to Firebase topic
         FirebaseMessaging.getInstance().subscribeToTopic(AppPreferences.TOPIC_NAME);
+
+
+        // Handling Firebase dynamic links
+        handleFirebaseDynamicLinks();
 
         Log.d(TAG, "init - End");
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -137,4 +147,46 @@ public class MainActivity extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    private void handleFirebaseDynamicLinks() {
+
+        Log.d(TAG, "handleFirebaseDynamicLinks - Start");
+
+        FirebaseDynamicLinks firebaseDynamicLinks = FirebaseDynamicLinks.getInstance();
+
+        Task<PendingDynamicLinkData> pendingDynamicLinkDataTask = firebaseDynamicLinks.getDynamicLink(getIntent());
+
+        pendingDynamicLinkDataTask.addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+            @Override
+            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+
+                Log.d(TAG, "handleFirebaseDynamicLinks - onSuccess - Start");
+
+                Uri deepLink = null;
+                if (pendingDynamicLinkData != null) {
+                    deepLink = pendingDynamicLinkData.getLink();
+
+                    Log.d(TAG, "handleFirebaseDynamicLinks - onSuccess - DeepLink: "+deepLink);
+
+                }
+
+                Log.d(TAG, "handleFirebaseDynamicLinks - onSuccess - End");
+            }
+        });
+
+        pendingDynamicLinkDataTask.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.d(TAG, "handleFirebaseDynamicLinks - onFailure - Start");
+
+                Log.w(TAG, "handleFirebaseDynamicLinks - onFailure - Exception: ", e);
+
+                Log.d(TAG, "handleFirebaseDynamicLinks - onFailure - End");
+            }
+        });
+
+        Log.d(TAG, "handleFirebaseDynamicLinks - End");
+    }
+
 }
