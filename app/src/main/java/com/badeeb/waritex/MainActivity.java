@@ -23,8 +23,8 @@ import com.badeeb.waritex.shared.AppPreferences;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+//import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+//import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Locale;
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     private void handleFirebaseDynamicLinks() {
 
         Log.d(TAG, "handleFirebaseDynamicLinks - Start");
-
+        /*
         FirebaseDynamicLinks firebaseDynamicLinks = FirebaseDynamicLinks.getInstance();
 
         Task<PendingDynamicLinkData> pendingDynamicLinkDataTask = firebaseDynamicLinks.getDynamicLink(getIntent());
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "handleFirebaseDynamicLinks - onFailure - End");
             }
         });
-
+        */
         Log.d(TAG, "handleFirebaseDynamicLinks - End");
     }
 

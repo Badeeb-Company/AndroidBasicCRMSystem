@@ -55,6 +55,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public final static String EXTRA_VENDOR_LIST = "EXTRA_VENDOR_LIST";
     public final static String EXTRA_CURRENT_LATITUDE = "EXTRA_CURRENT_LATITUDE";
     public final static String EXTRA_CURRENT_LONGITUDE = "EXTRA_CURRENT_LONGITUDE";
+    public final static String HOME_MARKER_TITLE = "Your current location";
 
     public MapFragment() {
         // Required empty public constructor
@@ -91,13 +92,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         mMapView.getMapAsync(this);
 
-
-
         // setting the current location value
         mLatitude = Parcels.unwrap(getArguments().getParcelable(EXTRA_CURRENT_LATITUDE));
         mLongitude = Parcels.unwrap(getArguments().getParcelable(EXTRA_CURRENT_LONGITUDE));
-//        mLatitude = 31.199921;
-//        mLongitude = 29.918832;
 
         // getting the vendor list values from Vendors List Activity
         mVendorList = Parcels.unwrap(getArguments().getParcelable(EXTRA_VENDOR_LIST));
@@ -107,11 +104,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        Log.d(TAG, "onMapReady - Start");
+
         mMap = googleMap;
 
         // Add a marker in current location and move the camera
         LatLng currentLocation = new LatLng(mLatitude, mLongitude);
-        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Your current location"));
+
+        MarkerOptions currentLocationMarker = new MarkerOptions();
+        currentLocationMarker.position(currentLocation);
+        currentLocationMarker.title(HOME_MARKER_TITLE);
+        mMap.addMarker(currentLocationMarker);
+
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
 
         BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.flag_3);
@@ -120,39 +125,57 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
         // Add markers in every vendor location
-        for(final Vendor vendor : mVendorList){
+        for(int i = 0; i < mVendorList.size(); i++){
             MarkerOptions marker = new MarkerOptions();
-            marker.position(new LatLng(vendor.getLat(), vendor.getLng()));
-            marker.title(vendor.getName());
+            marker.position(new LatLng(mVendorList.get(i).getLat(), mVendorList.get(i).getLng()));
+            marker.title(i+"");
             marker.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
             mMap.addMarker(marker);
 
-            // adding vendor info when marker clicked
-            mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter(){
+        }
 
-                @Override
-                public View getInfoWindow(Marker marker) {
-                    return null;
-                }
+        // adding vendor info when marker clicked
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter(){
 
-                @Override
-                public View getInfoContents(Marker marker) {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                Log.d(TAG, "onMapReady - getInfoContents - Start");
+                if (! marker.getTitle().equalsIgnoreCase(HOME_MARKER_TITLE)) {
+
                     View v = getActivity().getLayoutInflater().inflate(R.layout.marker_info,null);
+                    // Get Vendor index
+                    int index = Integer.parseInt(marker.getTitle());
+                    Vendor vendor = mVendorList.get(index);
                     // set vendor info
                     ((TextView) v.findViewById(R.id.vendor_name)).setText(vendor.getName());
                     ((TextView) v.findViewById(R.id.vendor_address)).setText(vendor.getAddress());
 
                     return v;
                 }
-            });
-        }
+
+                Log.d(TAG, "onMapReady - getInfoContents - End");
+                return null;
+            }
+        });
+
 
         // to adjust the zoom and the map options
         initCamera(mMap);
+
+        Log.d(TAG, "onMapReady - End");
     }
 
     private void initCamera( GoogleMap googleMap) {
+
+        Log.d(TAG, "initCamera - Start");
+
         CameraPosition position = CameraPosition.builder()
                 .target(new LatLng(mLatitude,mLongitude))
                 .zoom(13f)
@@ -172,6 +195,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled( true );
+
+        Log.d(TAG, "initCamera - End");
     }
 
     //----------------------------------------------------------------------------------------------

@@ -3,10 +3,12 @@ package com.badeeb.waritex.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 /**
  * Created by Amr Alghawy on 6/11/2017.
  */
-
+@Parcel(Parcel.Serialization.BEAN)
 public class Vendor {
 
     // Class Attributes
