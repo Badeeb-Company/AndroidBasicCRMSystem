@@ -22,7 +22,7 @@
                 android:id="@+id/promotion_card_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/LightRedBackground"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
@@ -34,8 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/promotion_card_photo"
-                android:background="@color/LightRedBackground"
                 android:padding="@dimen/sub_padding"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/promotion_title"
                 android:gravity="start"/>
 
@@ -43,7 +43,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/LightRedBackground"
                 android:layout_below="@id/promotion_card_title"
                 android:padding="@dimen/sub_padding"
                 android:textSize="@dimen/due_date"

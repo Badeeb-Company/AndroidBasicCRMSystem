@@ -72,7 +72,7 @@
     </style>
 
     <style name="promotion_sub_text" >
-        <item name="android:textColor">@color/backgroundText</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:layout_margin" >3dp</item>
         <item name="android:textSize" >17dp</item>
     </style>
@@ -91,7 +91,7 @@
     </style>
 
     <style name="sub_text" >
-        <item name="android:textColor">@color/backgroundText</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize" >13dp</item>
     </style>
 
