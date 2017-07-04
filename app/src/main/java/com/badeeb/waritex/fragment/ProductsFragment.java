@@ -2,6 +2,7 @@ package com.badeeb.waritex.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,6 +47,7 @@ public class ProductsFragment extends Fragment {
     // Fragment Attributes
     private RecyclerView mRecyclerView;
     private ProductsRecyclerViewAdapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private int mProductsPerLine;
 
     // attributes that will be used for JSON calls
@@ -81,6 +83,8 @@ public class ProductsFragment extends Fragment {
 
         // Attribute initialization
         mProductsArray = new ArrayList<>();
+        // swipeRefreshLayout creation
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.products_swipe_refresh_layout);
         // Recycler view creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.products_recycler_view);
         // Adapter creation
@@ -109,6 +113,15 @@ public class ProductsFragment extends Fragment {
 
         // Network call to load first 20 products
         loadProducts();
+
+        // applying swipe refresh on products list
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                loadProducts();
+            }
+        });
 
 
         Log.d(TAG, "init - End");
@@ -197,6 +210,8 @@ public class ProductsFragment extends Fragment {
 
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 
+        // disabling the refresh icon
+        mSwipeRefreshLayout.setRefreshing(false);
 
         Log.d(TAG, "loadProducts - End");
     }

@@ -9,21 +9,28 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/lightGreyBackground"
         >
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/vendors_recycler_view"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/vendors_swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"
-            android:layout_above="@+id/map_bttn_frame"/>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/vendors_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:layout_above="@+id/map_bttn_frame"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <RelativeLayout
             android:id="@+id/map_bttn_frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/GreyDarkBackground"
             android:padding="@dimen/padding">
 
             <Button

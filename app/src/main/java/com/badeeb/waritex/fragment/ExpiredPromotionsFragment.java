@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,6 +55,7 @@ public class ExpiredPromotionsFragment extends Fragment {
     // Class Attributes
     private RecyclerView mRecyclerView;
     private PromotionsRecyclerViewAdaptor mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private List<Promotion> mExpiredPromotionList;
     private int mPromotionPerLine;
 
@@ -95,6 +97,10 @@ public class ExpiredPromotionsFragment extends Fragment {
         // Attribute initialization
         mPromotionPerLine = AppPreferences.ONE_VIEW_IN_LINE;
         mExpiredPromotionList = new ArrayList<Promotion>();
+
+        // swipeRefreshLayout creation
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.expired_promotion_swipe_refresh_layout);
+
         // Recycler View creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.expired_promotion_recycler_view);
         // Adapter creation
@@ -118,6 +124,15 @@ public class ExpiredPromotionsFragment extends Fragment {
         this.mNoMorePromotions = false;
 
         loadPromotions();
+
+        // applying swipe refresh on promotions list
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                loadPromotions();
+            }
+        });
 
         Log.d(TAG, "init - End");
     }
@@ -199,6 +214,9 @@ public class ExpiredPromotionsFragment extends Fragment {
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(AppPreferences.VOLLEY_TIME_OUT, AppPreferences.VOLLEY_RETRY_COUNTER, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+
+        // disabling the refresh icon
+        mSwipeRefreshLayout.setRefreshing(false);
 
         Log.d(TAG, "loadPromotions - End");
     }

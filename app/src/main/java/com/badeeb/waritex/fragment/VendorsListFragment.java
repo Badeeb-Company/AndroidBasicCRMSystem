@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -65,6 +66,7 @@ public class VendorsListFragment extends Fragment implements LocationListener {
     private int mPromotionId;
     private RecyclerView mRecyclerView;
     private VendorsRecyclerViewAdapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private List<Vendor> mVendorsList;
     private int mVendorsPerLine;
 
@@ -111,6 +113,8 @@ public class VendorsListFragment extends Fragment implements LocationListener {
         mVendorsList = new ArrayList<>();
         mVendorsPerLine = AppPreferences.ONE_VIEW_IN_LINE;
 
+        // swipeRefreshLayout creation
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.vendors_swipe_refresh_layout);
         // Recycler View creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.vendors_recycler_view);
         // Adapter creation
@@ -137,6 +141,15 @@ public class VendorsListFragment extends Fragment implements LocationListener {
         mCurrentLocation = getCurrentLocation();
 
         loadVendorsDetails();
+
+        // applying swipe refresh on vendor list
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                loadVendorsDetails();
+            }
+        });
 
         Log.d(TAG, "init - End");
 
@@ -227,6 +240,9 @@ public class VendorsListFragment extends Fragment implements LocationListener {
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(AppPreferences.VOLLEY_TIME_OUT, AppPreferences.VOLLEY_RETRY_COUNTER, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+
+        // disabling the refresh icon
+        mSwipeRefreshLayout.setRefreshing(false);
 
         Log.d(TAG, "loadVendorsDetails - End");
     }
