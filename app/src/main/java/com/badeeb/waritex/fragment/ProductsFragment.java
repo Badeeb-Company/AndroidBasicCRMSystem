@@ -2,6 +2,8 @@ package com.badeeb.waritex.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.adapter.ProductsRecyclerViewAdapter;
+import com.badeeb.waritex.listener.RecyclerItemClickListener;
 import com.badeeb.waritex.model.JsonResponse;
 import com.badeeb.waritex.model.Product;
 import com.badeeb.waritex.model.ProductsInquiry;
@@ -28,6 +31,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -108,14 +112,14 @@ public class ProductsFragment extends Fragment {
 
 
         // Network call to load first 20 products
-        loadProducts();
+        loadProductsDetails();
 
 
         Log.d(TAG, "init - End");
     }
 
 
-    private void loadProducts() {
+    private void loadProductsDetails() {
         Log.d(TAG, "loadProducts - Start");
 
         // Setting mUrl
@@ -205,6 +209,38 @@ public class ProductsFragment extends Fragment {
 
         Log.d(TAG, "setupListeners - Start");
 
+        // Adding OnItemTouchListener to recycler view
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+
+                        Log.d(TAG, "setupListeners - mRecyclerView:onItemClick - Start");
+
+                        // Get item that is selected
+                        Product productSelected = mProductsArray.get(position);
+
+                        // Fragment creation
+                        ProductDetailsFragment productDetailsFragment = new ProductDetailsFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(productDetailsFragment.EXTRA_PRODUCT_OBJECT, Parcels.wrap(productSelected));
+                        productDetailsFragment.setArguments(bundle);
+
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                        fragmentTransaction.add(R.id.main_frame, productDetailsFragment, productDetailsFragment.TAG);
+//                        fragmentTransaction.replace(R.id.main_frame, promotionDetailsFragment);
+
+                        fragmentTransaction.addToBackStack(TAG);
+
+                        fragmentTransaction.commit();
+
+                        Log.d(TAG, "setupListeners - mRecyclerView:onItemClick - End");
+                    }
+                })
+        );
+
+
         // Adding scroll to recycler view
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -224,7 +260,7 @@ public class ProductsFragment extends Fragment {
                         Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - Load more products");
 
                         mcurrentPage++;
-                        loadProducts();
+                        loadProductsDetails();
                     }
                 }
                 Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - End");

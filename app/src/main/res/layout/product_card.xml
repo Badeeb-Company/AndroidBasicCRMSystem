@@ -29,6 +29,16 @@
                 android:scaleType="fitXY"
                 android:layout_margin="@dimen/sub_padding"/>
 
+            <TextView
+                android:id="@+id/product_card_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/photo"
+                android:padding="@dimen/sub_padding"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/title"
+                android:gravity="start"/>
+
         </RelativeLayout>
 
 

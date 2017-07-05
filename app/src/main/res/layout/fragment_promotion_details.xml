@@ -19,25 +19,25 @@
 
             <TextView
                 android:id="@+id/promotion_details_title"
-                style="@style/promotion_details_title_text"
+                style="@style/details_title_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/promotion_title_padding"
-                android:paddingRight="@dimen/promotion_title_padding"
-                android:paddingTop="@dimen/promotion_title_padding" />
+                android:paddingLeft="@dimen/title_padding"
+                android:paddingRight="@dimen/title_padding"
+                android:paddingTop="@dimen/title_padding" />
 
             <TextView
                 android:id="@+id/promotion_details_due_date"
-                style="@style/promotion_sub_text"
+                style="@style/details_sub_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/due_date_padding_bottom"
-                android:paddingLeft="@dimen/promotion_title_padding"
-                android:paddingRight="@dimen/promotion_title_padding" />
+                android:paddingLeft="@dimen/title_padding"
+                android:paddingRight="@dimen/title_padding" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/promotion_slide_show_height"
+                android:layout_height="@dimen/slide_show_height"
                 android:background="@android:color/black">
 
                 <android.support.v4.view.ViewPager
@@ -64,20 +64,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/due_date_padding_bottom"
-                    android:paddingLeft="@dimen/promotion_title_padding"
-                    android:paddingRight="@dimen/promotion_title_padding"
+                    android:paddingLeft="@dimen/title_padding"
+                    android:paddingRight="@dimen/title_padding"
                     android:paddingTop="@dimen/padding"
                     android:text="@string/about_label" />
 
                 <TextView
                     android:id="@+id/promotion_details_description"
-                    style="@style/promotion_sub_text"
+                    style="@style/details_sub_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/promotion_details_about"
                     android:paddingBottom="@dimen/due_date_padding_bottom"
-                    android:paddingLeft="@dimen/promotion_title_padding"
-                    android:paddingRight="@dimen/promotion_title_padding" />
+                    android:paddingLeft="@dimen/title_padding"
+                    android:paddingRight="@dimen/title_padding" />
 
             </RelativeLayout>
         </LinearLayout>

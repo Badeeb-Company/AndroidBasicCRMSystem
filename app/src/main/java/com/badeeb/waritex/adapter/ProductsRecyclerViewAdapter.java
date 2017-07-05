@@ -47,6 +47,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductVie
         Product product = this.mProductsList.get(position);
         // Set product values in holder
         Glide.with(mContext).load(product.getPhotoUrl()).into(holder.getPhoto());
+        holder.getProductName().setText(product.getName());
     }
 
     @Override
