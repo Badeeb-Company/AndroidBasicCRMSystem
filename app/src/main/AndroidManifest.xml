@@ -30,12 +30,12 @@
             </intent-filter>
 
             <!-- Firebase Dynamic Links Handling - Start -->
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="waritex.com" android:scheme="http"/>
-                <data android:host="waritex.com" android:scheme="https"/>
+                <data android:scheme="https" android:pathPattern=".*"/>
+                <data android:scheme="http" android:pathPattern=".*"/>
             </intent-filter>
             <!-- Firebase Dynamic Links Handling - End -->
         </activity>

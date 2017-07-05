@@ -14,22 +14,27 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.badeeb.waritex.fragment.CompanyInfoFragment;
+import com.badeeb.waritex.fragment.PromotionDetailsFragment;
 import com.badeeb.waritex.fragment.TabsFragment;
+import com.badeeb.waritex.model.Promotion;
 import com.badeeb.waritex.shared.AppPreferences;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-//import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-//import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.parceler.Parcels;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     // Logging Purpose
     private final String TAG = MainActivity.class.getSimpleName();
@@ -158,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
     private void handleFirebaseDynamicLinks() {
 
         Log.d(TAG, "handleFirebaseDynamicLinks - Start");
-        /*
+
         FirebaseDynamicLinks firebaseDynamicLinks = FirebaseDynamicLinks.getInstance();
 
         Task<PendingDynamicLinkData> pendingDynamicLinkDataTask = firebaseDynamicLinks.getDynamicLink(getIntent());
@@ -174,7 +179,39 @@ public class MainActivity extends AppCompatActivity {
                     deepLink = pendingDynamicLinkData.getLink();
 
                     Log.d(TAG, "handleFirebaseDynamicLinks - onSuccess - DeepLink: "+deepLink);
+                    // Get deep link attributes
+                    String promotionId = deepLink.getQueryParameter("promotion_id");
 
+                    if (promotionId != null) {
+                        
+                        Log.d(TAG, "handleFirebaseDynamicLinks - onSuccess - Open Promotion Start");
+
+                        // Open promotion details fragment
+                        Promotion promotionSelected = new Promotion();
+                        promotionSelected.setId(Integer.parseInt(promotionId));
+
+                        // Fragment creation
+                        PromotionDetailsFragment promotionDetailsFragment = new PromotionDetailsFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(PromotionDetailsFragment.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
+                        promotionDetailsFragment.setArguments(bundle);
+
+                        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
+                        fragmentTransaction.add(R.id.main_frame, promotionDetailsFragment, promotionDetailsFragment.TAG);
+//                        fragmentTransaction.replace(R.id.main_frame, promotionDetailsFragment);
+
+                        fragmentTransaction.addToBackStack(TAG);
+
+                        fragmentTransaction.commit();
+
+                        Log.d(TAG, "handleFirebaseDynamicLinks - onSuccess - Open Promotion End");
+                    }
+
+
+                }
+                else {
+                    Log.d(TAG, "handleFirebaseDynamicLinks - onSuccess - pendingDynamicLinkData = null");
                 }
 
                 Log.d(TAG, "handleFirebaseDynamicLinks - onSuccess - End");
@@ -192,8 +229,41 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "handleFirebaseDynamicLinks - onFailure - End");
             }
         });
-        */
+        //------------------------------------------------------------------------------------------
+        /*
+        GoogleApiClient.Builder googleApiClientBuilder = new GoogleApiClient.Builder(this);
+        googleApiClientBuilder.enableAutoManage(this, this);
+        googleApiClientBuilder.addApi(AppInvite.API);
+
+        GoogleApiClient googleApiClient = googleApiClientBuilder.build();
+
+
+        AppInvite.AppInviteApi.getInvitation(googleApiClient, this, false)
+                .setResultCallback(
+                        new ResultCallback<AppInviteInvitationResult>() {
+                            @Override
+                            public void onResult(@NonNull AppInviteInvitationResult result) {
+                                if (result.getStatus().isSuccess()) {
+                                    Intent intent = result.getInvitationIntent();
+                                    String deepLink = AppInviteReferral.getDeepLink(intent);
+                                    // Handloe the deep link
+                                } else {
+                                    Log.d(TAG, "Oops, looks like there was no deep link found!");
+                                }
+                            }
+                        });
+
+
+
         Log.d(TAG, "handleFirebaseDynamicLinks - End");
+        */
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+        Log.d(TAG, "onConnectionFailed - Start");
+
+        Log.d(TAG, "onConnectionFailed - End");
+    }
 }
