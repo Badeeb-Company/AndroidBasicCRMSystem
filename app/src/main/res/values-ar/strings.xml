@@ -24,4 +24,6 @@
     <string name="enable_gps">قم بتشغيل خاصيه تحديد الموقع</string>
     <string name="notification_title" translatable="false">وريتكس</string>
     <string name="share_app_descrption">شركه وريتكس</string>
+    <string name="notification_date">"تاريخ الاشعار: "</string>
+    <string name="server_error">هناك خطأ فى موفرالبيانات. يرجى المحاوله فى وقت لاحق</string>
 </resources>

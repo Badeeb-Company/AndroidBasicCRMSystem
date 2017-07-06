@@ -23,8 +23,6 @@ public class VendorsRecyclerViewAdapter extends RecyclerView.Adapter<VendorViewH
     private List<Vendor> mVendorsList;
 
     // Constructor
-
-
     public VendorsRecyclerViewAdapter(Context mContext, List<Vendor> mVendorsList) {
         this.mContext = mContext;
         this.mVendorsList = mVendorsList;
@@ -35,7 +33,7 @@ public class VendorsRecyclerViewAdapter extends RecyclerView.Adapter<VendorViewH
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
-        View itemView = layoutInflater.inflate(R.layout.venor_card, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.card_venor, parent, false);
 
         VendorViewHolder vendorViewHolder = new VendorViewHolder(itemView);
 

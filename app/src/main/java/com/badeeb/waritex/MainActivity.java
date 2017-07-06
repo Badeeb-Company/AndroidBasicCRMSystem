@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.badeeb.waritex.fragment.CompanyInfoFragment;
+import com.badeeb.waritex.fragment.NotificationsListFragment;
 import com.badeeb.waritex.fragment.PromotionDetailsFragment;
 import com.badeeb.waritex.fragment.TabsFragment;
 import com.badeeb.waritex.model.Promotion;
@@ -34,7 +35,7 @@ import org.parceler.Parcels;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity {
 
     // Logging Purpose
     private final String TAG = MainActivity.class.getSimpleName();
@@ -117,20 +118,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         getMenuInflater().inflate(R.menu.menu, menu);
 
         MenuItem companyInfo = menu.findItem(R.id.action_company_info);
+        MenuItem notificationsHistory = menu.findItem(R.id.action_notifications_history);
 
         if (companyInfo != null) {
             // Add onclick listener on button
             companyInfo.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    Log.d(TAG, "onCreateOptionsMenu - onMenuItemClick - Start");
+                    Log.d(TAG, "onCreateOptionsMenu - companyInfo:onMenuItemClick - Start");
 
                     // Check first if company info fragment is the one displayed now in screen or not
                     CompanyInfoFragment companyInfoFragment = (CompanyInfoFragment) mFragmentManager.findFragmentByTag(CompanyInfoFragment.TAG);
 
                     if (companyInfoFragment == null || companyInfoFragment.isVisible() == false) {
                         // Move to company info activity
-                        Log.d(TAG, "onCreateOptionsMenu - onMenuItemClick - Display fragment");
+                        Log.d(TAG, "onCreateOptionsMenu - companyInfo:onMenuItemClick - Display fragment");
 
                         companyInfoFragment = new CompanyInfoFragment();
                         mFragmentManager = getSupportFragmentManager();
@@ -143,7 +145,38 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         fragmentTransaction.commit();
                     }
 
-                    Log.d(TAG, "onCreateOptionsMenu - onMenuItemClick - Start");
+                    Log.d(TAG, "onCreateOptionsMenu - companyInfo:onMenuItemClick - Start");
+                    return false;
+                }
+            });
+        }
+
+        if (notificationsHistory != null) {
+            // Add onclick listener on button
+            notificationsHistory.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    Log.d(TAG, "onCreateOptionsMenu - notificationsHistory:onMenuItemClick - Start");
+
+                    // Check first if company info fragment is the one displayed now in screen or not
+                    NotificationsListFragment notificationsListFragment = (NotificationsListFragment) mFragmentManager.findFragmentByTag(NotificationsListFragment.TAG);
+
+                    if (notificationsListFragment == null || notificationsListFragment.isVisible() == false) {
+                        // Move to company info activity
+                        Log.d(TAG, "onCreateOptionsMenu - notificationsHistory:onMenuItemClick - Display fragment");
+
+                        notificationsListFragment = new NotificationsListFragment();
+                        mFragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
+                        fragmentTransaction.add(R.id.main_frame, notificationsListFragment, notificationsListFragment.TAG);
+
+                        fragmentTransaction.addToBackStack(TAG);
+
+                        fragmentTransaction.commit();
+                    }
+
+                    Log.d(TAG, "onCreateOptionsMenu - notificationsHistory:onMenuItemClick - Start");
                     return false;
                 }
             });
@@ -229,41 +262,5 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 Log.d(TAG, "handleFirebaseDynamicLinks - onFailure - End");
             }
         });
-        //------------------------------------------------------------------------------------------
-        /*
-        GoogleApiClient.Builder googleApiClientBuilder = new GoogleApiClient.Builder(this);
-        googleApiClientBuilder.enableAutoManage(this, this);
-        googleApiClientBuilder.addApi(AppInvite.API);
-
-        GoogleApiClient googleApiClient = googleApiClientBuilder.build();
-
-
-        AppInvite.AppInviteApi.getInvitation(googleApiClient, this, false)
-                .setResultCallback(
-                        new ResultCallback<AppInviteInvitationResult>() {
-                            @Override
-                            public void onResult(@NonNull AppInviteInvitationResult result) {
-                                if (result.getStatus().isSuccess()) {
-                                    Intent intent = result.getInvitationIntent();
-                                    String deepLink = AppInviteReferral.getDeepLink(intent);
-                                    // Handloe the deep link
-                                } else {
-                                    Log.d(TAG, "Oops, looks like there was no deep link found!");
-                                }
-                            }
-                        });
-
-
-
-        Log.d(TAG, "handleFirebaseDynamicLinks - End");
-        */
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-        Log.d(TAG, "onConnectionFailed - Start");
-
-        Log.d(TAG, "onConnectionFailed - End");
     }
 }

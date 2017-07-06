@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/general_margin"
+    android:background="@drawable/rounded_corner"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/vendor_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:gravity="start"
+        android:text="Notification Title"
+        android:padding="@dimen/sub_padding"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/sub_padding"
+        >
+
+        <TextView
+            style="@style/sub_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notification_date" />
+
+        <TextView
+            android:id="@+id/creation_date"
+            style="@style/sub_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Creation Date"
+            android:paddingLeft="@dimen/sub_padding"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/description"
+        style="@style/sub_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:padding="@dimen/sub_padding"
+        />
+
+
+</LinearLayout>

@@ -34,7 +34,7 @@ public class ProductsRecyclerViewAdapter extends RecyclerView.Adapter<ProductVie
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
-        View itemView = layoutInflater.inflate(R.layout.product_card, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.card_product, parent, false);
 
         ProductViewHolder productViewHolder = new ProductViewHolder(itemView);
 

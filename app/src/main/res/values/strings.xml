@@ -28,4 +28,6 @@
     <string name="enable_gps">Enable GPS</string>
     <string name="notification_title">Waritex</string>
     <string name="share_app_descrption">Waritex Company</string>
+    <string name="notification_date">Notification Date: </string>
+    <string name="server_error">Server cannot be reached, Please try later</string>
 </resources>
