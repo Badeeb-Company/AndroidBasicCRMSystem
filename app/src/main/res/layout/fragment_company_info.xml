@@ -204,7 +204,7 @@
                     android:id="@+id/app_rate_img"
                     android:layout_width="@dimen/company_info_small_image_size"
                     android:layout_height="@dimen/company_info_small_image_size"
-                    android:src="@drawable/favorite_logo"
+                    android:src="@drawable/icon_rate_us"
                     android:padding="@dimen/padding"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"/>
@@ -231,7 +231,7 @@
                     android:id="@+id/app_url_share_img"
                     android:layout_width="@dimen/company_info_small_image_size"
                     android:layout_height="@dimen/company_info_small_image_size"
-                    android:src="@drawable/share_logo"
+                    android:src="@drawable/icon_share"
                     android:padding="@dimen/padding"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"/>

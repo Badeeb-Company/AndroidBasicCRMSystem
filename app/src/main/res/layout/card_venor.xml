@@ -39,7 +39,7 @@
         <ImageView
             android:layout_width="@dimen/vendor_phone_img_size"
             android:layout_height="@dimen/vendor_phone_img_size"
-            android:src="@drawable/circular_call_logo"
+            android:src="@drawable/icon_call"
             android:layout_weight="0.2"
             android:layout_gravity="center"
             />

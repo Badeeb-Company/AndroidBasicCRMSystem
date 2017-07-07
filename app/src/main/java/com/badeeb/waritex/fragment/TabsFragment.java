@@ -91,9 +91,9 @@ public class TabsFragment extends Fragment {
 
         Log.d(TAG, "setupTabIcons - End");
 
-        this.mtabLayout.getTabAt(0).setIcon(R.drawable.product_icon);
-        this.mtabLayout.getTabAt(1).setIcon(R.drawable.promotion_icon);
-        this.mtabLayout.getTabAt(2).setIcon(R.drawable.promotion_icon);
+        this.mtabLayout.getTabAt(0).setIcon(R.drawable.icon_product);
+        this.mtabLayout.getTabAt(1).setIcon(R.drawable.icon_promotion);
+        this.mtabLayout.getTabAt(2).setIcon(R.drawable.icon_promotion);
 
         Log.d(TAG, "setupTabIcons - End");
     }

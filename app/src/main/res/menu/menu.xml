@@ -12,13 +12,13 @@
 
     <item android:id="@+id/action_notifications_history"
         android:title="Notification History"
-        android:icon="@drawable/notification_24"
+        android:icon="@drawable/icon_notification"
         app:showAsAction="ifRoom"
         />
 
     <item android:id="@+id/action_company_info"
           android:title="Company Info"
-          android:icon="@drawable/info_24"
+          android:icon="@drawable/icon_about"
           app:showAsAction="ifRoom"
         />
     <!-- Settings, should always be in the overflow -->
