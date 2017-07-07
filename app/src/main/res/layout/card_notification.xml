@@ -17,6 +17,15 @@
         android:padding="@dimen/sub_padding"
         />
 
+    <TextView
+        android:id="@+id/description"
+        style="@style/sub_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:padding="@dimen/sub_padding"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,15 +48,5 @@
             android:paddingLeft="@dimen/sub_padding"/>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/description"
-        style="@style/sub_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:padding="@dimen/sub_padding"
-        />
-
 
 </LinearLayout>
