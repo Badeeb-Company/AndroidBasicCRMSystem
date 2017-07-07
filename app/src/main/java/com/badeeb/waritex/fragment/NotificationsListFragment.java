@@ -3,6 +3,7 @@ package com.badeeb.waritex.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,6 +47,7 @@ public class NotificationsListFragment extends Fragment {
     public static final String TAG = NotificationsListFragment.class.getSimpleName();
 
     // Class Attributes
+    private SwipeRefreshLayout mSwipeContainer;
     private RecyclerView mRecyclerView;
     private NotificationsRecyclerViewAdapter mAdapter;
     private List<Notification> mNotificationsList;
@@ -77,7 +79,8 @@ public class NotificationsListFragment extends Fragment {
 
         // Attribute initialization
         mNotificationsList = new ArrayList<>();
-
+        // Swipe Container
+        mSwipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         // Recycler View creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.notifications_recycler_view);
         // Adapter creation
@@ -136,6 +139,23 @@ public class NotificationsListFragment extends Fragment {
             }
         });
 
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - Start");
+
+                mNotificationsList.clear();
+
+                mcurrentPage = 1;
+                mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
+                mNoMoreNotifications = false;
+
+                loadNotificationsDetails();
+
+                Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - End");
+            }
+        });
+
         Log.d(TAG, "setupListeners - End");
 
     }
@@ -143,6 +163,9 @@ public class NotificationsListFragment extends Fragment {
     private void loadNotificationsDetails() {
 
         Log.d(TAG, "loadNotificationsDetails - Start");
+
+        // showing refresh animation before making http call
+        mSwipeContainer.setRefreshing(true);
 
         String currentUrl = mUrl
                 + "?page=" + mcurrentPage
@@ -186,6 +209,9 @@ public class NotificationsListFragment extends Fragment {
 
                         mAdapter.notifyDataSetChanged();
 
+                        // stopping swipe refresh
+                        mSwipeContainer.setRefreshing(false);
+
                         Log.d(TAG, "loadNotificationsDetails - onResponse - End");
                     }
                 },
@@ -196,7 +222,17 @@ public class NotificationsListFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         // Network Error Handling
                         Log.d(TAG, "loadNotificationsDetails - onErrorResponse: " + error.toString());
-                        Toast.makeText(getContext(), getResources().getText(R.string.server_error), Toast.LENGTH_SHORT).show();
+                        // stopping swipe refresh
+                        mSwipeContainer.setRefreshing(false);
+                        // Display error Message to user
+                        if (AppPreferences.isNetworkAvailable(getContext())) {
+                            // Internet is available but server not
+                            Toast.makeText(getContext(), getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            // Server is not available
+                            Toast.makeText(getContext(), getString(R.string.internet_service_message), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
         ) {

@@ -3,6 +3,8 @@ package com.badeeb.waritex.shared;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 /**
  * Created by Amr Alghawy on 6/12/2017.
@@ -34,5 +36,12 @@ public class AppPreferences {
 
     public static SharedPreferences getAppPreferences(Context context) {
         return context.getSharedPreferences(TAG, Activity.MODE_PRIVATE);
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

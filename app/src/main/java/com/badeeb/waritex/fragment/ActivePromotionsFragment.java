@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -52,6 +54,7 @@ public class ActivePromotionsFragment extends Fragment {
     private final String TAG = ActivePromotionsFragment.class.getSimpleName();
 
     // Class Attributes
+    private SwipeRefreshLayout mSwipeContainer;
     private RecyclerView mRecyclerView;
     private PromotionsRecyclerViewAdaptor mAdapter;
     private List<Promotion> mActivePromotionList;
@@ -90,7 +93,8 @@ public class ActivePromotionsFragment extends Fragment {
         // Attribute initialization
         mPromotionPerLine = AppPreferences.ONE_VIEW_IN_LINE;
         mActivePromotionList = new ArrayList<Promotion>();
-
+        // Swipe Container
+        mSwipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         // Recycler View creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.active_promotion_recycler_view);
         // Adapter creation
@@ -113,18 +117,21 @@ public class ActivePromotionsFragment extends Fragment {
         this.mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
         this.mNoMorePromotions = false;
 
-        loadPromotions();
+        loadPromotionsDetails();
 
         Log.d(TAG, "init - End");
     }
 
-    private void loadPromotions() {
+    private void loadPromotionsDetails() {
 
-        Log.d(TAG, "loadPromotions - Start");
+        Log.d(TAG, "loadPromotionsDetails - Start");
+
+        // showing refresh animation before making http call
+        mSwipeContainer.setRefreshing(true);
 
         String currentUrl = url + "?expired=false&page=" + mcurrentPage + "&page_size=" + mpageSize;
 
-        Log.d(TAG, "loadPromotions - URL: " + currentUrl);
+        Log.d(TAG, "loadPromotionsDetails - URL: " + currentUrl);
 
         // Call products service
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, currentUrl, null,
@@ -134,9 +141,9 @@ public class ActivePromotionsFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Response Handling
-                        Log.d(TAG, "loadPromotions - onResponse - Start");
+                        Log.d(TAG, "loadPromotionsDetails - onResponse - Start");
 
-                        Log.d(TAG, "loadPromotions - onResponse - Json Response: " + response.toString());
+                        Log.d(TAG, "loadPromotionsDetails - onResponse - Json Response: " + response.toString());
 
                         // Create Gson object
                         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -148,9 +155,9 @@ public class ActivePromotionsFragment extends Fragment {
 
                         JsonResponse<PromotionsInquiry> jsonResponse = gson.fromJson(responseData, responseType);
 
-                        Log.d(TAG, "loadPromotions - onResponse - Status: " + jsonResponse.getJsonMeta().getStatus());
-                        Log.d(TAG, "loadPromotions - onResponse - Message: " + jsonResponse.getJsonMeta().getMessage());
-                        Log.d(TAG, "loadPromotions - onResponse - Data Size: " + jsonResponse.getResult().getPromotions().size());
+                        Log.d(TAG, "loadPromotionsDetails - onResponse - Status: " + jsonResponse.getJsonMeta().getStatus());
+                        Log.d(TAG, "loadPromotionsDetails - onResponse - Message: " + jsonResponse.getJsonMeta().getMessage());
+                        Log.d(TAG, "loadPromotionsDetails - onResponse - Data Size: " + jsonResponse.getResult().getPromotions().size());
 
                         // Load Data into slide show
                         if (jsonResponse.getResult().getPromotions()!= null
@@ -164,7 +171,10 @@ public class ActivePromotionsFragment extends Fragment {
 
                         mAdapter.notifyDataSetChanged();
 
-                        Log.d(TAG, "loadPromotions - onResponse - End");
+                        // stopping swipe refresh
+                        mSwipeContainer.setRefreshing(false);
+
+                        Log.d(TAG, "loadPromotionsDetails - onResponse - End");
                     }
                 },
 
@@ -173,7 +183,18 @@ public class ActivePromotionsFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Network Error Handling
-                        Log.d(TAG, "loadPromotions - onErrorResponse: " + error.toString());
+                        Log.d(TAG, "loadPromotionsDetails - onErrorResponse: " + error.toString());
+                        // stopping swipe refresh
+                        mSwipeContainer.setRefreshing(false);
+                        // Display error Message to user
+                        if (AppPreferences.isNetworkAvailable(getContext())) {
+                            // Internet is available but server not
+                            Toast.makeText(getContext(), getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            // Server is not available
+                            Toast.makeText(getContext(), getString(R.string.internet_service_message), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
         ) {
@@ -195,7 +216,7 @@ public class ActivePromotionsFragment extends Fragment {
 
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 
-        Log.d(TAG, "loadPromotions - End");
+        Log.d(TAG, "loadPromotionsDetails - End");
     }
 
 
@@ -262,10 +283,27 @@ public class ActivePromotionsFragment extends Fragment {
                         Log.d(TAG, "init - mRecyclerView:onScrolled - Load more promotions");
 
                         mcurrentPage++;
-                        loadPromotions();
+                        loadPromotionsDetails();
                     }
                 }
                 Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - End");
+            }
+        });
+
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - Start");
+
+                mActivePromotionList.clear();
+
+                mcurrentPage = 1;
+                mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
+                mNoMorePromotions = false;
+
+                loadPromotionsDetails();
+
+                Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - End");
             }
         });
 

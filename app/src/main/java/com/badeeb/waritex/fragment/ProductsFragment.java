@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -18,6 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.badeeb.waritex.MainActivity;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.adapter.ProductsRecyclerViewAdapter;
 import com.badeeb.waritex.listener.RecyclerItemClickListener;
@@ -48,6 +51,7 @@ public class ProductsFragment extends Fragment {
     private final String TAG = ProductsFragment.class.getSimpleName();
 
     // Fragment Attributes
+    private SwipeRefreshLayout mSwipeContainer;
     private RecyclerView mRecyclerView;
     private ProductsRecyclerViewAdapter mAdapter;
     private int mProductsPerLine;
@@ -85,6 +89,8 @@ public class ProductsFragment extends Fragment {
 
         // Attribute initialization
         mProductsArray = new ArrayList<>();
+        // Swipe Container
+        mSwipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         // Recycler view creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.products_recycler_view);
         // Adapter creation
@@ -121,6 +127,9 @@ public class ProductsFragment extends Fragment {
 
     private void loadProductsDetails() {
         Log.d(TAG, "loadProducts - Start");
+
+        // showing refresh animation before making http call
+        mSwipeContainer.setRefreshing(true);
 
         // Setting mUrl
         String currentUrl = mUrl + "?page=" + mcurrentPage + "&page_size=" + mpageSize;
@@ -170,6 +179,9 @@ public class ProductsFragment extends Fragment {
                         */
                         mAdapter.notifyDataSetChanged();
 
+                        // stopping swipe refresh
+                        mSwipeContainer.setRefreshing(false);
+
                         Log.d(TAG, "loadProducts - onResponse - End");
                     }
                 },
@@ -180,6 +192,17 @@ public class ProductsFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         // Network Error Handling
                         Log.d(TAG, "loadProducts - onErrorResponse: " + error.toString());
+                        // stopping swipe refresh
+                        mSwipeContainer.setRefreshing(false);
+                        // Display error Message to user
+                        if (AppPreferences.isNetworkAvailable(getContext())) {
+                            // Internet is available but server not
+                            Toast.makeText(getContext(), getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            // Server is not available
+                            Toast.makeText(getContext(), getString(R.string.internet_service_message), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
         ) {
@@ -264,6 +287,24 @@ public class ProductsFragment extends Fragment {
                     }
                 }
                 Log.d(TAG, "setupListeners - mRecyclerView:onScrolled - End");
+            }
+        });
+
+
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - Start");
+
+                mProductsArray.clear();
+
+                mcurrentPage = 1;
+                mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
+                mNoMoreProducts = false;
+
+                loadProductsDetails();
+
+                Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - End");
             }
         });
 

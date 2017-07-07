@@ -22,6 +22,7 @@ import com.badeeb.waritex.fragment.PromotionDetailsFragment;
 import com.badeeb.waritex.fragment.TabsFragment;
 import com.badeeb.waritex.model.Promotion;
 import com.badeeb.waritex.shared.AppPreferences;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,6 +32,7 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import io.fabric.sdk.android.Fabric;
 import org.parceler.Parcels;
 
 import java.util.Locale;
@@ -50,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate - Start");
 
         super.onCreate(savedInstanceState);
+
+        // Add Fabric to project
+        Fabric.with(this, new Crashlytics());
+
+
 
         setupDefaultLanguage();
 
@@ -89,12 +96,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.main_frame, mTabsFragment, TabsFragment.TAG);
         fragmentTransaction.commit();
-
-        // Check if device has network connection or not
-        if (! isNetworkAvailable()) {
-            Toast.makeText(getBaseContext(), getResources().getText(R.string.internet_service_message), Toast.LENGTH_SHORT).show();
-        }
-
 
         // Get notification boolean value from shared preferences
         SharedPreferences prefs = AppPreferences.getAppPreferences(this);
@@ -186,13 +187,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
     private void handleFirebaseDynamicLinks() {
 
         Log.d(TAG, "handleFirebaseDynamicLinks - Start");
@@ -263,4 +257,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
