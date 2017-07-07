@@ -6,7 +6,7 @@
 
     <!-- Tabs titles -->
     <string name="products_tab_title">Products</string>
-    <string name="active_promotions_tab_title">Active Promotions</string>
+    <string name="active_promotions_tab_title">Promotions</string>
     <string name="expired_promotions_tab_title">Expired Promotions</string>
     <string name="title_activity_maps">Map</string>
     <string name="about_label">About</string>
@@ -30,4 +30,5 @@
     <string name="share_app_descrption">Waritex Company</string>
     <string name="notification_date">Notification Date: </string>
     <string name="server_error">Server cannot be reached, Please try later</string>
+    <string name="app_language">English Language</string>
 </resources>

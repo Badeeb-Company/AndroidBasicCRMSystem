@@ -21,7 +21,7 @@ public class NotificationsInquiry {
     @SerializedName("page_size")
     private int pageSize;
 
-    @Expose(serialize = true, deserialize = false)
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("notifications")
     private List<Notification> notifications;
 

@@ -34,7 +34,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
-        View itemView = layoutInflater.inflate(R.layout.card_product, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.card_notification, parent, false);
 
         NotificationViewHolder notificationViewHolder = new NotificationViewHolder(itemView);
 

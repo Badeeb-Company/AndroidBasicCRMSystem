@@ -26,4 +26,5 @@
     <string name="share_app_descrption">شركه وريتكس</string>
     <string name="notification_date">"تاريخ الاشعار: "</string>
     <string name="server_error">هناك خطأ فى موفرالبيانات. يرجى المحاوله فى وقت لاحق</string>
+    <string name="app_language">اللغه الانجليزيه</string>
 </resources>

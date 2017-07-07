@@ -33,6 +33,7 @@ public class AppPreferences {
 
     // Shared Preferences Keys
     public static final String PREF_NOTIFICATION_ENABLED = "key.notification.enabled"; //boolean
+    public static final String PREF_ENGLISH_ENABLED = "key.english.enabled"; //boolean
 
     public static SharedPreferences getAppPreferences(Context context) {
         return context.getSharedPreferences(TAG, Activity.MODE_PRIVATE);

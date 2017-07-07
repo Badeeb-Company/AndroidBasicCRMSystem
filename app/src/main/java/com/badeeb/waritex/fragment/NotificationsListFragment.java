@@ -202,6 +202,7 @@ public class NotificationsListFragment extends Fragment {
                         if (jsonResponse.getResult().getNotifications() != null
                                 && jsonResponse.getResult().getNotifications().size() != 0) {
                             mNotificationsList.addAll(jsonResponse.getResult().getNotifications());
+                            Log.d(TAG, "loadNotificationsDetails - onResponse - List Size = "+mNotificationsList.size());
                         }
                         else {
                             mNoMoreNotifications = true;

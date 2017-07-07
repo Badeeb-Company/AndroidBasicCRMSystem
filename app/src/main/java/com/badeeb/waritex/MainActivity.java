@@ -71,7 +71,18 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "setupDefaultLanguage - Start");
 
-        String languageToLoad  = "ar"; // your language
+        // Default Language is Arabic
+        String languageToLoad  = "ar";
+
+        // Get language boolean value from shared preferences
+        SharedPreferences prefs = AppPreferences.getAppPreferences(this);
+        boolean englishEnabled = prefs.getBoolean(AppPreferences.PREF_ENGLISH_ENABLED, false);
+
+        if (englishEnabled) {
+            // English Language
+            languageToLoad = "en";
+        }
+
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();

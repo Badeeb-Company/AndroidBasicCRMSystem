@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.badeeb.waritex.MainActivity;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.model.CompanyInfo;
 import com.badeeb.waritex.model.CompanyInfoInquiry;
@@ -38,6 +40,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -72,9 +75,13 @@ public class CompanyInfoFragment extends Fragment {
         // Get notification boolean value from shared preferences
         SharedPreferences prefs = AppPreferences.getAppPreferences(getContext());
         boolean notificationEnabled = prefs.getBoolean(AppPreferences.PREF_NOTIFICATION_ENABLED, true);
+        boolean languageEnabled = prefs.getBoolean(AppPreferences.PREF_ENGLISH_ENABLED, false);
 
         Switch notificationFlag = (Switch) view.findViewById(R.id.app_notification_flag);
         notificationFlag.setChecked(notificationEnabled);
+
+        Switch languageFlag = (Switch) view.findViewById(R.id.app_language_flag);
+        languageFlag.setChecked(languageEnabled);
 
         loadCompanyInfo(view);
 
@@ -316,6 +323,53 @@ public class CompanyInfoFragment extends Fragment {
                 }
 
                 Log.d(TAG, "setupListeners - notificationFlag:onClick - End");
+            }
+        });
+
+
+        Switch englishFlag = (Switch) view.findViewById(R.id.app_language_flag);
+        englishFlag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d(TAG, "setupListeners - englishFlag:onClick - Start");
+
+                SharedPreferences prefs = AppPreferences.getAppPreferences(getContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(AppPreferences.PREF_ENGLISH_ENABLED, isChecked);
+                editor.commit();
+
+                if (isChecked == true) {
+                    // Change language
+                    String languageToLoad = "en";
+
+                    Locale locale = new Locale(languageToLoad);
+                    Locale.setDefault(locale);
+                    Configuration config = new Configuration();
+                    config.locale = locale;
+                    getContext().getResources().updateConfiguration(config,
+                            getContext().getResources().getDisplayMetrics());
+
+                    Intent refresh = new Intent(getContext(), MainActivity.class);
+                    startActivity(refresh);
+                    getActivity().finish();
+                }
+                else {
+                    // Arabic
+                    String languageToLoad = "ar";
+
+                    Locale locale = new Locale(languageToLoad);
+                    Locale.setDefault(locale);
+                    Configuration config = new Configuration();
+                    config.locale = locale;
+                    getContext().getResources().updateConfiguration(config,
+                            getContext().getResources().getDisplayMetrics());
+
+                    Intent refresh = new Intent(getContext(), MainActivity.class);
+                    startActivity(refresh);
+                    getActivity().finish();
+                }
+
+                Log.d(TAG, "setupListeners - englishFlag:onClick - End");
             }
         });
 

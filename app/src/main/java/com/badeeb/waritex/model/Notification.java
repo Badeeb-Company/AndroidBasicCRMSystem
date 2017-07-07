@@ -22,7 +22,7 @@ public class Notification {
     private String description;
 
     @Expose(serialize = false, deserialize = true)
-    @SerializedName("creation_date")
+    @SerializedName("created_at")
     private String creationDate;
 
     // Constructor
