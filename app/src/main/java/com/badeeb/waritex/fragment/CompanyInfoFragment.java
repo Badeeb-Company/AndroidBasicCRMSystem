@@ -1,6 +1,8 @@
 package com.badeeb.waritex.fragment;
 
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -11,12 +13,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -58,6 +63,9 @@ public class CompanyInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView - Start");
+
+        // for hiding toolbar icons
+        setHasOptionsMenu(true);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_company_info, container, false);
@@ -326,7 +334,7 @@ public class CompanyInfoFragment extends Fragment {
             }
         });
 
-
+        // Add Listener for switching language
         Switch englishFlag = (Switch) view.findViewById(R.id.app_language_flag);
         englishFlag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -373,6 +381,32 @@ public class CompanyInfoFragment extends Fragment {
             }
         });
 
+        // Add Listener for Whatsapp
+        final TextView whatsappNumber = (TextView) view.findViewById(R.id.app_whatsApp_number);
+        whatsappNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    //place your TextView's text in clipboard
+                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    clipboard.setText(whatsappNumber.getText());
+                    Toast.makeText(getContext(),getResources().getText(R.string.number_copied),Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+
+                }
+            }
+        });
+
+
         Log.d(TAG, "setupListeners - End");
+    }
+
+
+    // for hiding the toolbar company info icons
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_company_info).setVisible(false);
+        menu.findItem(R.id.action_notifications_history).setVisible(false);
+        super.onPrepareOptionsMenu(menu);
     }
 }

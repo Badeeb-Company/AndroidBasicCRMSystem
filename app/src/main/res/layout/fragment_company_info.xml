@@ -19,22 +19,15 @@
             android:orientation="horizontal"
             android:layoutDirection="ltr">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:src="@drawable/call_logo"
-                android:padding="@dimen/padding"/>
+
 
             <ImageView
                 android:id="@+id/company_logo"
                 android:layout_width="@dimen/company_info_image_size"
                 android:layout_height="@dimen/company_info_image_size"
                 android:layout_weight="1"
-                android:src="@drawable/waritex_white_logo_256"
                 android:padding="@dimen/padding"
-                />
+                android:src="@drawable/waritex_white_logo_256" />
 
         </LinearLayout>
 
@@ -206,8 +199,11 @@
                     android:layout_height="@dimen/company_info_small_image_size"
                     android:src="@drawable/icon_rate_us"
                     android:padding="@dimen/padding"
+                    android:layout_marginRight="@dimen/company_info_icon_margin"
+                    android:layout_marginLeft="@dimen/company_info_icon_margin"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"/>
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"/>
 
             </RelativeLayout>
 
@@ -233,6 +229,8 @@
                     android:layout_height="@dimen/company_info_small_image_size"
                     android:src="@drawable/icon_share"
                     android:padding="@dimen/padding"
+                    android:layout_marginRight="@dimen/company_info_icon_margin"
+                    android:layout_marginLeft="@dimen/company_info_icon_margin"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"/>
 

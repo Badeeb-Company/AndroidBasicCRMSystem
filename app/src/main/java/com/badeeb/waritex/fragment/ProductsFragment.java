@@ -84,11 +84,13 @@ public class ProductsFragment extends Fragment {
         return view;
     }
 
+
     private void init(View view) {
         Log.d(TAG, "init - Start");
 
         // Attribute initialization
         mProductsArray = new ArrayList<>();
+
         // Swipe Container
         mSwipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         // Recycler view creation
@@ -119,7 +121,6 @@ public class ProductsFragment extends Fragment {
 
         // Network call to load first 20 products
         loadProductsDetails();
-
 
         Log.d(TAG, "init - End");
     }
@@ -223,7 +224,6 @@ public class ProductsFragment extends Fragment {
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(AppPreferences.VOLLEY_TIME_OUT, AppPreferences.VOLLEY_RETRY_COUNTER, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
-
 
         Log.d(TAG, "loadProducts - End");
     }

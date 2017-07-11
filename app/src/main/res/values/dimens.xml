@@ -17,7 +17,7 @@
     <dimen name="due_date_padding_bottom">5dp</dimen>
     <dimen name="due_date">12dp</dimen>
     <dimen name="title">15dp</dimen>
-    <dimen name="title_padding">20dp</dimen>
+    <dimen name="title_padding">7dp</dimen>
 
     <!-- promotion details dimensions -->
     <dimen name="slide_show_height">250dp</dimen>
@@ -41,14 +41,15 @@
     <dimen name="company_info_small_image_size">36dp</dimen>
     <dimen name="company_info_margin">8dp</dimen>
     <dimen name="company_info_rounded_box_margin">16dp</dimen>
+    <dimen name="company_info_icon_margin">7dp</dimen>
 
     <!-- Vendors Fragment -->
     <dimen name="vendor_phone_img_size">48dp</dimen>
     <dimen name="vendor_mobile_number_padding">14dp</dimen>
 
     <!-- General configuration -->
-    <dimen name="padding">8dp</dimen>
+    <dimen name="padding">4dp</dimen>
     <dimen name="sub_padding">4dp</dimen>
-    <dimen name="general_margin">8dp</dimen>
+    <dimen name="general_margin">4dp</dimen>
 
 </resources>

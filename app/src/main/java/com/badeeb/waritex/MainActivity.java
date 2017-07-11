@@ -1,23 +1,31 @@
 package com.badeeb.waritex;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badeeb.waritex.fragment.CompanyInfoFragment;
 import com.badeeb.waritex.fragment.NotificationsListFragment;
+import com.badeeb.waritex.fragment.ProductsFragment;
 import com.badeeb.waritex.fragment.PromotionDetailsFragment;
 import com.badeeb.waritex.fragment.TabsFragment;
 import com.badeeb.waritex.model.Promotion;
@@ -55,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Add Fabric to project
         Fabric.with(this, new Crashlytics());
-
-
 
         setupDefaultLanguage();
 
@@ -100,6 +106,19 @@ public class MainActivity extends AppCompatActivity {
         // Toolbar
         this.mtoolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(this.mtoolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            // Disable the default and enable the custom
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            View customView = getLayoutInflater().inflate(R.layout.actionbar_title, null);
+
+            setupTitleListeners(customView);
+
+            // Apply the custom view
+            actionBar.setCustomView(customView);
+        }
 
         mTabsFragment = new TabsFragment();
 
@@ -122,6 +141,48 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "init - End");
     }
 
+    private void replaceFragmentAsHome(Fragment fragment){
+        String backStateName = fragment.getClass().getSimpleName();
+        mFragmentManager = getSupportFragmentManager();
+
+        // clear the fragements history stack
+        for(int i = 0; i < mFragmentManager.getBackStackEntryCount(); ++i) {
+            mFragmentManager.popBackStack();
+        }
+
+        // Add the fragment again
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        ft.replace(R.id.main_frame, fragment);
+        ft.addToBackStack(backStateName);
+        ft.commit();
+
+    }
+
+    private void setupTitleListeners(View customView) {
+        // Get the textview of the title
+        TextView customTitle = (TextView) customView.findViewById(R.id.actionbarTitle);
+
+        // Set the on click listener for the title
+        customTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClickCustmTitle TextView - tabsFragment:homeButton - Display fragment - start");
+
+                TabsFragment tabsFragment = (TabsFragment) mFragmentManager.findFragmentByTag(TabsFragment.TAG);
+
+                // Move to tabs fragment
+                replaceFragmentAsHome(tabsFragment);
+
+                Log.d(TAG, "onClickCustmTitle TextView - tabsFragment:homeButton - Display fragment - end");
+
+            }
+        });
+
+    }
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -132,8 +193,9 @@ public class MainActivity extends AppCompatActivity {
         MenuItem companyInfo = menu.findItem(R.id.action_company_info);
         MenuItem notificationsHistory = menu.findItem(R.id.action_notifications_history);
 
+
         if (companyInfo != null) {
-            // Add onclick listener on button
+         // Add onclick listener on button
             companyInfo.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {

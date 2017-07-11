@@ -15,6 +15,7 @@
     <color name="tab_background_selected">#E53935</color>
     <color name="tab_background_unselected">#b71c1c</color>
     <color name="lightGreyBackground">#EEEEEE</color>
+    <color name="logoRed">#f32222</color>
 
     <color name="black">#000000</color>
     <color name="jet">#222222</color>

@@ -1,10 +1,18 @@
 package com.badeeb.waritex.adapter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.model.Vendor;
@@ -41,7 +49,7 @@ public class VendorsRecyclerViewAdapter extends RecyclerView.Adapter<VendorViewH
     }
 
     @Override
-    public void onBindViewHolder(VendorViewHolder holder, int position) {
+    public void onBindViewHolder(final VendorViewHolder holder, int position) {
 
         Vendor vendor = this.mVendorsList.get(position);
 
@@ -50,6 +58,23 @@ public class VendorsRecyclerViewAdapter extends RecyclerView.Adapter<VendorViewH
         holder.getMobileNumber().setText(vendor.getMobileNumber());
         holder.getAddress().setText(vendor.getAddress());
         holder.getGovernorate().setText(vendor.getGovernorate());
+        holder.getCallIcon().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                String mobileNumber = String.valueOf(holder.getMobileNumber().getText());
+                callIntent.setData(Uri.parse("tel:" + mobileNumber));
+
+                if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // Show Alert to enable location service
+                    Toast.makeText(mContext, mContext.getResources().getText(R.string.enable_phone_call), Toast.LENGTH_SHORT).show();
+
+                    ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.CALL_PHONE}, 0);
+                }else {
+                    mContext.startActivity(callIntent);
+                }
+            }
+        });
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -65,13 +67,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+        // prepare the logo as a bitmap
+        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.square_logo);
+        Bitmap largeLogo=bitmapdraw.getBitmap();
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.logo)
+                .setSmallIcon(R.drawable.w_logo)
+                .setLargeIcon(largeLogo)
                 .setContentTitle(notification.getTitle())
 //                .setContentText(notification.getBody())
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(notification.getBody()))    // Used to display full/Multiline text of any notification
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
+                .setColor(getResources().getColor(R.color.logoRed))
                 .setContentIntent(pendingIntent) // passing the destination intent
                 ;
 

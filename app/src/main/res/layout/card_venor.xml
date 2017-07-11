@@ -37,6 +37,7 @@
             />
 
         <ImageView
+            android:id="@+id/call_icon"
             android:layout_width="@dimen/vendor_phone_img_size"
             android:layout_height="@dimen/vendor_phone_img_size"
             android:src="@drawable/icon_call"

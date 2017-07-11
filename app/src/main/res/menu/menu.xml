@@ -10,11 +10,11 @@
         <!--app:showAsAction="ifRoom"-->
         <!--android:visible="false" />-->
 
-    <item android:id="@+id/action_notifications_history"
-        android:title="Notification History"
+    <item
+        android:id="@+id/action_notifications_history"
         android:icon="@drawable/icon_notification"
-        app:showAsAction="ifRoom"
-        />
+        android:title="Notification History"
+        app:showAsAction="always" />
 
     <item android:id="@+id/action_company_info"
           android:title="Company Info"

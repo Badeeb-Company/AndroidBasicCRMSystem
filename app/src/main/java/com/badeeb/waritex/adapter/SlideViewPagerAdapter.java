@@ -67,6 +67,8 @@ public class SlideViewPagerAdapter extends PagerAdapter {
 
         ImageView myImage = (ImageView) productSlideLayout.findViewById(R.id.image);
 
+        myImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
         // Load Image from Server
         Log.d(TAG, "instantiateItem - Before Glide call");
         Glide.with(mContext)

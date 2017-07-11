@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -62,6 +63,9 @@ public class NotificationsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView - Start");
+
+        // for hiding toolbar icons
+        setHasOptionsMenu(true);
 
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_notifications_list, container, false);
@@ -256,5 +260,13 @@ public class NotificationsListFragment extends Fragment {
         MyVolley.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 
         Log.d(TAG, "loadNotificationsDetails - End");
+    }
+
+    // for hiding the toolbar notification icon
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_company_info).setVisible(false);
+        menu.findItem(R.id.action_notifications_history).setVisible(false);
+        super.onPrepareOptionsMenu(menu);
     }
 }

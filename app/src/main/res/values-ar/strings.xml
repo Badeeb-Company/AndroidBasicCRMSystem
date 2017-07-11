@@ -27,4 +27,6 @@
     <string name="notification_date">"تاريخ الاشعار: "</string>
     <string name="server_error">هناك خطأ فى موفرالبيانات. يرجى المحاوله فى وقت لاحق</string>
     <string name="app_language">اللغه الانجليزيه</string>
+    <string name="enable_phone_call">قم بتشغيل خاصيه الأتصال</string>
+    <string name="number_copied">تم نسخ رقم الواتس اب</string>
 </resources>

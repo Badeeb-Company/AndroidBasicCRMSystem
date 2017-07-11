@@ -24,6 +24,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -34,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.adapter.VendorsRecyclerViewAdapter;
+import com.badeeb.waritex.listener.RecyclerItemClickListener;
 import com.badeeb.waritex.model.JsonResponse;
 import com.badeeb.waritex.model.Vendor;
 import com.badeeb.waritex.model.VendorsInquiry;

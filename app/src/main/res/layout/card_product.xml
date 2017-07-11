@@ -26,7 +26,7 @@
                 android:layout_height="@dimen/promotion_photo_height"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:layout_margin="@dimen/sub_padding"/>
 
             <TextView
