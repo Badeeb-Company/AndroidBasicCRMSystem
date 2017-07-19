@@ -300,7 +300,7 @@ public class ProductsFragment extends Fragment {
                 Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - Start");
 
                 mProductsArray.clear();
-
+                mAdapter.notifyDataSetChanged();
                 mcurrentPage = 1;
                 mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
                 mNoMoreProducts = false;

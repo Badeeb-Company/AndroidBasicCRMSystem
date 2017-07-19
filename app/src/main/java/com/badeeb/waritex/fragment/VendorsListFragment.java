@@ -382,7 +382,7 @@ public class VendorsListFragment extends Fragment implements LocationListener {
                 Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - Start");
 
                 mVendorsList.clear();
-
+                mAdapter.notifyDataSetChanged();
                 // Make HTTP Call to get vendors list
                 mcurrentPage = 1;
                 mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;

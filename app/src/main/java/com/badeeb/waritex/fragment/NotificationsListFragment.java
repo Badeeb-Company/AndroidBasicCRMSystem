@@ -149,7 +149,7 @@ public class NotificationsListFragment extends Fragment {
                 Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - Start");
 
                 mNotificationsList.clear();
-
+                mAdapter.notifyDataSetChanged();
                 mcurrentPage = 1;
                 mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
                 mNoMoreNotifications = false;
