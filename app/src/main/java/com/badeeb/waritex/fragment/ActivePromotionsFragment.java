@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -93,12 +94,15 @@ public class ActivePromotionsFragment extends Fragment {
         // Attribute initialization
         mPromotionPerLine = AppPreferences.ONE_VIEW_IN_LINE;
         mActivePromotionList = new ArrayList<Promotion>();
+
+
+
         // Swipe Container
         mSwipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         // Recycler View creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.active_promotion_recycler_view);
         // Adapter creation
-        mAdapter = new PromotionsRecyclerViewAdaptor(getActivity(), mActivePromotionList);
+        mAdapter = new PromotionsRecyclerViewAdaptor(getActivity(), mActivePromotionList,false);
         // Layout Manager creation
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), mPromotionPerLine);
         // Link layout manager with recycler view
@@ -109,6 +113,7 @@ public class ActivePromotionsFragment extends Fragment {
 
         // Link adapter with recycler view
         mRecyclerView.setAdapter(mAdapter);
+
 
         // Call this method to setup listener on UI components
         setupListeners();
@@ -247,6 +252,7 @@ public class ActivePromotionsFragment extends Fragment {
                         PromotionDetailsFragment promotionDetailsFragment = new PromotionDetailsFragment();
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(PromotionDetailsFragment.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
+                        bundle.putBoolean(PromotionDetailsFragment.EXTRA_PROMOTION_IS_EXPIRED, false);
                         promotionDetailsFragment.setArguments(bundle);
 
                         FragmentManager fragmentManager = getFragmentManager();

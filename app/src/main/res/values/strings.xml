@@ -33,4 +33,6 @@
     <string name="app_language">English Language</string>
     <string name="enable_phone_call">Enable phone call permission</string>
     <string name="number_copied">The whatsapp number has been copied</string>
+    <string name="no_vendor_found">This promotion does not have vendors</string>
+    <string name="expired_date_text">Expired scince:</string>
 </resources>

@@ -50,9 +50,11 @@ public class PromotionDetailsFragment extends Fragment {
     private static ViewPager mPager;
     private Promotion mPromotion;
     private CircleIndicator mindicator;
+    private boolean mIsExpiredPromotion;
 
     // Constants
     public final static String EXTRA_PROMOTION_OBJECT = "EXTRA_PROMOTION_OBJECT";
+    public final static String EXTRA_PROMOTION_IS_EXPIRED = "EXTRA_PROMOTION_IS_EXPIRED";
 
     // attributes that will be used for JSON calls
     private String mUrl = AppPreferences.BASE_URL + "/promotions";
@@ -79,6 +81,7 @@ public class PromotionDetailsFragment extends Fragment {
 
         // Get promotion details from previous activity
         mPromotion = Parcels.unwrap(getArguments().getParcelable(EXTRA_PROMOTION_OBJECT));
+        mIsExpiredPromotion = getArguments().getBoolean(EXTRA_PROMOTION_IS_EXPIRED);
 
         // Attributes initialization
         mPager = (ViewPager) view.findViewById(R.id.promotion_details_viewpager);
@@ -200,7 +203,8 @@ public class PromotionDetailsFragment extends Fragment {
         // Promotion due date
         Log.d(TAG, "updatePromotionDetailsOnView - Promotion Due Date: "+mPromotion.getDueDate());
         TextView promotionDueDateTV = (TextView) view.findViewById(R.id.promotion_details_due_date);
-        promotionDueDateTV.setText(getResources().getText(R.string.valid_promotion_statment) + " " + mPromotion.getDueDate());
+        String prefix =String.valueOf(mIsExpiredPromotion ? getResources().getText(R.string.expired_date_text) : getResources().getText(R.string.valid_promotion_statment));
+        promotionDueDateTV.setText( prefix+ " " + mPromotion.getDueDate());
 
         // promotion_details_about
 

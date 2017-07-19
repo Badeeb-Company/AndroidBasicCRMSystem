@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.badeeb.waritex.R;
 import com.badeeb.waritex.model.Promotion;
@@ -21,16 +22,27 @@ public class PromotionsRecyclerViewAdaptor extends RecyclerView.Adapter<Promotio
 
     private Context mContext;
     private List<Promotion> mPromotionList;
+    private boolean mIsExpired;
 
-    public PromotionsRecyclerViewAdaptor(Context context, List<Promotion> promotionList){
+    public PromotionsRecyclerViewAdaptor(Context context, List<Promotion> promotionList, boolean isExpired){
         mContext = context;
         mPromotionList = promotionList;
+        mIsExpired = isExpired;
     }
 
     @Override
     public PromotionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_promotion, parent, false);
+
+        TextView valid_text = (TextView) itemView.findViewById(R.id.valid_date_text);
+        if(mIsExpired) {
+            valid_text.setText(parent.getResources().getText(R.string.expired_date_text));
+        }else{
+            valid_text.setText(parent.getResources().getText(R.string.valid_promotion_statment));
+        }
+
+
         return new PromotionViewHolder(itemView);
     }
 

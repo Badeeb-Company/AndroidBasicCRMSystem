@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -38,6 +39,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 import org.parceler.Parcels;
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -98,12 +100,14 @@ public class ExpiredPromotionsFragment extends Fragment {
         // Attribute initialization
         mPromotionPerLine = AppPreferences.ONE_VIEW_IN_LINE;
         mExpiredPromotionList = new ArrayList<Promotion>();
+
+
         // Swipe Container
         mSwipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         // Recycler View creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.expired_promotion_recycler_view);
         // Adapter creation
-        mAdapter = new PromotionsRecyclerViewAdaptor(getActivity(), mExpiredPromotionList);
+        mAdapter = new PromotionsRecyclerViewAdaptor(getActivity(), mExpiredPromotionList,true);
         // Layout Manager creation
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), mPromotionPerLine);
         // Link layout manager with recycler view
@@ -114,6 +118,8 @@ public class ExpiredPromotionsFragment extends Fragment {
 
         // Link adapter with recycler view
         mRecyclerView.setAdapter(mAdapter);
+
+
 
         // Call this method to setup listener on UI components
         setupListeners();
@@ -251,6 +257,7 @@ public class ExpiredPromotionsFragment extends Fragment {
                         PromotionDetailsFragment promotionDetailsFragment = new PromotionDetailsFragment();
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(PromotionDetailsFragment.EXTRA_PROMOTION_OBJECT, Parcels.wrap(promotionSelected));
+                        bundle.putBoolean(PromotionDetailsFragment.EXTRA_PROMOTION_IS_EXPIRED, true);
                         promotionDetailsFragment.setArguments(bundle);
 
                         FragmentManager fragmentManager = getFragmentManager();

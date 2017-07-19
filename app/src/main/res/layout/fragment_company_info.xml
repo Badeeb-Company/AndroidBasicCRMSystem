@@ -265,7 +265,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/website_logo_36"
+                    android:src="@drawable/globe"
                     android:padding="@dimen/sub_padding"
                     />
                 <TextView
@@ -290,7 +290,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/facebook_logo_36"
+                    android:src="@drawable/facebook"
                     android:padding="@dimen/sub_padding"
                     />
                 <TextView
@@ -363,7 +363,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/whatsapp_logo_36"
+                    android:src="@drawable/whatsapp"
                     android:padding="@dimen/sub_padding"
                     />
                 <TextView
@@ -395,13 +395,14 @@
                 android:id="@+id/badeeb_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:src="@drawable/badeeb_logo"
                 android:padding="@dimen/sub_padding"
-                />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:text="@string/badeeb_company"
                 android:textStyle="bold"

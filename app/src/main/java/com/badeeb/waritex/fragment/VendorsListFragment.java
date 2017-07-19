@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -70,6 +71,7 @@ public class VendorsListFragment extends Fragment implements LocationListener {
     private VendorsRecyclerViewAdapter mAdapter;
     private List<Vendor> mVendorsList;
     private int mVendorsPerLine;
+    private SwipeRefreshLayout mSwipeContainer;
 
     // Constants
     public final static String EXTRA_PROMOTION_ID = "EXTRA_PROMOTION_ID";
@@ -114,6 +116,8 @@ public class VendorsListFragment extends Fragment implements LocationListener {
         mVendorsList = new ArrayList<>();
         mVendorsPerLine = AppPreferences.ONE_VIEW_IN_LINE;
 
+        // Swipe Container
+        mSwipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         // Recycler View creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.vendors_recycler_view);
         // Adapter creation
@@ -148,6 +152,10 @@ public class VendorsListFragment extends Fragment implements LocationListener {
     private void loadVendorsDetails() {
 
         Log.d(TAG, "loadVendorsDetails - Start");
+
+        // showing refresh animation before making http call
+        mSwipeContainer.setRefreshing(true);
+
 
         String currentUrl = mUrl + "/" + mPromotionId + mContextUrl
                 //+ "?lat=" + mCurrentLocation.getLatitude()
@@ -195,10 +203,14 @@ public class VendorsListFragment extends Fragment implements LocationListener {
                             mVendorsList.addAll(jsonResponse.getResult().getVendors());
                         }
                         else {
+                            Toast.makeText(getContext(), getResources().getText(R.string.no_vendor_found), Toast.LENGTH_SHORT).show();
                             mNoMoreVendors = true;
                         }
 
                         mAdapter.notifyDataSetChanged();
+
+                        // stopping swipe refresh
+                        mSwipeContainer.setRefreshing(false);
 
                         Log.d(TAG, "loadVendorsDetails - onResponse - End");
                     }
@@ -210,6 +222,9 @@ public class VendorsListFragment extends Fragment implements LocationListener {
                     public void onErrorResponse(VolleyError error) {
                         // Network Error Handling
                         Log.d(TAG, "loadVendorsDetails - onErrorResponse: " + error.toString());
+                        // stopping swipe refresh
+                        mSwipeContainer.setRefreshing(false);
+
                     }
                 }
         ) {
@@ -357,6 +372,26 @@ public class VendorsListFragment extends Fragment implements LocationListener {
                 }
 
                 Log.d(TAG, "setupListeners - mapButton:onClick - End");
+            }
+        });
+
+
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - Start");
+
+                mVendorsList.clear();
+
+                // Make HTTP Call to get vendors list
+                mcurrentPage = 1;
+                mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
+                mNoMoreVendors = false;
+
+                mCurrentLocation = getCurrentLocation();
+                loadVendorsDetails();
+
+                Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - End");
             }
         });
 

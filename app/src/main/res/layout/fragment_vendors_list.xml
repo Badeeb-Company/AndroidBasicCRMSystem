@@ -12,32 +12,37 @@
         android:background="@color/lightGreyBackground"
         >
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/vendors_recycler_view"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"
-            android:layout_above="@+id/map_bttn_frame"/>
+            android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/map_bttn_frame"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/GreyDarkBackground"
-            android:padding="@dimen/padding">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/vendors_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:layout_above="@+id/map_bttn_frame"/>
 
-            <Button
-                android:id="@+id/map_bttn"
-                style="@style/button_text"
-                android:layout_width="@dimen/show_vendors_button_width"
-                android:layout_height="@dimen/show_vendors_button_height"
-                android:padding="@dimen/padding"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/red_button"
-                android:text="@string/show_map_bttn"/>
-        </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/map_bttn_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/GreyDarkBackground"
+                android:padding="@dimen/padding">
 
+                <Button
+                    android:id="@+id/map_bttn"
+                    style="@style/button_text"
+                    android:layout_width="@dimen/show_vendors_button_width"
+                    android:layout_height="@dimen/show_vendors_button_height"
+                    android:padding="@dimen/padding"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/red_button"
+                    android:text="@string/show_map_bttn"/>
+            </RelativeLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 
 </LinearLayout>

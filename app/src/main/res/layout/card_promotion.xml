@@ -50,6 +50,7 @@
                 android:textSize="@dimen/due_date"
                 >
                 <TextView
+                    android:id="@+id/valid_date_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/valid_promotion_statment"

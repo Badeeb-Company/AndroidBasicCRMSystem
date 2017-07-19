@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
@@ -17,9 +18,9 @@
         android:layout_width="240dp"
         android:layout_height="240dp"
         android:layout_gravity="center"
+        android:background="@drawable/circle_w"
         android:padding="15dp"
         android:src="@drawable/logo"
-        android:background="@drawable/circle_w"
 
         />
 

@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -50,10 +51,14 @@ public class MainActivity extends AppCompatActivity {
     // Logging Purpose
     private final String TAG = MainActivity.class.getSimpleName();
 
+    public final static String EXTRA_DISPLAY_NOTIFICATION_FLAG= "EXTRA_DISPLAY_NOTIFICATION_FLAG";
+
     // Class attributes
     private Toolbar mtoolbar;
     private FragmentManager mFragmentManager;
     private TabsFragment mTabsFragment;
+    private NotificationsListFragment mNotificationListFragment;
+    private boolean displayNotificationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,12 +125,19 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setCustomView(customView);
         }
 
-        mTabsFragment = new TabsFragment();
+        Intent intent = getIntent();
+        displayNotificationFragment = intent.getBooleanExtra(EXTRA_DISPLAY_NOTIFICATION_FLAG, false);
 
-        mFragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.main_frame, mTabsFragment, TabsFragment.TAG);
-        fragmentTransaction.commit();
+        if(displayNotificationFragment){
+            mNotificationListFragment = new NotificationsListFragment();
+            displayFragment(NotificationsListFragment.TAG);
+            displayNotificationFragment = false;
+        }else {
+            mTabsFragment = new TabsFragment();
+            displayFragment(TabsFragment.TAG);
+        }
+
+
 
         // Get notification boolean value from shared preferences
         SharedPreferences prefs = AppPreferences.getAppPreferences(this);
@@ -139,6 +151,13 @@ public class MainActivity extends AppCompatActivity {
         handleFirebaseDynamicLinks();
 
         Log.d(TAG, "init - End");
+    }
+
+    private void displayFragment(String fragmentTAG){
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.main_frame, mTabsFragment, fragmentTAG);
+        fragmentTransaction.commit();
     }
 
     private void replaceFragmentAsHome(Fragment fragment){
@@ -282,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
                     // Get deep link attributes
                     String promotionId = deepLink.getQueryParameter("promotion_id");
 
-                    if (promotionId != null) {
+                    if (promotionId != null && !"".equals(promotionId)) {
                         
                         Log.d(TAG, "handleFirebaseDynamicLinks - onSuccess - Open Promotion Start");
 

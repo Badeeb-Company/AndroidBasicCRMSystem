@@ -8,11 +8,16 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.badeeb.waritex.MainActivity;
 import com.badeeb.waritex.R;
+import com.badeeb.waritex.fragment.NotificationsListFragment;
+import com.badeeb.waritex.fragment.TabsFragment;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -58,6 +63,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         * Get the current visible fragment and set it in the parameter below
         * */
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.EXTRA_DISPLAY_NOTIFICATION_FLAG, true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         // defining the destination intent that will be passed to the notification manager
