@@ -44,7 +44,7 @@
     <dimen name="company_info_icon_margin">7dp</dimen>
 
     <!-- Vendors Fragment -->
-    <dimen name="vendor_phone_img_size">48dp</dimen>
+    <dimen name="vendor_phone_img_size">36dp</dimen>
     <dimen name="vendor_mobile_number_padding">14dp</dimen>
 
     <!-- General configuration -->

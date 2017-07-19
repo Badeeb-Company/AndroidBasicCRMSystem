@@ -240,6 +240,9 @@ public class ProductsFragment extends Fragment {
                         Log.d(TAG, "setupListeners - mRecyclerView:onItemClick - Start");
 
                         // Get item that is selected
+                        if(mProductsArray == null || mProductsArray.isEmpty() ||position < 0 || position >= mProductsArray.size()){
+                            return;
+                        }
                         Product productSelected = mProductsArray.get(position);
 
                         // Fragment creation
