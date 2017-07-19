@@ -302,7 +302,7 @@ public class ActivePromotionsFragment extends Fragment {
                 Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - Start");
 
                 mActivePromotionList.clear();
-
+                mAdapter.notifyDataSetChanged();
                 mcurrentPage = 1;
                 mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
                 mNoMorePromotions = false;

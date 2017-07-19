@@ -306,7 +306,7 @@ public class ExpiredPromotionsFragment extends Fragment {
                 Log.d(TAG, "setupListeners - mSwipeContainer:setOnRefreshListener - Start");
 
                 mExpiredPromotionList.clear();
-
+                mAdapter.notifyDataSetChanged();
                 mcurrentPage = 1;
                 mpageSize = AppPreferences.DEFAULT_PAGE_SIZE;
                 mNoMorePromotions = false;
