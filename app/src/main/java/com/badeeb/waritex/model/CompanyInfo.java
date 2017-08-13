@@ -3,11 +3,15 @@ package com.badeeb.waritex.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+
+import java.io.Serializable;
+
+
 /**
  * Created by Amr Alghawy on 6/16/2017.
  */
 
-public class CompanyInfo {
+public class CompanyInfo implements Serializable{
 
     // Class Attributes
     @Expose(serialize = false, deserialize = true)

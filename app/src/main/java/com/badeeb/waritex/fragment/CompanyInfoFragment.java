@@ -31,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.badeeb.waritex.MainActivity;
 import com.badeeb.waritex.R;
+import com.badeeb.waritex.Utility.InternalStorage;
 import com.badeeb.waritex.model.CompanyInfo;
 import com.badeeb.waritex.model.CompanyInfoInquiry;
 import com.badeeb.waritex.model.JsonResponse;
@@ -43,6 +44,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Locale;
@@ -56,8 +58,14 @@ public class CompanyInfoFragment extends Fragment {
     // For logging purpose
     public static final String TAG = CompanyInfoFragment.class.getName();
 
+    // For caching
+    private static final String KEY = CompanyInfoFragment.class.getName() + "_KEY";
+
     // attributes that will be used for JSON calls
     private String mUrl = AppPreferences.BASE_URL + "/company_info";
+
+    // Holds all company info
+    private CompanyInfo mCompanyInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,12 +99,31 @@ public class CompanyInfoFragment extends Fragment {
         Switch languageFlag = (Switch) view.findViewById(R.id.app_language_flag);
         languageFlag.setChecked(languageEnabled);
 
-        loadCompanyInfo(view);
+        if (AppPreferences.isNetworkAvailable(getContext())) {
+            Log.d(TAG, "Load Data from Server");
+            loadCompanyInfo(view);
+        }else{
+            // load cached data and updating the view
+            Log.d(TAG, "Load Data from Cache");
+            loadFromCache();
+            updateCompanyInfoOnView(view,mCompanyInfo);
+        }
 
         // Call this method to setup listener on UI components
         setupListeners(view);
 
         Log.d(TAG, "init - End");
+    }
+
+    private void loadFromCache(){
+        try{
+            mCompanyInfo = (CompanyInfo) InternalStorage.readObject(getContext(), KEY);
+            Log.d(TAG, "loadFromCache - cached data returned successfully");
+        }catch (ClassNotFoundException e){
+            Log.d(TAG, "loadFromCache - Key not found/empty cache");
+        }catch (IOException e){
+            Log.d(TAG, "loadFromCache - error in loading cache");
+        }
     }
 
     private void loadCompanyInfo(final View view) {
@@ -134,7 +161,15 @@ public class CompanyInfoFragment extends Fragment {
 
                         // Move data to company info object object
                         if (jsonResponse.getResult().getCompanyInfo() != null) {
-
+                            CompanyInfo freshData = jsonResponse.getResult().getCompanyInfo();
+                            try {
+                                InternalStorage.writeObject(getContext(), KEY, freshData);
+                                Log.d(TAG, "Cache - company info cached");
+                            }catch(IOException e){
+                                e.printStackTrace();
+                                // Caching Error Handling
+                                Log.d(TAG, "loadCompanyInfo - onCacheException: " + e.getMessage());
+                            }
                             updateCompanyInfoOnView(view, jsonResponse.getResult().getCompanyInfo());
 
                         }
@@ -175,6 +210,11 @@ public class CompanyInfoFragment extends Fragment {
 
     private void updateCompanyInfoOnView(View view, CompanyInfo companyInfo) {
         Log.d(TAG, "updateCompanyInfoOnView - Start");
+
+        if(companyInfo == null){
+            Log.d(TAG, "updateCompanyInfoOnView - companyInfo is null");
+            return;
+        }
 
         TextView about = (TextView) view.findViewById(R.id.company_about_description);
         about.setText(companyInfo.getAbout());
