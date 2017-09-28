@@ -2,7 +2,7 @@
     <string name="app_name">Waritex</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
     <!-- Tabs titles -->
     <string name="products_tab_title">Products</string>
@@ -26,7 +26,7 @@
     <string name="show_map_bttn">Show Map</string>
     <string name="internet_service_message">Internet service isn\'t available</string>
     <string name="enable_gps">Enable GPS</string>
-    <string name="notification_title">Waritex</string>
+    <string name="notification_title" translatable="false">Waritex</string>
     <string name="share_app_descrption">Waritex Company</string>
     <string name="notification_date">Notification Date: </string>
     <string name="server_error">Server cannot be reached, Please try later</string>
