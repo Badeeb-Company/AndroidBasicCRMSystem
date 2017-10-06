@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "786576419400",
-    "firebase_url": "https://waritex-promotions-firebase.firebaseio.com",
-    "project_id": "waritex-promotions-firebase",
-    "storage_bucket": "waritex-promotions-firebase.appspot.com"
+    "project_number": "263520628513",
+    "firebase_url": "https://waritex-android-app.firebaseio.com",
+    "project_id": "waritex-android-app",
+    "storage_bucket": "waritex-android-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:786576419400:android:c0d33d7b32c117be",
+        "mobilesdk_app_id": "1:263520628513:android:c0d33d7b32c117be",
         "android_client_info": {
           "package_name": "com.badeeb.waritex"
         }
       },
       "oauth_client": [
         {
-          "client_id": "786576419400-brm337ha0lobko1s78gr69sa6g217207.apps.googleusercontent.com",
+          "client_id": "263520628513-thrqe0btdlp9dpjjbn547mogu6g01tu7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCXsbkApSccyje0oobrijoMsSbgCXhCU9I"
+          "current_key": "AIzaSyDZHrCxiZfPNcI4GEqP0LFs_BqD0L2G7aY"
         }
       ],
       "services": {
