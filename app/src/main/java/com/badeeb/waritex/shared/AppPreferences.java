@@ -15,7 +15,7 @@ public class AppPreferences {
     // For logging purpose
     public static final String TAG = AppPreferences.class.getName();
 
-    public static final String BASE_URL = "https://safe-bastion-53717.herokuapp.com/api/v1";
+    public static final String BASE_URL = "https://waritex-promotions.herokuapp.com/api/v1";
     public static final int DEFAULT_PAGE_SIZE = 10;
     public static final String GOOGLE_MAP_API_KEY = "AIzaSyA2KWlCI-TJV1sIpycjlhVVHnTMjXUHRrI";
     public static final String DATE_FORMAT_DISPLAY_PATTERN = "dd-MMM-yyyy";
