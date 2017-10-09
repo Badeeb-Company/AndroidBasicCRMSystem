@@ -30,4 +30,5 @@
     <string name="number_copied">تم نسخ رقم الواتس اب</string>
     <string name="no_vendor_found">لا يوجد موزعين لهذا العرض</string>
     <string name="expired_date_text">إنتهى منذ:</string>
+    <string name="deny_phone_permission">يجب السماح باستخدام خاصية الأتصال لاجراء مكالمه للموزع</string>
 </resources>

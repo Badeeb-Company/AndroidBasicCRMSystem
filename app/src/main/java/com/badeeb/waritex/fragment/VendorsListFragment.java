@@ -121,7 +121,7 @@ public class VendorsListFragment extends Fragment implements LocationListener {
         // Recycler View creation
         mRecyclerView = (RecyclerView) view.findViewById(R.id.vendors_recycler_view);
         // Adapter creation
-        mAdapter = new VendorsRecyclerViewAdapter(getActivity(), mVendorsList);
+        mAdapter = new VendorsRecyclerViewAdapter(getActivity(), mVendorsList,this);
         // Layout Manager creation
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         // Link layout manager with recycler view
@@ -400,7 +400,15 @@ public class VendorsListFragment extends Fragment implements LocationListener {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+        if(requestCode == VendorsRecyclerViewAdapter.CALL_REQUEST_PERMISSION_CODE){
+            Log.d(TAG, "onRequestPermissionsResult -  PerformCall - call Permission not granted - ");
+            if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getContext(),getResources().getString(R.string.deny_phone_permission), Toast.LENGTH_SHORT).show();
+            } else {
+                mAdapter.performCall();
+            }
+
+        }else if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(getContext(),"You must allow location permission to load vendors", Toast.LENGTH_SHORT).show();
         } else {
             mCurrentLocation = getCurrentLocation();

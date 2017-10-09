@@ -15,6 +15,7 @@
     <dimen name="card_album_radius">0dp</dimen>
     <dimen name="promotion_photo_height">160dp</dimen>
     <dimen name="due_date_padding_bottom">5dp</dimen>
+    <dimen name="vendor_name_margin_bottom">30dp</dimen>
     <dimen name="due_date">12dp</dimen>
     <dimen name="title">15dp</dimen>
     <dimen name="title_padding">7dp</dimen>

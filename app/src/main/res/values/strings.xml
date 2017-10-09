@@ -35,4 +35,5 @@
     <string name="number_copied">The whatsapp number has been copied</string>
     <string name="no_vendor_found">This promotion does not have vendors</string>
     <string name="expired_date_text">Expired scince:</string>
+    <string name="deny_phone_permission">You must allow phone permission to call vendors</string>
 </resources>
